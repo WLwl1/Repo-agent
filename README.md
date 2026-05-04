@@ -71,7 +71,7 @@ Use a full coding agent after you have enough evidence and want autonomous edits
 
 ## Architecture
 
-![Repo Agent Architecture](assets/architecture.svg)
+![Repo Agent Architecture](assets/architecture-diagram.png)
 
 ## Demo Questions
 
