@@ -1,0 +1,10 @@
+[
+  {
+    "name": "workspace_documentation_smoke",
+    "repo": "../examples/simple_agent_app",
+    "task": "In workspace mode, add a short AGENT_NOTES.md file explaining how to run this example. Do not modify existing files.",
+    "execution_mode": "workspace",
+    "expected_changed_files": ["AGENT_NOTES.md"],
+    "expected_answer_terms": ["AGENT_NOTES"]
+  }
+]

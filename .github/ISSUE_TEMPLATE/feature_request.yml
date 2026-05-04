@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest an improvement for Repo Agent
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: What workflow or limitation are you trying to improve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the feature or design you would like to see.
+    validations:
+      required: true
+

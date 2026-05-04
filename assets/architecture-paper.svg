@@ -1,0 +1,240 @@
+<svg width="1800" height="1120" viewBox="0 0 1800 1120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1800" y2="1120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#F1F5F9"/>
+    </linearGradient>
+    <linearGradient id="headerGlow" x1="40" y1="40" x2="1760" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E0F2FE"/>
+      <stop offset="0.55" stop-color="#EFF6FF"/>
+      <stop offset="1" stop-color="#FAF5FF"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#0F172A" flood-opacity="0.10"/>
+    </filter>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.06"/>
+    </filter>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto">
+      <path d="M1 1L11 7L1 13" fill="none" stroke="#2563EB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowDashed" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto">
+      <path d="M1 1L11 7L1 13" fill="none" stroke="#7C3AED" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .title { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; font-size: 42px; font-weight: 700; fill: #0F172A; }
+      .subtitle { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; font-size: 18px; font-weight: 400; fill: #475569; }
+      .section-title { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; font-size: 24px; font-weight: 700; fill: #0F172A; }
+      .section-note { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; font-size: 14px; font-weight: 500; fill: #64748B; letter-spacing: 0.04em; }
+      .panel-title { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; font-size: 21px; font-weight: 700; fill: #0F172A; }
+      .panel-subtitle { font-family: "Consolas", "Courier New", monospace; font-size: 13px; font-weight: 700; fill: #1D4ED8; }
+      .body { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; font-size: 15px; font-weight: 400; fill: #334155; }
+      .body-strong { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; font-size: 15px; font-weight: 700; fill: #0F172A; }
+      .small { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; font-size: 13px; font-weight: 400; fill: #475569; }
+      .legend { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #334155; }
+      .tag { font-family: "Consolas", "Courier New", monospace; font-size: 12px; font-weight: 700; fill: #0F172A; }
+      .chip { fill: #FFFFFF; stroke: #CBD5E1; stroke-width: 1.2; }
+      .frame { fill: #FFFFFF; stroke: #CBD5E1; stroke-width: 1.5; }
+      .soft-frame { fill: #FFFFFF; stroke: #E2E8F0; stroke-width: 1.2; }
+      .route-solid { stroke: #2563EB; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; fill: none; marker-end: url(#arrow); }
+      .route-dashed { stroke: #7C3AED; stroke-width: 3.0; stroke-dasharray: 8 8; stroke-linecap: round; stroke-linejoin: round; fill: none; marker-end: url(#arrowDashed); }
+      .connector { stroke: #94A3B8; stroke-width: 1.6; stroke-dasharray: 3 6; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="1120" fill="url(#bg)"/>
+  <rect x="24" y="24" width="1752" height="1072" rx="30" fill="#FCFDFE" stroke="#D7DEE8" stroke-width="2"/>
+
+  <rect x="40" y="40" width="1720" height="138" rx="26" fill="url(#headerGlow)" stroke="#D8E4F4" stroke-width="1.5"/>
+  <text x="72" y="96" class="title">Repo Agent System Architecture</text>
+  <text x="72" y="128" class="subtitle">Evidence-driven repository understanding, bug localization, and optional model-assisted engineering for local codebases</text>
+  <text x="72" y="154" class="subtitle">Default path is deterministic and inspectable; model-driven investigation and code editing are optional, grounded extensions</text>
+
+  <line x1="1360" y1="86" x2="1428" y2="86" class="route-solid"/>
+  <text x="1444" y="91" class="legend">Default deterministic path</text>
+  <line x1="1360" y1="126" x2="1428" y2="126" class="route-dashed"/>
+  <text x="1444" y="131" class="legend">Optional model / engineering path</text>
+  <rect x="1360" y="145" width="28" height="16" rx="4" fill="#F8FAFC" stroke="#94A3B8"/>
+  <ellipse cx="1374" cy="145" rx="14" ry="5.2" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="1400" y="157" class="legend">Persisted artifact or cached state</text>
+
+  <text x="40" y="214" class="section-note">INTERACTION AND RUNTIME ENTRY</text>
+  <rect x="40" y="228" width="260" height="634" rx="26" class="frame" filter="url(#shadow)"/>
+  <text x="66" y="272" class="panel-title">1. Interaction &amp; Inputs</text>
+  <text x="66" y="297" class="panel-subtitle">CLI / Web Studio / Local REST API</text>
+
+  <circle cx="86" cy="354" r="10" fill="#2563EB"/>
+  <text x="108" y="360" class="body-strong">User asks a repository question or engineering task</text>
+  <text x="108" y="384" class="small">Examples: route localization, startup hints, bug triage, small code fix</text>
+
+  <circle cx="86" cy="438" r="10" fill="#0F766E"/>
+  <text x="108" y="444" class="body-strong">Input payload includes repository path and control flags</text>
+  <text x="108" y="468" class="small">question / task, top-k, use-model, force-rebuild, execution-mode</text>
+
+  <circle cx="86" cy="522" r="10" fill="#C2410C"/>
+  <text x="108" y="528" class="body-strong">Two user-facing entry surfaces</text>
+  <text x="108" y="552" class="small">CLI: ask, report, map, eval, engineer, resume, apply-run</text>
+  <text x="108" y="576" class="small">Web: /api/ask, /api/report, /api/tools, /api/engineer</text>
+
+  <rect x="66" y="630" width="208" height="186" rx="20" fill="#F8FAFC" stroke="#D6E2F1"/>
+  <text x="84" y="663" class="body-strong">Immediate goal of this layer</text>
+  <text x="84" y="692" class="body">Normalize user requests into a</text>
+  <text x="84" y="715" class="body">consistent runtime call without</text>
+  <text x="84" y="738" class="body">exposing internal indexing or</text>
+  <text x="84" y="761" class="body">model logic to the interface.</text>
+  <rect x="84" y="781" width="171" height="24" rx="12" fill="#EFF6FF" stroke="#BFDBFE"/>
+  <text x="96" y="797" class="tag">question/task -> runtime API</text>
+
+  <text x="320" y="214" class="section-note">RUNTIME ORCHESTRATION</text>
+  <rect x="320" y="228" width="980" height="196" rx="26" class="frame" filter="url(#shadow)"/>
+  <text x="350" y="272" class="panel-title">2. Runtime Orchestration Layer</text>
+  <text x="350" y="297" class="panel-subtitle">repo_agent/runtime.py : RepoAgentRuntime</text>
+
+  <rect x="350" y="324" width="208" height="74" rx="18" fill="#F8FAFC" stroke="#D6E2F1"/>
+  <text x="368" y="350" class="body-strong">Validation &amp; safety gate</text>
+  <text x="368" y="373" class="small">path validation, question length,</text>
+  <text x="368" y="392" class="small">top-k clamping, execution mode</text>
+
+  <rect x="576" y="324" width="208" height="74" rx="18" fill="#F8FAFC" stroke="#D6E2F1"/>
+  <text x="594" y="350" class="body-strong">Index lifecycle manager</text>
+  <text x="594" y="373" class="small">signature check, cache load/save,</text>
+  <text x="594" y="392" class="small">force rebuild, memory reuse</text>
+
+  <rect x="802" y="324" width="208" height="74" rx="18" fill="#F8FAFC" stroke="#D6E2F1"/>
+  <text x="820" y="350" class="body-strong">Task dispatcher</text>
+  <text x="820" y="373" class="small">ask / report / map / startup /</text>
+  <text x="820" y="392" class="small">workspace_tool / engineer / resume</text>
+
+  <rect x="1028" y="324" width="242" height="74" rx="18" fill="#F8FAFC" stroke="#D6E2F1"/>
+  <text x="1046" y="350" class="body-strong">Artifact managers</text>
+  <text x="1046" y="373" class="small">reports directory, runs directory,</text>
+  <text x="1046" y="392" class="small">audit log, LLM config and health</text>
+
+  <text x="320" y="458" class="section-note">REPOSITORY UNDERSTANDING CORE</text>
+  <rect x="320" y="472" width="980" height="392" rx="26" class="frame" filter="url(#shadow)"/>
+  <text x="350" y="516" class="panel-title">3. Deterministic Repository Understanding Pipeline</text>
+  <text x="350" y="541" class="panel-subtitle">parsers.py + indexer.py + tools.py + agent.py</text>
+
+  <rect x="350" y="568" width="255" height="240" rx="22" fill="#FFF7ED" stroke="#FDBA74" filter="url(#softShadow)"/>
+  <rect x="350" y="568" width="255" height="12" rx="6" fill="#F97316"/>
+  <text x="374" y="614" class="body-strong">A. Source parsing</text>
+  <text x="374" y="638" class="panel-subtitle">parsers.py</text>
+  <text x="374" y="670" class="body">- Detect file language</text>
+  <text x="374" y="695" class="body">- Parse Python AST and JS/HTML/CSS rules</text>
+  <text x="374" y="720" class="body">- Extract symbols, routes, imports, calls</text>
+  <text x="374" y="745" class="body">- Normalize into SourceAnalysis / Symbol</text>
+  <rect x="374" y="770" width="182" height="24" rx="12" fill="#FFF3E8" stroke="#FDBA74"/>
+  <text x="387" y="786" class="tag">structured code facts</text>
+
+  <rect x="635" y="568" width="285" height="240" rx="22" fill="#F0F9FF" stroke="#7DD3FC" filter="url(#softShadow)"/>
+  <rect x="635" y="568" width="285" height="12" rx="6" fill="#0EA5E9"/>
+  <text x="659" y="614" class="body-strong">B. Index construction</text>
+  <text x="659" y="638" class="panel-subtitle">indexer.py : build_index()</text>
+  <text x="659" y="670" class="body">- Chunk files into CodeChunk units</text>
+  <text x="659" y="695" class="body">- Build FileFact summaries and role tags</text>
+  <text x="659" y="720" class="body">- Create GraphEdge relations from calls/routes</text>
+  <text x="659" y="745" class="body">- Compute lexical stats and semantic features</text>
+  <rect x="659" y="770" width="205" height="24" rx="12" fill="#E0F2FE" stroke="#7DD3FC"/>
+  <text x="672" y="786" class="tag">RepositoryIndex + repo memory</text>
+
+  <rect x="950" y="568" width="320" height="240" rx="22" fill="#F5F3FF" stroke="#C4B5FD" filter="url(#softShadow)"/>
+  <rect x="950" y="568" width="320" height="12" rx="6" fill="#8B5CF6"/>
+  <text x="974" y="614" class="body-strong">C. Evidence retrieval and composition</text>
+  <text x="974" y="638" class="panel-subtitle">RepoAgent + RepoTools</text>
+  <text x="974" y="670" class="body">- Plan query intent and expand focus terms</text>
+  <text x="974" y="695" class="body">- File scout -> code read -> graph hop -> rerank</text>
+  <text x="974" y="720" class="body">- Combine lexical, semantic, and relation boosts</text>
+  <text x="974" y="745" class="body">- Package hits, reasons, graph slice, and trace</text>
+  <rect x="974" y="770" width="188" height="24" rx="12" fill="#F3E8FF" stroke="#C4B5FD"/>
+  <text x="987" y="786" class="tag">grounded evidence bundle</text>
+
+  <path d="M605 688H635" class="route-solid"/>
+  <path d="M920 688H950" class="route-solid"/>
+  <text x="610" y="660" class="legend">structured symbols</text>
+  <text x="925" y="660" class="legend">RepositoryIndex</text>
+
+  <rect x="690" y="820" width="234" height="30" rx="15" fill="#FFFFFF" stroke="#CBD5E1"/>
+  <text x="710" y="840" class="tag">find_relevant_code / read_file / search_text</text>
+  <line x1="777" y1="808" x2="777" y2="820" class="connector"/>
+  <line x1="1110" y1="808" x2="1110" y2="820" class="connector"/>
+
+  <text x="1330" y="214" class="section-note">OUTPUTS AND OPTIONAL INTELLIGENT EXTENSIONS</text>
+  <rect x="1330" y="228" width="430" height="634" rx="26" class="frame" filter="url(#shadow)"/>
+
+  <rect x="1360" y="250" width="370" height="170" rx="22" fill="#EFF6FF" stroke="#93C5FD" filter="url(#softShadow)"/>
+  <rect x="1360" y="250" width="370" height="12" rx="6" fill="#2563EB"/>
+  <text x="1386" y="296" class="body-strong">4. Grounded outputs</text>
+  <text x="1386" y="320" class="panel-subtitle">AgentResult + report.py + server.py</text>
+  <text x="1386" y="352" class="body">- final answer with file paths and line ranges</text>
+  <text x="1386" y="377" class="body">- Top-k evidence, reasons, graph trace, repo brief</text>
+  <text x="1386" y="402" class="body">- HTML investigation report for review/onboarding</text>
+
+  <rect x="1360" y="450" width="370" height="184" rx="22" fill="#F5F3FF" stroke="#C4B5FD" filter="url(#softShadow)"/>
+  <rect x="1360" y="450" width="370" height="12" rx="6" fill="#7C3AED"/>
+  <text x="1386" y="496" class="body-strong">5. Optional model investigation loop</text>
+  <text x="1386" y="520" class="panel-subtitle">llm.py + agent.py : tool-calling refinement</text>
+  <text x="1386" y="552" class="body">- OpenAI-compatible /chat/completions client</text>
+  <text x="1386" y="577" class="body">- model may call repo_brief, list/read/search, verify</text>
+  <text x="1386" y="602" class="body">- final answer remains grounded in observed evidence</text>
+
+  <rect x="1360" y="664" width="370" height="170" rx="22" fill="#F0FDF4" stroke="#86EFAC" filter="url(#softShadow)"/>
+  <rect x="1360" y="664" width="370" height="12" rx="6" fill="#16A34A"/>
+  <text x="1386" y="710" class="body-strong">6. Optional engineering execution path</text>
+  <text x="1386" y="734" class="panel-subtitle">engineering.py : inspect -> edit -> verify -> finish</text>
+  <text x="1386" y="766" class="body">- workspace sandbox copy under runs/&lt;run_id&gt;/workspace</text>
+  <text x="1386" y="791" class="body">- safe edits, diff/review, and reviewed apply-run backport</text>
+
+  <path d="M300 530H320" class="route-solid"/>
+  <text x="176" y="520" class="legend">normalized request</text>
+
+  <path d="M810 424V472" class="route-solid"/>
+  <text x="835" y="454" class="legend">build or load index</text>
+
+  <path d="M1270 688H1360" class="route-solid"/>
+  <text x="1284" y="664" class="legend">deterministic answer + evidence</text>
+
+  <path d="M1210 604C1280 604 1294 542 1360 542" class="route-dashed"/>
+  <text x="1238" y="574" class="legend">optional tool-calling refinement</text>
+
+  <path d="M1124 808C1248 808 1274 748 1360 748" class="route-dashed"/>
+  <text x="1188" y="836" class="legend">optional autonomous engineering request</text>
+
+  <path d="M1545 634V420" class="route-solid"/>
+  <text x="1558" y="444" class="legend">grounded final answer</text>
+
+  <text x="40" y="898" class="section-note">CROSS-CUTTING CONCERNS AND PERSISTED ARTIFACTS</text>
+
+  <rect x="40" y="914" width="560" height="146" rx="24" class="frame" filter="url(#shadow)"/>
+  <text x="68" y="956" class="panel-title">Security &amp; operational safety</text>
+  <text x="68" y="982" class="panel-subtitle">security.py + tools.py + ignore.py</text>
+  <text x="68" y="1012" class="body">- allowed_roots validation and safe_join path traversal protection</text>
+  <text x="68" y="1037" class="body">- generated directories, caches, runs, reports ignored during indexing</text>
+  <text x="68" y="1062" class="body">- allow-listed verification commands; subprocess uses shell=False</text>
+
+  <rect x="620" y="914" width="560" height="146" rx="24" class="frame" filter="url(#shadow)"/>
+  <text x="648" y="956" class="panel-title">Persisted artifacts and reusable state</text>
+  <text x="648" y="982" class="panel-subtitle">cache.py + report.py + runtime.py</text>
+
+  <rect x="650" y="1008" width="122" height="30" rx="8" fill="#F8FAFC" stroke="#94A3B8"/>
+  <ellipse cx="711" cy="1008" rx="61" ry="7" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="676" y="1028" class="tag">.cache/&lt;sha&gt;.json</text>
+
+  <rect x="804" y="1008" width="122" height="30" rx="8" fill="#F8FAFC" stroke="#94A3B8"/>
+  <ellipse cx="865" cy="1008" rx="61" ry="7" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="832" y="1028" class="tag">reports/*.html</text>
+
+  <rect x="958" y="1008" width="122" height="30" rx="8" fill="#F8FAFC" stroke="#94A3B8"/>
+  <ellipse cx="1019" cy="1008" rx="61" ry="7" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="980" y="1028" class="tag">runs/run.json</text>
+
+  <rect x="1112" y="1008" width="122" height="30" rx="8" fill="#F8FAFC" stroke="#94A3B8"/>
+  <ellipse cx="1173" cy="1008" rx="61" ry="7" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="1142" y="1028" class="tag">logs/audit.jsonl</text>
+
+  <rect x="1200" y="914" width="560" height="146" rx="24" class="frame" filter="url(#shadow)"/>
+  <text x="1228" y="956" class="panel-title">Evaluation, testing, and credibility signals</text>
+  <text x="1228" y="982" class="panel-subtitle">tests/ + eval_cases.json + engineering_cases.json</text>
+  <text x="1228" y="1012" class="body">- pytest covers parsing, indexing, cache behavior, security, and web assets</text>
+  <text x="1228" y="1037" class="body">- bundled eval cases report Top-1 / Top-3 accuracy and MRR for localization</text>
+  <text x="1228" y="1062" class="body">- engineering benchmark validates sandboxed autonomous edit workflow</text>
+</svg>

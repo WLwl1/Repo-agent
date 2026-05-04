@@ -1,0 +1,63 @@
+[
+  {
+    "repo": "..\\examples\\simple_agent_app",
+    "question": "聊天接口的流式输出在哪里实现？",
+    "expected_path": "server.js"
+  },
+  {
+    "repo": "..\\examples\\simple_agent_app",
+    "question": "聊天流式接口最终调用哪个处理函数？",
+    "expected_path": "server.js",
+    "expected_symbol_contains": "handleAgentStreamRequest"
+  },
+  {
+    "repo": "..\\examples\\simple_agent_app",
+    "question": "重置会话的接口在哪里？",
+    "expected_path": "server.js",
+    "expected_symbol_contains": "post_api_session_reset"
+  },
+  {
+    "repo": "..\\examples\\simple_rag_app",
+    "question": "RAG 文档上传入口在哪个文件？",
+    "expected_path": "server.js"
+  },
+  {
+    "repo": "..\\examples\\simple_rag_app",
+    "question": "RAG 上传处理函数在哪里？",
+    "expected_path": "server.js",
+    "expected_symbol_contains": "handleRagUpload"
+  },
+  {
+    "repo": "..\\examples\\simple_rag_app",
+    "question": "如果想看 RAG 检索主流程，应该先读哪里？",
+    "expected_path": "lib/rag-store.js",
+    "expected_symbol_contains": "retrieve"
+  },
+  {
+    "repo": "..\\examples\\simple_fastapi_app",
+    "question": "FastAPI 聊天接口入口在哪里？",
+    "expected_path": "app.py",
+    "expected_symbol_contains": "post_api_chat"
+  },
+  {
+    "repo": "..\\examples\\simple_fastapi_app",
+    "question": "FastAPI 管理重置接口在哪里？",
+    "expected_path": "app.py",
+    "expected_symbol_contains": "post_api_admin_reset"
+  },
+  {
+    "repo": "..",
+    "question": "网页的代码在哪？",
+    "expected_path": "web/index.html"
+  },
+  {
+    "repo": "..",
+    "question": "网页交互逻辑在哪？",
+    "expected_path": "web/app.js"
+  },
+  {
+    "repo": "..",
+    "question": "页面样式在哪？",
+    "expected_path": "web/styles.css"
+  }
+]

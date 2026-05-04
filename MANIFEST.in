@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include CONTRIBUTING.md
+include SECURITY.md
+include CODE_OF_CONDUCT.md
+recursive-include assets *.svg
+recursive-include docs *.md
+recursive-include examples *.js *.py *.md
+recursive-include web *.html *.js *.css

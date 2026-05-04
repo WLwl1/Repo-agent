@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "repo-agent"
+version = "0.1.0"
+description = "Evidence-first repository investigation and bug localization before AI edits code."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "Repo Agent Contributors" }
+]
+dependencies = [
+  "numpy>=2.0"
+]
+keywords = ["agent", "code-search", "bug-localization", "repository-analysis", "developer-tools", "rag"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0"
+]
+
+[project.scripts]
+repo-agent = "repo_agent.__main__:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["repo_agent*"]
+
+[tool.setuptools.package-data]
+repo_agent = ["eval_cases.json", "engineering_cases.json"]
+
+[tool.setuptools.data-files]
+"share/repo-agent/web" = ["web/index.html", "web/app.js", "web/styles.css"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
