@@ -2,7 +2,6 @@
 
 Evidence-first repository investigation and bug localization before an AI edits code.
 
-![Repo Agent Studio](assets/studio-overview.svg)
 
 ## Why Repo Agent
 
