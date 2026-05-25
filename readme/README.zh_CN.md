@@ -1,12 +1,12 @@
 # Repo Agent
 
-语言：
+在 AI 修改代码之前，先做证据优先的仓库调查与缺陷定位。
+
+# README.md
 
 - en [English](../README.md)
 - zh_CN [简体中文](README.zh_CN.md)
 - ja [日本語](README.ja.md)
-
-在 AI 修改代码之前，先做证据优先的仓库调查与缺陷定位。
 
 ## 为什么需要 Repo Agent
 

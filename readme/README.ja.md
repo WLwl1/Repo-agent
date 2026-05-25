@@ -1,12 +1,12 @@
 # Repo Agent
 
-言語:
+AI がコードを編集する前に、証拠を優先してリポジトリ調査とバグ位置特定を行うローカルツールです。
+
+# README.md
 
 - en [English](../README.md)
 - zh_CN [简体中文](README.zh_CN.md)
 - ja [日本語](README.ja.md)
-
-AI がコードを編集する前に、証拠を優先してリポジトリ調査とバグ位置特定を行うローカルツールです。
 
 ## Repo Agent とは
 

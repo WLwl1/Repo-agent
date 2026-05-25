@@ -1,13 +1,12 @@
 # Repo Agent
 
-Language:
+Evidence-first repository investigation and bug localization before an AI edits code.
+
+# README.md
 
 - en [English](README.md)
 - zh_CN [简体中文](readme/README.zh_CN.md)
 - ja [日本語](readme/README.ja.md)
-
-Evidence-first repository investigation and bug localization before an AI edits code.
-
 
 ## Why Repo Agent
 
