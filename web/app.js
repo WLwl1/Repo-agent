@@ -440,11 +440,40 @@ function renderResult() {
   }
 
   answerBox.classList.remove('empty-state');
-  answerBox.innerHTML = renderMarkdown(data.answer || '暂无结果');
+  answerBox.innerHTML = `${renderDiagnostics(data.diagnostics)}${renderMarkdown(data.answer || '暂无结果')}`;
 
   renderEvidence(data.hits || []);
   renderTrace(data.trace || []);
   renderSelection();
+}
+
+function renderDiagnostics(diagnostics) {
+  if (!diagnostics || !diagnostics.label) {
+    return '';
+  }
+  const warnings = Array.isArray(diagnostics.warnings) ? diagnostics.warnings : [];
+  const strengths = Array.isArray(diagnostics.strengths) ? diagnostics.strengths : [];
+  const notes = warnings.length ? warnings : strengths.slice(0, 2);
+  return `
+    <section class="diagnostics-strip">
+      <article>
+        <span>置信度</span>
+        <strong>${escapeHtml(diagnostics.label)} · ${Number(diagnostics.confidence || 0).toFixed(2)}</strong>
+      </article>
+      <article>
+        <span>证据覆盖</span>
+        <strong>${Number(diagnostics.evidence_count || 0)} 条 · ${Number(diagnostics.unique_files || 0)} 文件</strong>
+      </article>
+      <article>
+        <span>图支撑</span>
+        <strong>${Number(diagnostics.graph_edge_count || 0)} 条边</strong>
+      </article>
+      <article>
+        <span>提示</span>
+        <strong>${escapeHtml(notes.join('；') || '无明显风险')}</strong>
+      </article>
+    </section>
+  `;
 }
 
 function renderEvidence(hits) {

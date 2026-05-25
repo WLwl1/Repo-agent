@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from .llm import LLMClient, message_text
-from .security import safe_join
+from .security import is_safe_verification_command, safe_join
 from .tools import RepoTools
 
 
@@ -317,6 +317,7 @@ class EngineeringAgent:
                     "run verification commands, repair failures, and finish with a concise delivery note. "
                     "Use tools for all repository facts, edits, and command results. "
                     "Prefer replace_text for existing files and write_file only for new or full-file rewrites. "
+                    "Never read or edit protected paths such as .env, .git, logs, reports, caches, or saved run workspaces. "
                     "Use git_status and diff_summary before finish when you edited files. "
                     "Use revert_file if an edit is wrong. "
                     "Never claim tests passed unless run_command observed a zero exit code. "
@@ -679,25 +680,7 @@ def new_run_id(task: str) -> str:
 
 
 def _is_safe_engineering_command(command: str) -> bool:
-    normalized = " ".join(str(command or "").strip().lower().split())
-    allowed_exact = {
-        "npm test",
-        "npm run test",
-        "npm run build",
-        "npm run lint",
-        "python -m pytest",
-        "py -m pytest",
-        "python -m repo_agent eval",
-        "py -m repo_agent eval",
-    }
-    if normalized in allowed_exact:
-        return True
-    return (
-        normalized.startswith("python -m compileall ")
-        or normalized.startswith("py -m compileall ")
-        or normalized.startswith("node --check ")
-        or normalized.startswith("uv run pytest")
-    )
+    return is_safe_verification_command(command)
 
 
 def _run_diff(repo_root: Path, snapshots: dict[str, dict[str, Any]], max_chars: int = 30000) -> str:

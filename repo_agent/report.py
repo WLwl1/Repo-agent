@@ -30,6 +30,7 @@ def write_html_report(
         for fact in file_facts[:12]
     )
     hit_cards = "\n".join(_render_hit_card(hit, index) for index, hit in enumerate(result.hits[:5], start=1))
+    diagnostics = _render_diagnostics(result)
     trace_items = "\n".join(
         f"""
         <article class="trace-item">
@@ -227,8 +228,42 @@ def write_html_report(
       padding: 14px;
       background: rgba(240, 226, 205, 0.45);
     }}
+    .diagnostics {{
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 4px;
+    }}
+    .diagnostics > div {{
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      min-width: 0;
+    }}
+    .diagnostics label {{
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }}
+    .diagnostics strong {{
+      font-size: 20px;
+    }}
+    .diagnostics span {{
+      color: var(--ink);
+      line-height: 1.5;
+    }}
+    .diagnostics ul {{
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink);
+      line-height: 1.5;
+    }}
     @media (max-width: 980px) {{
-      .stats, .grid {{
+      .stats, .grid, .diagnostics {{
         grid-template-columns: 1fr;
       }}
     }}
@@ -247,6 +282,7 @@ def write_html_report(
         <div class="stat"><label>Chunks</label><strong>{repo_stats.get('chunk_count', 0)}</strong></div>
         <div class="stat"><label>Graph Edges</label><strong>{repo_stats.get('graph_edge_count', 0)}</strong></div>
       </div>
+      {diagnostics}
     </section>
     <section class="grid">
       <section class="panel">
@@ -311,6 +347,43 @@ def _render_hit_card(hit: RetrievalHit, rank: int) -> str:
       <div style="margin-bottom:10px;">{terms}</div>
       <pre>{escape(_trim_snippet(hit.chunk.text, 16))}</pre>
     </article>
+    """
+
+
+def _render_diagnostics(result: AgentResult) -> str:
+    diagnostics = result.diagnostics
+    if diagnostics is None:
+        return ""
+    strengths = "".join(f"<li>{escape(item)}</li>" for item in diagnostics.strengths[:5])
+    warnings = "".join(f"<li>{escape(item)}</li>" for item in diagnostics.warnings[:5])
+    terms = ", ".join(diagnostics.matched_terms[:8]) or "none"
+    return f"""
+      <section class="diagnostics">
+        <div>
+          <label>Evidence Confidence</label>
+          <strong>{escape(diagnostics.label)} · {diagnostics.confidence:.2f}</strong>
+        </div>
+        <div>
+          <label>Coverage</label>
+          <span>{diagnostics.evidence_count} hits · {diagnostics.unique_files} files · {diagnostics.graph_edge_count} graph edges</span>
+        </div>
+        <div>
+          <label>Score Shape</label>
+          <span>top {diagnostics.top_score:.2f} · gap {diagnostics.score_gap:.2f}</span>
+        </div>
+        <div>
+          <label>Matched Terms</label>
+          <span>{escape(terms)}</span>
+        </div>
+        <div>
+          <label>Strengths</label>
+          <ul>{strengths or "<li>none</li>"}</ul>
+        </div>
+        <div>
+          <label>Warnings</label>
+          <ul>{warnings or "<li>none</li>"}</ul>
+        </div>
+      </section>
     """
 
 

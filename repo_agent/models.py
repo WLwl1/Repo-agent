@@ -111,3 +111,18 @@ class AgentResult:
     report_path: str = ""
     model_name: str = ""
     repo_brief: str = ""
+    diagnostics: "EvidenceDiagnostics | None" = None
+
+
+@dataclass(slots=True)
+class EvidenceDiagnostics:
+    confidence: float
+    label: str
+    evidence_count: int
+    unique_files: int
+    graph_edge_count: int
+    top_score: float
+    score_gap: float
+    matched_terms: list[str] = field(default_factory=list)
+    strengths: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)

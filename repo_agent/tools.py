@@ -1,33 +1,13 @@
 from __future__ import annotations
 
 import json
-import shlex
 import subprocess
 import sys
 from pathlib import Path
 
-from .ignore import IGNORED_DIRS, IGNORED_FILES, relpath_has_ignored_part
+from .ignore import IGNORED_DIRS, IGNORED_FILES, is_ignored_relpath, relpath_has_ignored_part
 from .memory import build_repo_memory, render_repo_brief
-from .security import safe_join
-
-SAFE_COMMANDS = {
-    "cargo",
-    "go",
-    "node",
-    "node.exe",
-    "npm",
-    "npm.cmd",
-    "pnpm",
-    "pnpm.cmd",
-    "py",
-    "py.exe",
-    "pytest",
-    "python",
-    "python.exe",
-    "uv",
-    "yarn",
-    "yarn.cmd",
-}
+from .security import is_safe_verification_command, parse_command, safe_join
 EXTRA_TEXT_SUFFIXES = {
     ".bat",
     ".cmd",
@@ -140,7 +120,7 @@ class RepoTools:
 
     def read_file(self, relpath: str, start_line: int = 1, end_line: int = 120) -> dict:
         path = self._resolve_repo_path(relpath)
-        if path.name in IGNORED_FILES:
+        if is_ignored_relpath(path.relative_to(self.repo_index.repo_root).as_posix()):
             raise ValueError(f"{relpath} is protected and cannot be read")
         if not path.is_file():
             raise ValueError(f"{relpath} is not a file")
@@ -169,7 +149,8 @@ class RepoTools:
         if not old:
             raise ValueError("old text is required")
         path = self._resolve_repo_path(relpath)
-        if path.name in IGNORED_FILES:
+        normalized_relpath = path.relative_to(self.repo_index.repo_root).as_posix()
+        if is_ignored_relpath(normalized_relpath):
             raise ValueError(f"{relpath} is protected and cannot be edited")
         if not path.is_file():
             raise ValueError(f"{relpath} is not a file")
@@ -181,20 +162,21 @@ class RepoTools:
                 "relpath": path.relative_to(self.repo_index.repo_root).as_posix(),
                 "occurrences": 0,
             }
-        max_count = occurrences if count is None else max(0, count)
+        max_count = occurrences if count is None else min(max(0, count), occurrences)
         updated = text.replace(old, new, max_count)
         replaced = max_count if count is not None else occurrences
         path.write_text(updated, encoding=encoding)
         return {
             "changed": True,
-            "relpath": path.relative_to(self.repo_index.repo_root).as_posix(),
+            "relpath": normalized_relpath,
             "occurrences": occurrences,
             "replacements": replaced,
         }
 
     def write_file(self, relpath: str, content: str, *, overwrite: bool = False) -> dict:
         path = self._resolve_repo_path(relpath)
-        if path.name in IGNORED_FILES:
+        normalized_relpath = path.relative_to(self.repo_index.repo_root).as_posix()
+        if is_ignored_relpath(normalized_relpath):
             raise ValueError(f"{relpath} is protected and cannot be written")
         if path.exists() and not path.is_file():
             raise ValueError(f"{relpath} is not a file")
@@ -209,18 +191,16 @@ class RepoTools:
         return {
             "changed": True,
             "created": not existed,
-            "relpath": path.relative_to(self.repo_index.repo_root).as_posix(),
+            "relpath": normalized_relpath,
             "bytes": len(encoded),
         }
 
     def run_command(self, command: str, *, timeout_seconds: int = 20) -> dict:
-        args = shlex.split(str(command or "").strip(), posix=False)
+        args = parse_command(command)
         if not args:
             raise ValueError("command is required")
-        executable_name = Path(args[0].strip("\"")).name.lower()
-        executable_stem = Path(executable_name).stem.lower()
-        if executable_name not in SAFE_COMMANDS and executable_stem not in SAFE_COMMANDS:
-            raise ValueError(f"command `{args[0]}` is not allowed")
+        if not is_safe_verification_command(command):
+            raise ValueError(f"command is not an allowed verification command: {command}")
         normalized_args = self._normalize_command(args)
         completed = subprocess.run(
             normalized_args,

@@ -211,6 +211,7 @@ def _serialize_result(result, stats: dict) -> dict:
         "stats": stats,
         "model_name": result.model_name,
         "repo_brief": result.repo_brief,
+        "diagnostics": _diagnostics_payload(result.diagnostics),
         "hits": [
             {
                 "source_label": hit.chunk.source_label,
@@ -226,6 +227,23 @@ def _serialize_result(result, stats: dict) -> dict:
             }
             for hit in result.hits
         ],
+    }
+
+
+def _diagnostics_payload(diagnostics) -> dict:
+    if diagnostics is None:
+        return {}
+    return {
+        "confidence": diagnostics.confidence,
+        "label": diagnostics.label,
+        "evidence_count": diagnostics.evidence_count,
+        "unique_files": diagnostics.unique_files,
+        "graph_edge_count": diagnostics.graph_edge_count,
+        "top_score": diagnostics.top_score,
+        "score_gap": diagnostics.score_gap,
+        "matched_terms": diagnostics.matched_terms,
+        "strengths": diagnostics.strengths,
+        "warnings": diagnostics.warnings,
     }
 
 

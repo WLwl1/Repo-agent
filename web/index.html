@@ -8,138 +8,188 @@
 </head>
 <body>
   <div class="app-shell">
-    <header class="topbar panel">
+    <aside class="sidebar">
       <div class="brand">
-        <span class="brand-mark">Repo Agent</span>
-        <h1>证据优先的仓库调查台</h1>
+        <span class="brand-mark">RA</span>
+        <div>
+          <strong>Repo Agent</strong>
+          <span>Evidence Studio</span>
+        </div>
       </div>
 
-      <label class="repo-field">
-        <span>仓库</span>
-        <input id="repoInput" type="text" placeholder="输入仓库路径，例如 C:\project\my-repo">
-      </label>
+      <nav class="tabs" aria-label="视图切换">
+        <button class="tab is-active" data-view="answer" type="button">结论</button>
+        <button class="tab" data-view="evidence" type="button">证据</button>
+        <button class="tab" data-view="map" type="button">仓库</button>
+        <button class="tab" data-view="tools" type="button">工具</button>
+        <button class="tab" data-view="runs" type="button">Runs</button>
+        <button class="tab" data-view="report" type="button">报告</button>
+      </nav>
 
-      <div class="status-row">
+      <div class="sidebar-footer">
         <div class="status-chip">
-          <span>缓存</span>
+          <span>缓存索引</span>
           <strong id="cacheCount">0</strong>
         </div>
         <div class="status-chip">
-          <span>模型</span>
+          <span>模型状态</span>
           <strong id="modelState">检测中</strong>
         </div>
       </div>
-    </header>
+    </aside>
 
-    <section class="workspace">
-      <main class="mainstage panel">
-        <section class="composer">
-          <textarea id="questionInput" class="question-box" placeholder="先问清楚：问题在哪、证据是什么、下一步该看哪里"></textarea>
+    <main class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Repository Investigation</p>
+          <h1>仓库证据工作台</h1>
+        </div>
+        <div id="statusText" class="status-text"></div>
+      </header>
 
-          <div class="composer-row">
+      <section class="workgrid">
+        <section class="mainstage">
+          <section class="composer">
+            <label class="repo-field">
+              <span>仓库路径</span>
+              <input id="repoInput" type="text" placeholder="输入仓库路径，例如 C:\project\my-repo">
+            </label>
+
+            <label class="question-field">
+              <span>调查问题或编辑任务</span>
+              <textarea id="questionInput" class="question-box" placeholder="先问清楚：问题在哪、证据是什么、下一步该看哪里"></textarea>
+            </label>
+
             <div class="action-row">
-              <button id="askBtn" class="primary">调查</button>
-              <button id="engineerBtn" class="secondary" type="button">实验编辑</button>
-              <select id="executionModeSelect" class="mode-select" title="实验编辑执行模式">
-                <option value="workspace">工作区沙箱</option>
-                <option value="local">直接改源仓库</option>
-              </select>
-              <label class="agent-toggle">
-                <input id="modelModeToggle" type="checkbox" checked>
-                <span>AI 增强</span>
-              </label>
+              <div class="primary-actions">
+                <button id="askBtn" class="primary">调查</button>
+                <button id="engineerBtn" class="secondary" type="button">实验编辑</button>
+              </div>
+              <div class="run-options">
+                <select id="executionModeSelect" class="mode-select" title="实验编辑执行模式">
+                  <option value="workspace">工作区沙箱</option>
+                  <option value="local">直接改源仓库</option>
+                </select>
+                <label class="agent-toggle">
+                  <input id="modelModeToggle" type="checkbox" checked>
+                  <span>AI 增强</span>
+                </label>
+              </div>
             </div>
-          </div>
+          </section>
 
-          <div id="statusText" class="status-text"></div>
-        </section>
-
-        <nav class="tabs" aria-label="视图切换">
-          <button class="tab is-active" data-view="answer">结论</button>
-          <button class="tab" data-view="evidence">证据</button>
-          <button class="tab" data-view="map">仓库</button>
-          <button class="tab" data-view="tools">工具</button>
-          <button class="tab" data-view="runs">Runs</button>
-          <button class="tab" data-view="report">报告</button>
-        </nav>
-
-        <section class="view-stack">
-          <div id="view-answer" class="view-panel is-active">
-            <div id="answerBox" class="surface empty-state">点击“调查”后，这里会展示结论、证据和可追踪路径。</div>
-          </div>
-
-          <div id="view-evidence" class="view-panel">
-            <div id="hitList" class="evidence-list empty-state">还没有证据结果。</div>
-          </div>
-
-          <div id="view-map" class="view-panel">
-            <div id="mapBox" class="surface empty-state">还没有仓库快照。</div>
-          </div>
-
-          <div id="view-tools" class="view-panel">
-            <div class="surface tools-surface">
-              <section class="tool-section">
-                <div class="tool-grid tool-grid-compact">
-                  <select id="toolActionSelect">
-                    <option value="startup">启动提示</option>
-                    <option value="verify">检查项目</option>
-                    <option value="list">列目录</option>
-                    <option value="read">读文件</option>
-                    <option value="search">搜文本</option>
-                    <option value="run">跑命令</option>
-                  </select>
-                  <input id="toolPathInput" type="text" placeholder="路径，例如 web/app.js 或 .">
-                  <input id="startLineInput" type="number" min="1" value="1" placeholder="起始行">
-                  <input id="endLineInput" type="number" min="1" value="120" placeholder="结束行">
-                  <input id="searchInput" type="text" placeholder="关键词，例如 chat, stream, render">
-                  <input id="commandInput" type="text" placeholder="命令，例如 python -m repo_agent eval">
-                  <button id="toolRunBtn" class="primary">执行</button>
+          <section class="view-stack">
+            <div id="view-answer" class="view-panel is-active">
+              <div class="panel-head">
+                <div>
+                  <h2>结论</h2>
+                  <span>最终回答、关键证据和定位建议</span>
                 </div>
-              </section>
-
-              <section class="tool-section">
-                <div id="toolOutput" class="tool-output empty-state">这里会展示目录、文件、启动提示和命令输出。</div>
-              </section>
-            </div>
-          </div>
-
-          <div id="view-runs" class="view-panel">
-            <div class="surface runs-surface">
-              <div class="run-toolbar">
-                <button id="refreshRunsBtn" class="secondary" type="button">Refresh Runs</button>
               </div>
-              <div id="runsBox" class="run-list empty-state">No runs loaded.</div>
+              <div id="answerBox" class="surface empty-state">点击“调查”后，这里会展示结论、证据和可追踪路径。</div>
             </div>
-          </div>
 
-          <div id="view-report" class="view-panel">
-            <div class="report-surface">
-              <div class="report-toolbar">
-                <button id="buildReportBtn" class="secondary" type="button">生成报告</button>
-                <a id="reportLink" class="report-link disabled" href="#" target="_blank" rel="noreferrer">尚未生成报告</a>
+            <div id="view-evidence" class="view-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>证据</h2>
+                  <span>按相关性排序的文件、符号和片段</span>
+                </div>
               </div>
-              <iframe id="reportFrame" class="report-frame" title="HTML report preview"></iframe>
+              <div id="hitList" class="evidence-list empty-state">还没有证据结果。</div>
             </div>
-          </div>
-        </section>
-      </main>
 
-      <aside class="inspector panel">
-        <section class="inspector-block">
-          <div class="block-head">
-            <h2>选中证据</h2>
-          </div>
-          <div id="selectionPanel" class="surface compact empty-state">点击证据卡片查看细节。</div>
+            <div id="view-map" class="view-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>仓库快照</h2>
+                  <span>索引统计、重点文件和关键关系</span>
+                </div>
+              </div>
+              <div id="mapBox" class="surface empty-state">还没有仓库快照。</div>
+            </div>
+
+            <div id="view-tools" class="view-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>工具</h2>
+                  <span>安全读取、搜索和验证命令</span>
+                </div>
+              </div>
+              <div class="surface tools-surface">
+                <section class="tool-section">
+                  <div class="tool-grid tool-grid-compact">
+                    <select id="toolActionSelect">
+                      <option value="startup">启动提示</option>
+                      <option value="verify">检查项目</option>
+                      <option value="list">列目录</option>
+                      <option value="read">读文件</option>
+                      <option value="search">搜文本</option>
+                      <option value="run">跑命令</option>
+                    </select>
+                    <input id="toolPathInput" type="text" placeholder="路径，例如 web/app.js 或 .">
+                    <input id="startLineInput" type="number" min="1" value="1" placeholder="起始行">
+                    <input id="endLineInput" type="number" min="1" value="120" placeholder="结束行">
+                    <input id="searchInput" type="text" placeholder="关键词，例如 chat, stream, render">
+                    <input id="commandInput" type="text" placeholder="命令，例如 python -m repo_agent eval">
+                    <button id="toolRunBtn" class="primary">执行</button>
+                  </div>
+                </section>
+
+                <section class="tool-section">
+                  <div id="toolOutput" class="tool-output empty-state">这里会展示目录、文件、启动提示和命令输出。</div>
+                </section>
+              </div>
+            </div>
+
+            <div id="view-runs" class="view-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Runs</h2>
+                  <span>工程模式运行记录、恢复和应用</span>
+                </div>
+                <button id="refreshRunsBtn" class="secondary" type="button">刷新</button>
+              </div>
+              <div class="surface runs-surface">
+                <div id="runsBox" class="run-list empty-state">No runs loaded.</div>
+              </div>
+            </div>
+
+            <div id="view-report" class="view-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>报告</h2>
+                  <span>生成可分享的 HTML 调查报告</span>
+                </div>
+                <div class="report-actions">
+                  <button id="buildReportBtn" class="secondary" type="button">生成报告</button>
+                  <a id="reportLink" class="report-link disabled" href="#" target="_blank" rel="noreferrer">尚未生成</a>
+                </div>
+              </div>
+              <div class="report-surface">
+                <iframe id="reportFrame" class="report-frame" title="HTML report preview"></iframe>
+              </div>
+            </div>
+          </section>
         </section>
 
-        <section class="inspector-block">
-          <div class="block-head">
-            <h2>执行轨迹</h2>
-          </div>
-          <div id="traceList" class="trace-list empty-state">暂无执行轨迹。</div>
-        </section>
-      </aside>
-    </section>
+        <aside class="inspector">
+          <section class="inspector-block">
+            <div class="block-head">
+              <h2>选中证据</h2>
+            </div>
+            <div id="selectionPanel" class="surface compact empty-state">点击证据卡片查看细节。</div>
+          </section>
+
+          <section class="inspector-block">
+            <div class="block-head">
+              <h2>执行轨迹</h2>
+            </div>
+            <div id="traceList" class="trace-list empty-state">暂无执行轨迹。</div>
+          </section>
+        </aside>
+      </section>
+    </main>
   </div>
   <script src="/static/app.js"></script>
 </body>

@@ -40,6 +40,26 @@ def main() -> None:
     report_parser.add_argument("--use-model", action="store_true", help="Use an OpenAI-compatible model if configured.")
     report_parser.add_argument("--force-rebuild", action="store_true", help="Ignore cache and rebuild the index.")
 
+    bundle_parser = subparsers.add_parser("bundle", help="Export a portable evidence bundle for another coding agent.")
+    bundle_parser.add_argument("--repo", required=True, help="Path to the target repository.")
+    bundle_parser.add_argument("--question", required=True, help="Question for the agent.")
+    bundle_parser.add_argument(
+        "--target",
+        choices=("generic", "codex", "aider", "openhands"),
+        default="generic",
+        help="Downstream agent or handoff target.",
+    )
+    bundle_parser.add_argument(
+        "--format",
+        choices=("markdown", "json"),
+        default="markdown",
+        help="Evidence bundle output format.",
+    )
+    bundle_parser.add_argument("--output", help="Optional output path.")
+    bundle_parser.add_argument("--top-k", type=int, default=6, help="How many hits to retrieve.")
+    bundle_parser.add_argument("--use-model", action="store_true", help="Use an OpenAI-compatible model if configured.")
+    bundle_parser.add_argument("--force-rebuild", action="store_true", help="Ignore cache and rebuild the index.")
+
     engineer_parser = subparsers.add_parser("engineer", help="Run an autonomous software engineering task.")
     engineer_parser.add_argument("--repo", required=True, help="Path to the target repository.")
     engineer_parser.add_argument("--task", required=True, help="Engineering task for the autonomous agent.")
@@ -47,7 +67,7 @@ def main() -> None:
     engineer_parser.add_argument(
         "--execution-mode",
         choices=("local", "workspace"),
-        default="local",
+        default="workspace",
         help="Edit the source repo directly or an isolated runs/<id>/workspace copy.",
     )
     engineer_parser.add_argument("--force-rebuild", action="store_true", help="Ignore cache and rebuild the index.")
@@ -105,6 +125,11 @@ def main() -> None:
             force_rebuild=args.force_rebuild,
         )
         print(result.answer)
+        if result.diagnostics:
+            print("\n[Confidence]")
+            print(f"- {result.diagnostics.label} ({result.diagnostics.confidence:.2f})")
+            for warning in result.diagnostics.warnings[:3]:
+                print(f"- warning: {warning}")
         print("\n[Top Hits]")
         for hit in result.hits:
             print(
@@ -133,6 +158,22 @@ def main() -> None:
         print(str(report_path))
         if result.model_name:
             print(f"model={result.model_name}")
+        return
+
+    if args.command == "bundle":
+        bundle, bundle_path = runtime.generate_bundle(
+            repo_path=args.repo,
+            question=args.question,
+            target=args.target,
+            fmt=args.format,
+            top_k=clamp_top_k(args.top_k, runtime.config),
+            use_model=args.use_model,
+            force_rebuild=args.force_rebuild,
+            output_path=args.output,
+        )
+        print(str(bundle_path))
+        print(f"target={bundle.get('target', '')}")
+        print(f"evidence={len(bundle.get('evidence', []))}")
         return
 
     if args.command == "engineer":

@@ -38,6 +38,7 @@ def build_evidence_bundle(
         "model_name": result.model_name,
         "answer": result.answer,
         "repo_brief": result.repo_brief,
+        "diagnostics": _diagnostics_payload(result.diagnostics),
         "handoff_prompt": _handoff_prompt(target_name),
         "evidence": [_hit_payload(hit, rank, max_snippet_lines=max_snippet_lines) for rank, hit in enumerate(hits, 1)],
         "graph_edges": [_edge_payload(edge, repo_index) for edge in edges],
@@ -63,6 +64,7 @@ def render_markdown_bundle(bundle: dict[str, Any]) -> str:
     graph_edges = list(bundle.get("graph_edges", []))
     trace = list(bundle.get("trace", []))
     next_steps = list(bundle.get("recommended_next_steps", []))
+    diagnostics = dict(bundle.get("diagnostics") or {})
 
     lines = [
         "# Repo Agent Evidence Bundle",
@@ -90,6 +92,26 @@ def render_markdown_bundle(bundle: dict[str, Any]) -> str:
             str(bundle.get("answer", "")).strip() or "No answer was produced.",
         ]
     )
+
+    if diagnostics:
+        lines.extend(
+            [
+                "",
+                "## Evidence Diagnostics",
+                "",
+                f"- Confidence: `{diagnostics.get('label', 'unknown')}` (`{float(diagnostics.get('confidence', 0.0)):.2f}`)",
+                f"- Evidence hits: `{diagnostics.get('evidence_count', 0)}`",
+                f"- Unique files: `{diagnostics.get('unique_files', 0)}`",
+                f"- Graph edges: `{diagnostics.get('graph_edge_count', 0)}`",
+                f"- Top score: `{float(diagnostics.get('top_score', 0.0)):.2f}`",
+                f"- Score gap: `{float(diagnostics.get('score_gap', 0.0)):.2f}`",
+                f"- Matched terms: {_inline_code_list(diagnostics.get('matched_terms', []))}",
+            ]
+        )
+        if diagnostics.get("strengths"):
+            lines.append(f"- Strengths: {'; '.join(str(item) for item in diagnostics.get('strengths', []))}")
+        if diagnostics.get("warnings"):
+            lines.append(f"- Warnings: {'; '.join(str(item) for item in diagnostics.get('warnings', []))}")
 
     repo_brief = str(bundle.get("repo_brief", "")).strip()
     if repo_brief:
@@ -184,6 +206,23 @@ def _edge_payload(edge: GraphEdge, repo_index: RepositoryIndex) -> dict[str, Any
         "target_label": target.source_label if target else edge.target,
         "label": edge.label,
         "weight": edge.weight,
+    }
+
+
+def _diagnostics_payload(diagnostics) -> dict[str, Any]:
+    if diagnostics is None:
+        return {}
+    return {
+        "confidence": diagnostics.confidence,
+        "label": diagnostics.label,
+        "evidence_count": diagnostics.evidence_count,
+        "unique_files": diagnostics.unique_files,
+        "graph_edge_count": diagnostics.graph_edge_count,
+        "top_score": diagnostics.top_score,
+        "score_gap": diagnostics.score_gap,
+        "matched_terms": diagnostics.matched_terms,
+        "strengths": diagnostics.strengths,
+        "warnings": diagnostics.warnings,
     }
 
 

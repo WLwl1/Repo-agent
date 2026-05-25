@@ -1,5 +1,11 @@
 # Repo Agent
 
+<p align="right">
+  <a href="./README.md"><strong>English</strong></a>
+  ·
+  <a href="./README.zh-CN.md">简体中文</a>
+</p>
+
 Evidence-first repository investigation and bug localization before an AI edits code.
 
 
@@ -16,7 +22,9 @@ Repo Agent is a local codebase investigator. It focuses on proving the location 
 - retrieve grounded evidence with lexical recall, semantic projection, and graph expansion
 - inspect the real workspace with directory listing, text search, file reads, and optional verification commands
 - answer repository questions and bug-localization prompts with ranked evidence, line references, and trace output
+- score each answer with evidence diagnostics: confidence, coverage, score gap, graph support, strengths, and warnings
 - export a shareable HTML report for debugging, onboarding, and review
+- export a portable evidence bundle for handoff to Codex, Aider, OpenHands, or another coding agent
 - optionally hand the evidence to an OpenAI-compatible tool-calling loop when a model is configured
 
 Repo Agent is not trying to be a clone of a full IDE coding agent. Its sharp edge is the step before coding: cheap local triage, inspectable evidence, and a report you can review with a human.
@@ -27,7 +35,7 @@ Repo Agent is not trying to be a clone of a full IDE coding agent. Its sharp edg
 - Ships fixture repositories and CI-backed ranking metrics
 - Ignores generated caches, logs, reports, and run workspaces during indexing
 - Uses path validation for repository access and report/static-file serving
-- Runs verification commands with `shell=False` and an allow-listed executable
+- Runs verification commands with `shell=False` and an allow-listed command shape
 - Includes pytest coverage for parser, indexing, cache, security, and web-asset behavior
 
 ## Positioning
@@ -40,20 +48,23 @@ It should be judged on localization quality, traceability, and reviewability rat
 
 - Evidence-first repository QA and bug triage
 - Ranked file, symbol, and line-level evidence
+- Evidence confidence diagnostics that make retrieval quality and risk visible
 - Express/FastAPI/Flask-style route and handler linking
 - Multi-step repository investigation: plan -> file scout -> code read -> graph hop -> answer
 - Trace output that shows how the result was found
 - Shareable HTML reports for review and debugging
+- Portable Markdown/JSON evidence bundles for downstream coding agents
 - Model-optional workflow: deterministic retrieval works without an API key
 - Real agent mode with model-selected tools: `repo_brief`, `find_relevant_code`, `list_directory`, `search_text`, `read_file`, `startup_hints`, and `verify_project`
 - Local web studio for interactive analysis
-- Workspace tool panel for directory listing, file reads, text search, startup hints, and safe verification commands
+- Workspace tool panel for directory listing, file reads, text search, startup hints, and allow-listed verification commands
 - Experimental engineering mode with inspect -> edit -> verify -> repair -> finish loops
 - Workspace sandbox mode that edits `runs/<run_id>/workspace` instead of the source repository
 - Persistent run records under `runs/<run_id>/run.json`, including tool calls, changed files, verification output, and diff snapshots
 - Built-in example repositories for reproducible demos
 - CI-backed evals with Top-1, Top-3, and MRR metrics
 - Safety controls for path validation, input limits, and index limits
+- Centralized verification command policy that blocks arbitrary `python -c`, `node -e`, package-install, and traversal-shaped commands
 - Audit logs for indexing, ask, map, report, and request failures
 
 ## When To Use It
@@ -212,9 +223,20 @@ repo-agent apply-run --run-id <run_id> --confirm [--json]
 repo-agent bench [--cases <path>] [--max-steps <n>] [--json]
 repo-agent map    --repo <path> [--force-rebuild]
 repo-agent report --repo <path> --question "<query>" [--use-model]
+repo-agent bundle --repo <path> --question "<query>" [--target generic|codex|aider|openhands] [--format markdown|json]
 repo-agent serve  [--host 127.0.0.1] [--port 8787]
 repo-agent eval   [--top-k <n>] [--json]
 ```
+
+## Evidence Bundles
+
+Use `repo-agent bundle` when you want Repo Agent to do the investigation phase, then hand the grounded evidence to a coding agent for edits:
+
+```powershell
+python -m repo_agent bundle --repo ".\examples\simple_agent_app" --question "Where is the chat endpoint implemented?" --target codex
+```
+
+The bundle includes the repository brief, ranked evidence, snippets, graph edges, trace steps, evidence diagnostics, and a handoff prompt tailored to the selected target.
 
 ## Repository Layout
 

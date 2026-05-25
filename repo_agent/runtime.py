@@ -5,6 +5,7 @@ from pathlib import Path
 
 from .agent import RepoAgent
 from .audit import AuditLogger
+from .bundle import build_evidence_bundle, default_bundle_path, write_evidence_bundle
 from .cache import IndexCache
 from .config import RepoAgentConfig
 from .engineering import EngineeringAgent, create_workspace_copy, new_run_id
@@ -13,7 +14,8 @@ from .llm import LLMClient
 from .memory import build_repo_memory, render_repo_brief
 from .models import AgentResult
 from .report import write_html_report
-from .security import safe_join, validate_question, validate_repo_path
+from .ignore import IGNORED_DIRS, IGNORED_FILES
+from .security import agent_policy, safe_join, validate_question, validate_repo_path
 from .tools import RepoTools
 
 
@@ -106,6 +108,40 @@ class RepoAgentRuntime:
         self.audit.log("report_generated", repo=str(validate_repo_path(repo_path, self.config)), report=str(report_path))
         return result, repo_index, report_path
 
+    def generate_bundle(
+        self,
+        repo_path: str | Path,
+        question: str,
+        *,
+        target: str = "generic",
+        fmt: str = "markdown",
+        top_k: int = 6,
+        use_model: bool = False,
+        force_rebuild: bool = False,
+        output_path: str | Path | None = None,
+    ) -> tuple[dict, Path]:
+        result, repo_index = self.ask(
+            repo_path=repo_path,
+            question=question,
+            top_k=top_k,
+            use_model=use_model,
+            force_rebuild=force_rebuild,
+        )
+        bundle = build_evidence_bundle(result=result, repo_index=repo_index, target=target)
+        output = (
+            Path(output_path).expanduser().resolve()
+            if output_path is not None
+            else default_bundle_path(self.reports_dir, question, fmt=fmt)
+        )
+        bundle_path = write_evidence_bundle(bundle, output, fmt=fmt)
+        self.audit.log(
+            "bundle_generated",
+            repo=str(repo_index.repo_root),
+            bundle=str(bundle_path),
+            target=str(bundle.get("target", "")),
+        )
+        return bundle, bundle_path
+
     def health(self) -> dict:
         return {
             "ok": True,
@@ -117,6 +153,11 @@ class RepoAgentRuntime:
             "max_top_k": self.config.max_top_k,
             "audit_log": str(self.config.audit_log_path),
             "runs_dir": str(self.runs_dir),
+            "agent_policy": agent_policy(
+                allowed_roots=self.config.allowed_roots,
+                protected_dirs=tuple(IGNORED_DIRS),
+                protected_files=tuple(IGNORED_FILES),
+            ),
         }
 
     def engineer(
@@ -125,7 +166,7 @@ class RepoAgentRuntime:
         task: str,
         *,
         max_steps: int | None = None,
-        execution_mode: str = "local",
+        execution_mode: str = "workspace",
         force_rebuild: bool = False,
     ) -> tuple[dict, RepositoryIndex]:
         repo_root = validate_repo_path(repo_path, self.config)

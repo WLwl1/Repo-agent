@@ -34,6 +34,14 @@ IGNORED_FILES = {
 }
 
 
+def is_ignored_relpath(relpath: str) -> bool:
+    normalized = str(relpath or "").replace("\\", "/").strip()
+    if not normalized or normalized == ".":
+        return False
+    path = PurePosixPath(normalized)
+    return any(part in IGNORED_DIRS for part in path.parts) or path.name in IGNORED_FILES
+
+
 def has_ignored_part(path: Path) -> bool:
     return any(part in IGNORED_DIRS for part in path.parts)
 

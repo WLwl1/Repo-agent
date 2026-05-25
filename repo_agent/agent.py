@@ -4,7 +4,8 @@ import json
 from typing import Any
 
 from .llm import LLMClient, message_text
-from .models import AgentResult, InvestigationBundle
+from .models import AgentResult, EvidenceDiagnostics, InvestigationBundle
+from .security import is_safe_verification_command
 from .tools import RepoTools
 
 
@@ -17,6 +18,7 @@ class RepoAgent:
         tools = RepoTools(self.repo_index)
         repo_brief = tools.repo_brief()
         bundle = self._investigate(query, tools, top_k=top_k)
+        diagnostics = build_evidence_diagnostics(bundle)
 
         baseline_answer = self._compose_answer(query, bundle)
         trace = list(bundle.trace)
@@ -47,6 +49,7 @@ class RepoAgent:
             trace=trace,
             model_name=model_name,
             repo_brief=repo_brief,
+            diagnostics=diagnostics,
         )
 
     def _investigate(self, query: str, tools: RepoTools, *, top_k: int) -> InvestigationBundle:
@@ -546,11 +549,86 @@ def _contains_cjk(text: str) -> bool:
 
 
 def _is_verification_command(command: str) -> bool:
-    normalized = " ".join(str(command or "").strip().lower().split())
-    return (
-        normalized == "npm test"
-        or normalized == "npm run build"
-        or normalized == "python -m pytest"
-        or normalized == "python -m repo_agent eval"
-        or normalized.startswith("python -m compileall ")
+    return is_safe_verification_command(command)
+
+
+def build_evidence_diagnostics(bundle: InvestigationBundle) -> EvidenceDiagnostics:
+    hits = bundle.final_hits
+    top_score = hits[0].score if hits else 0.0
+    second_score = hits[1].score if len(hits) > 1 else 0.0
+    score_gap = max(0.0, top_score - second_score)
+    unique_files = len({hit.chunk.relpath for hit in hits})
+    graph_edge_count = len(bundle.graph_edges)
+    matched_terms = list(dict.fromkeys(term for hit in hits[:4] for term in hit.matched_terms))[:12]
+    symbol_hits = sum(1 for hit in hits if hit.chunk.symbol_name)
+    route_hits = sum(1 for hit in hits if hit.chunk.route_path)
+
+    confidence = 0.0
+    strengths: list[str] = []
+    warnings: list[str] = []
+
+    if hits:
+        confidence += 0.28
+        strengths.append("ranked evidence found")
+    else:
+        warnings.append("no ranked code evidence was found")
+
+    if top_score >= 18:
+        confidence += 0.22
+        strengths.append("strong top score")
+    elif top_score >= 10:
+        confidence += 0.14
+        strengths.append("usable top score")
+    elif hits:
+        confidence += 0.06
+        warnings.append("top score is weak")
+
+    if score_gap >= 6:
+        confidence += 0.16
+        strengths.append("clear separation from the next hit")
+    elif len(hits) > 1:
+        confidence += 0.06
+        warnings.append("top hits are close together")
+
+    if matched_terms:
+        confidence += min(0.14, 0.035 * len(matched_terms))
+        strengths.append("query terms matched code vocabulary")
+    else:
+        warnings.append("no direct query-term overlap")
+
+    if graph_edge_count:
+        confidence += min(0.12, 0.035 * graph_edge_count)
+        strengths.append("repository graph supports the ranking")
+    elif len(hits) > 1:
+        warnings.append("ranking has no supporting graph edge among top hits")
+
+    if unique_files >= 2:
+        confidence += 0.06
+        strengths.append("evidence spans multiple files")
+    elif hits:
+        warnings.append("evidence is concentrated in one file")
+
+    if symbol_hits:
+        confidence += 0.06
+        strengths.append("symbol-level evidence is available")
+    if route_hits:
+        confidence += 0.04
+        strengths.append("route-level evidence is available")
+
+    if hits and all(not hit.chunk.symbol_name for hit in hits[: min(3, len(hits))]):
+        warnings.append("top evidence is file-level rather than symbol-level")
+
+    confidence = max(0.0, min(1.0, confidence))
+    label = "high" if confidence >= 0.72 else "medium" if confidence >= 0.45 else "low"
+    return EvidenceDiagnostics(
+        confidence=round(confidence, 2),
+        label=label,
+        evidence_count=len(hits),
+        unique_files=unique_files,
+        graph_edge_count=graph_edge_count,
+        top_score=round(top_score, 2),
+        score_gap=round(score_gap, 2),
+        matched_terms=matched_terms,
+        strengths=strengths[:6],
+        warnings=warnings[:6],
     )

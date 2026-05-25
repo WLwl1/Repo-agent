@@ -1012,6 +1012,7 @@ def expand_query_terms(query: str) -> list[str]:
     lowered = str(query or "").lower()
     for chinese_term, english_terms in QUERY_SYNONYMS.items():
         if chinese_term in query:
+            expanded.append(chinese_term)
             expanded.extend(english_terms)
     if "rag" in lowered:
         expanded.extend(["rag", "retrieve", "document"])
