@@ -197,6 +197,41 @@ body {
   display: none;
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.language-toggle {
+  min-height: 36px;
+  padding: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: #fff;
+}
+
+.language-toggle button {
+  min-height: 28px;
+  padding: 5px 9px;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.language-toggle button:hover {
+  color: var(--primary);
+}
+
+.language-toggle button.is-active {
+  background: var(--primary);
+  color: #fff;
+}
+
 .workgrid {
   min-width: 0;
   min-height: 0;
@@ -881,6 +916,7 @@ button.secondary:hover,
   .action-row,
   .primary-actions,
   .run-options,
+  .topbar-actions,
   .panel-head,
   .report-actions {
     align-items: stretch;

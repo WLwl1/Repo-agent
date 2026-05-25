@@ -1,10 +1,6 @@
 # Repo Agent
 
-<p align="right">
-  <a href="./README.md">English</a>
-  ·
-  <a href="./README.zh-CN.md"><strong>简体中文</strong></a>
-</p>
+语言：[English](./README.md) | **简体中文**
 
 在 AI 修改代码之前，先做证据优先的仓库调查与缺陷定位。
 
