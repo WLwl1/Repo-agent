@@ -1,10 +1,12 @@
 # Repo Agent
 
-语言：[English](./README.md) | **简体中文**
+语言：
+
+- en [English](../README.md)
+- zh_CN [简体中文](README.zh_CN.md)
+- ja [日本語](README.ja.md)
 
 在 AI 修改代码之前，先做证据优先的仓库调查与缺陷定位。
-
-![Repo Agent Studio](assets/studio-overview.svg)
 
 ## 为什么需要 Repo Agent
 
@@ -39,7 +41,7 @@ Repo Agent 不是完整 IDE 编码 Agent 的复制品。它最锋利的地方是
 
 Repo Agent 是代码修改前的证据层。它适合与 Aider、OpenHands、SWE-agent 或 Codex 配合：先用 Repo Agent 找到文件、处理函数、路由、trace 和置信信号，再把证据交给真正负责编辑的编码 Agent。
 
-这个项目应该被评价的是定位质量、可追踪性和可审查性，而不是“多激进地自动改代码”。更完整的对比见 [docs/comparison.md](docs/comparison.md)。
+这个项目应该被评价的是定位质量、可追踪性和可审查性，而不是“多激进地自动改代码”。更完整的对比见 [docs/comparison.md](../docs/comparison.md)。
 
 ## 核心能力
 
@@ -75,10 +77,6 @@ Repo Agent 是代码修改前的证据层。它适合与 Aider、OpenHands、SWE
 - 在花模型 token 前先做便宜的本地代码检索
 
 当证据足够并准备真正修改代码时，再交给完整编码 Agent。
-
-## 架构
-
-![Repo Agent Architecture](assets/architecture-diagram.png)
 
 ## 示例问题
 
@@ -181,20 +179,7 @@ python -m repo_agent bench --json
 
 ## Web Studio
 
-Web Studio 支持：
-
-- 仓库路径输入
-- AI agent 模式开关
-- autonomous engineering 按钮
-- local / workspace-sandbox 执行模式选择
-- Runs 视图：打开、恢复、应用
-- 一键索引
-- 仓库问答和 bug 定位
-- 启动提示和快速验证
-- 目录、文件读取和文本搜索
-- 排名证据查看
-- trace 查看
-- HTML 报告生成与预览
+Web Studio 支持仓库路径输入、AI agent 模式、autonomous engineering、workspace-sandbox 执行、运行记录、一键索引、仓库问答、启动提示、安全工作区工具、排名证据、trace 和 HTML 报告预览。
 
 ## CLI 命令
 
@@ -223,42 +208,9 @@ python -m repo_agent bundle --repo ".\examples\simple_agent_app" --question "Whe
 
 Bundle 包含仓库 brief、排名证据、代码片段、图关系、trace、evidence diagnostics，以及面向目标 Agent 的 handoff prompt。
 
-## 仓库结构
-
-```text
-repo_agent/
-  agent.py        answer composition
-  indexer.py      graph building + retrieval + semantic projection
-  memory.py       repository brief and role memory
-  parsers.py      symbol extraction
-  runtime.py      cache + safety + orchestration
-  tools.py        repo tool runtime for multi-step investigation
-  server.py       local HTTP server
-  llm.py          OpenAI-compatible model adapter
-web/
-  index.html      web studio shell
-  app.js          UI logic
-  styles.css      UI styling
-examples/
-  simple_agent_app/
-  simple_fastapi_app/
-  simple_rag_app/
-```
-
 ## 评测
 
 Repo Agent 自带 `examples/` fixture 仓库，所以 fresh clone 后可以直接运行 `repo-agent eval`，CI 中也可复现。
-
-当前 eval 场景覆盖：
-
-- chat endpoint 定位
-- route-to-handler 定位
-- session reset 定位
-- RAG upload 入口定位
-- RAG 主流程检查
-- FastAPI/Flask 风格 decorator route 定位
-
-默认 eval 会输出每个 case 的 rank 和汇总检索指标：
 
 ```text
 Summary: 11/11 passed @top3
@@ -267,11 +219,9 @@ Top-3 accuracy: 100.00%
 MRR: 0.894
 ```
 
-内置 eval 是 smoke suite，不代表广泛 benchmark 领先。公开 benchmark 计划见 [docs/benchmarking.md](docs/benchmarking.md)。
+内置 eval 是 smoke suite，不代表广泛 benchmark 领先。公开 benchmark 计划见 [docs/benchmarking.md](../docs/benchmarking.md)。
 
 ## 质量门
-
-提交 PR 前运行与 CI 相同的检查：
 
 ```powershell
 python -m compileall repo_agent tests
@@ -282,17 +232,9 @@ python -m pytest
 
 ## 配置
 
-见 `.env.example`：
-
-- 可选模型设置
-- 允许访问的仓库根目录
-- question 长度限制
-- top-k 限制
-- 索引文件数量和大小限制
+见 [`.env.example`](../.env.example)：可选模型设置、允许访问的仓库根目录、question 长度限制、top-k 限制和索引限制。
 
 ## 发布前
-
-推送前清理本地生成产物：
 
 ```powershell
 pwsh .\scripts\clean_generated.ps1
@@ -300,17 +242,17 @@ pwsh .\scripts\clean_generated.ps1
 
 仓库 metadata、topics 和 social preview 建议见：
 
-- [docs/github-launch-checklist.md](docs/github-launch-checklist.md)
-- [docs/repository-metadata.md](docs/repository-metadata.md)
-- [docs/benchmarking.md](docs/benchmarking.md)
-- [docs/roadmap.md](docs/roadmap.md)
+- [docs/github-launch-checklist.md](../docs/github-launch-checklist.md)
+- [docs/repository-metadata.md](../docs/repository-metadata.md)
+- [docs/benchmarking.md](../docs/benchmarking.md)
+- [docs/roadmap.md](../docs/roadmap.md)
 
 ## 贡献
 
-见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+见 [CONTRIBUTING.md](../CONTRIBUTING.md)。
 
-安全相关问题见 [SECURITY.md](SECURITY.md)。
+安全相关问题见 [SECURITY.md](../SECURITY.md)。
 
 ## License
 
-[MIT](LICENSE)
+[MIT](../LICENSE)

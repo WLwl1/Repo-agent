@@ -2,12 +2,11 @@
 
 Language:
 
-- en [English](README.md)
-- zh_CN [简体中文](readme/README.zh_CN.md)
-- ja [日本語](readme/README.ja.md)
+- en [English](../README.md)
+- zh_CN [简体中文](README.zh_CN.md)
+- ja [日本語](README.ja.md)
 
 Evidence-first repository investigation and bug localization before an AI edits code.
-
 
 ## Why Repo Agent
 
@@ -42,7 +41,7 @@ Repo Agent is not trying to be a clone of a full IDE coding agent. Its sharp edg
 
 Repo Agent is the evidence layer before code changes. It pairs well with tools such as Aider, OpenHands, SWE-agent, or Codex: use Repo Agent to find the files, handlers, routes, traces, and confidence signals; then hand the evidence to a coding agent when you actually want edits.
 
-It should be judged on localization quality, traceability, and reviewability rather than on how aggressively it changes files. See [docs/comparison.md](docs/comparison.md) for a more explicit comparison.
+It should be judged on localization quality, traceability, and reviewability rather than on how aggressively it changes files. See [docs/comparison.md](../docs/comparison.md) for a more explicit comparison.
 
 ## Key Capabilities
 
@@ -78,10 +77,6 @@ Use Repo Agent when you need to:
 - run cheap deterministic codebase search before spending model tokens
 
 Use a full coding agent after you have enough evidence and want autonomous edits.
-
-## Architecture
-
-![Repo Agent Architecture](assets/architecture-diagram.png)
 
 ## Demo Questions
 
@@ -182,34 +177,9 @@ Run engineering benchmark cases:
 python -m repo_agent bench --json
 ```
 
-The experimental engineering loop can:
-
-- inspect files and search the codebase
-- retrieve relevant code with the repository graph
-- edit files with exact replacements or controlled file writes
-- run allow-listed verification commands such as compile checks, tests, builds, and `node --check`
-- inspect status/diff, revert a bad file edit, and finish with reviewer feedback
-- apply reviewed workspace changes back to the source repo with explicit confirmation
-- persist the full run trace and final diff in `runs/<run_id>/run.json`
-
-This mode is deliberately constrained. The main product promise remains investigation first: make the evidence clear before code changes happen.
-
 ## Web Studio
 
-The web studio supports:
-
-- repository path input
-- AI agent mode toggle
-- autonomous engineering button
-- local or workspace-sandbox execution mode selector
-- Runs view with open, resume, and apply actions
-- one-click indexing
-- repository QA and bug-localization runs
-- startup hints and quick verification
-- directory listing, file reading, and text search inside the repo
-- ranked evidence inspection
-- trace inspection
-- HTML report generation and preview
+The web studio supports repository path input, AI agent mode, autonomous engineering, workspace-sandbox execution, run history, one-click indexing, repository QA, startup hints, safe workspace tools, ranked evidence, traces, and HTML report preview.
 
 ## CLI Commands
 
@@ -238,42 +208,9 @@ python -m repo_agent bundle --repo ".\examples\simple_agent_app" --question "Whe
 
 The bundle includes the repository brief, ranked evidence, snippets, graph edges, trace steps, evidence diagnostics, and a handoff prompt tailored to the selected target.
 
-## Repository Layout
-
-```text
-repo_agent/
-  agent.py        answer composition
-  indexer.py      graph building + retrieval + semantic projection
-  memory.py       repository brief and role memory
-  parsers.py      symbol extraction
-  runtime.py      cache + safety + orchestration
-  tools.py        repo tool runtime for multi-step investigation
-  server.py       local HTTP server
-  llm.py          OpenAI-compatible model adapter
-web/
-  index.html      web studio shell
-  app.js          UI logic
-  styles.css      UI styling
-examples/
-  simple_agent_app/
-  simple_fastapi_app/
-  simple_rag_app/
-```
-
 ## Evaluation
 
 Repo Agent ships with reproducible fixture repositories under `examples/`, so `repo-agent eval` works out of the box on a fresh clone and in CI.
-
-Current eval scenarios cover:
-
-- chat endpoint localization
-- route-to-handler localization
-- session reset localization
-- RAG upload entry localization
-- RAG main-flow inspection
-- FastAPI/Flask-style decorator route localization
-
-The default eval prints per-case rank plus aggregate retrieval metrics:
 
 ```text
 Summary: 11/11 passed @top3
@@ -282,11 +219,9 @@ Top-3 accuracy: 100.00%
 MRR: 0.894
 ```
 
-The built-in eval is a smoke suite, not a claim of broad benchmark dominance. The public benchmark plan is tracked in [docs/benchmarking.md](docs/benchmarking.md).
+The built-in eval is a smoke suite, not a claim of broad benchmark dominance. The public benchmark plan is tracked in [docs/benchmarking.md](../docs/benchmarking.md).
 
 ## Quality Gate
-
-Run the same checks as CI before opening a pull request:
 
 ```powershell
 python -m compileall repo_agent tests
@@ -297,17 +232,9 @@ python -m pytest
 
 ## Configuration
 
-See `.env.example` for:
-
-- optional model settings
-- allowed repository roots
-- question length limit
-- top-k limit
-- index file count and file size limits
+See [`.env.example`](../.env.example) for optional model settings, allowed repository roots, question length limits, top-k limits, and index limits.
 
 ## Before Publishing
-
-Clean generated local artifacts before pushing:
 
 ```powershell
 pwsh .\scripts\clean_generated.ps1
@@ -315,17 +242,17 @@ pwsh .\scripts\clean_generated.ps1
 
 For repository metadata, topics, and social preview suggestions, see:
 
-- [docs/github-launch-checklist.md](docs/github-launch-checklist.md)
-- [docs/repository-metadata.md](docs/repository-metadata.md)
-- [docs/benchmarking.md](docs/benchmarking.md)
-- [docs/roadmap.md](docs/roadmap.md)
+- [docs/github-launch-checklist.md](../docs/github-launch-checklist.md)
+- [docs/repository-metadata.md](../docs/repository-metadata.md)
+- [docs/benchmarking.md](../docs/benchmarking.md)
+- [docs/roadmap.md](../docs/roadmap.md)
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](../CONTRIBUTING.md).
 
-For security-sensitive issues, see [SECURITY.md](SECURITY.md).
+For security-sensitive issues, see [SECURITY.md](../SECURITY.md).
 
 ## License
 
-[MIT](LICENSE)
+[MIT](../LICENSE)
