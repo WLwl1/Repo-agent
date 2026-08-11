@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "suite_id": "repo-agent-portable-generalization-suite",
+  "name": "Repo Agent Portable Generalization Suite",
+  "description": "Release-stable cross-repository localization suite for the portable benchmark adapter.",
+  "source": "repo-agent-bundled-fixtures",
+  "cases": [
+    {
+      "id": "express_public_chat_writer",
+      "repo": "../examples/counterfactual_agent_app",
+      "question": "Which function finally writes streamed tokens for the public /api/chat endpoint?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "writeChatDelta",
+      "distractor_symbol_contains": ["writeAdminChatDelta", "writeLegacyChatDelta", "fakeStreamWriter"],
+      "tags": ["express", "route-grounded", "hard-negative", "writer"]
+    },
+    {
+      "id": "express_public_chat_handler",
+      "repo": "../examples/counterfactual_agent_app",
+      "question": "Which handler serves the public /api/chat route rather than admin replay or legacy chat?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "handlePublicChat",
+      "distractor_symbol_contains": ["handleAdminChatReplay", "handleLegacyChat"],
+      "tags": ["express", "route-grounded", "hard-negative", "handler"]
+    },
+    {
+      "id": "express_session_restore_persistence",
+      "repo": "../examples/counterfactual_agent_app",
+      "question": "For /api/session/:id/restore, which function persists the restored conversation turn?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "persistConversationTurn",
+      "distractor_symbol_contains": ["writeChatDelta", "writeAdminChatDelta", "writeLegacyChatDelta"],
+      "tags": ["express", "route-grounded", "hard-negative", "persistence"]
+    },
+    {
+      "id": "simple_agent_stream_handler",
+      "repo": "../examples/simple_agent_app",
+      "question": "Which function handles the chat streaming request in the simple agent app?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "handleAgentStreamRequest",
+      "tags": ["express", "streaming", "handler"]
+    },
+    {
+      "id": "simple_agent_session_reset_route",
+      "repo": "../examples/simple_agent_app",
+      "question": "Where is the session reset API route implemented?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "post_api_session_reset",
+      "tags": ["express", "route-grounded", "session"]
+    },
+    {
+      "id": "rag_upload_handler",
+      "repo": "../examples/simple_rag_app",
+      "question": "Which function handles RAG document uploads?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "handleRagUpload",
+      "tags": ["rag", "upload", "handler"]
+    },
+    {
+      "id": "rag_retrieval_store",
+      "repo": "../examples/simple_rag_app",
+      "question": "Which function should be read first to understand the RAG retrieval flow?",
+      "expected_path": "lib/rag-store.js",
+      "expected_symbol_contains": "retrieve",
+      "tags": ["rag", "retrieval", "library"]
+    },
+    {
+      "id": "fastapi_chat_route",
+      "repo": "../examples/simple_fastapi_app",
+      "question": "Where is the FastAPI chat route entrypoint implemented?",
+      "expected_path": "app.py",
+      "expected_symbol_contains": "post_api_chat",
+      "tags": ["fastapi", "route-grounded", "handler"]
+    },
+    {
+      "id": "fastapi_admin_reset_route",
+      "repo": "../examples/simple_fastapi_app",
+      "question": "Where is the FastAPI admin reset route implemented?",
+      "expected_path": "app.py",
+      "expected_symbol_contains": "post_api_admin_reset",
+      "tags": ["fastapi", "route-grounded", "admin"]
+    },
+    {
+      "id": "repo_web_interaction_logic",
+      "repo": "..",
+      "question": "Where is the Web Studio browser interaction logic implemented?",
+      "expected_path": "web/app.js",
+      "tags": ["self-hosted", "frontend", "javascript"]
+    }
+  ]
+}

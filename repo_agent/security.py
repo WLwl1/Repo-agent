@@ -93,6 +93,13 @@ def is_safe_verification_command(command: str) -> bool:
     if not args:
         return False
 
+    # Do not let a repository substitute its own executable behind an allowed
+    # filename (for example ``.\\tools\\npm.cmd test``).  Python commands are
+    # normalized to the current interpreter later, but npm/node/uv are executed
+    # as supplied, so every allowed executable must be a bare command name.
+    if not _is_bare_executable_name(args[0]):
+        return False
+
     executable = _executable_stem(args[0])
     lowered = [arg.lower() for arg in args]
 
@@ -124,6 +131,11 @@ def _strip_quotes(value: str) -> str:
 
 def _executable_stem(value: str) -> str:
     return Path(_strip_quotes(value)).stem.lower()
+
+
+def _is_bare_executable_name(value: str) -> bool:
+    text = _strip_quotes(value).replace("\\", "/")
+    return bool(re.fullmatch(r"[A-Za-z0-9_.-]+", text)) and PurePosixPath(text).name == text
 
 
 def _is_safe_npm_command(args: list[str]) -> bool:

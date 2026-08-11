@@ -1,0 +1,284 @@
+{
+  "schema_version": "1.0",
+  "suite_id": "repo-agent-portable-challenge-suite",
+  "name": "Repo Agent Portable Challenge Suite",
+  "description": "Harder cross-repository localization suite for diagnosing generalization gaps across route, handler, writer, retrieval, frontend, config, and test-localization tasks.",
+  "source": "repo-agent-bundled-fixtures",
+  "cases": [
+    {
+      "id": "express_public_chat_writer",
+      "repo": "../examples/counterfactual_agent_app",
+      "question": "Which function finally writes streamed tokens for the public /api/chat endpoint?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "writeChatDelta",
+      "distractor_symbol_contains": ["writeAdminChatDelta", "writeLegacyChatDelta", "fakeStreamWriter"],
+      "tags": ["express", "route-grounded", "hard-negative", "writer"]
+    },
+    {
+      "id": "express_public_chat_handler",
+      "repo": "../examples/counterfactual_agent_app",
+      "question": "Which handler serves the public /api/chat route rather than admin replay or legacy chat?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "handlePublicChat",
+      "distractor_symbol_contains": ["handleAdminChatReplay", "handleLegacyChat"],
+      "tags": ["express", "route-grounded", "hard-negative", "handler"]
+    },
+    {
+      "id": "express_public_chat_authorizer",
+      "repo": "../examples/counterfactual_agent_app",
+      "question": "Which middleware authorizes the public /api/chat route before the handler runs?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "authorizePublicChat",
+      "distractor_symbol_contains": ["handleAdminChatReplay", "handleLegacyChat"],
+      "tags": ["express", "route-grounded", "middleware", "hard-negative"]
+    },
+    {
+      "id": "express_public_chat_normalizer",
+      "repo": "../examples/counterfactual_agent_app",
+      "question": "Which function normalizes public chat messages before streaming the /api/chat turn?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "normalizePublicChatTurn",
+      "distractor_symbol_contains": ["createLegacyChatFrame", "buildAdminReplay"],
+      "tags": ["express", "normalization", "hard-negative", "writer-path"]
+    },
+    {
+      "id": "express_admin_replay_writer_decoy",
+      "repo": "../examples/counterfactual_agent_app",
+      "question": "For the admin replay route, which function writes the admin-only chat replay stream?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "writeAdminChatDelta",
+      "distractor_symbol_contains": ["writeChatDelta", "writeLegacyChatDelta"],
+      "tags": ["express", "admin", "hard-negative", "writer"]
+    },
+    {
+      "id": "express_legacy_chat_frame_builder",
+      "repo": "../examples/counterfactual_agent_app",
+      "question": "Which function builds the legacy chat frame for /api/chat/legacy?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "createLegacyChatFrame",
+      "distractor_symbol_contains": ["preparePublicStreamEnvelope", "buildAdminReplay"],
+      "tags": ["express", "legacy", "hard-negative", "payload"]
+    },
+    {
+      "id": "express_session_restore_persistence",
+      "repo": "../examples/counterfactual_agent_app",
+      "question": "For /api/session/:id/restore, which function persists the restored conversation turn?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "persistConversationTurn",
+      "distractor_symbol_contains": ["writeChatDelta", "writeAdminChatDelta", "writeLegacyChatDelta"],
+      "tags": ["express", "route-grounded", "hard-negative", "persistence"]
+    },
+    {
+      "id": "simple_agent_stream_handler",
+      "repo": "../examples/simple_agent_app",
+      "question": "Which function handles the chat streaming request in the simple agent app?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "handleAgentStreamRequest",
+      "tags": ["express", "streaming", "handler"]
+    },
+    {
+      "id": "simple_agent_sync_json_handler",
+      "repo": "../examples/simple_agent_app",
+      "question": "Which handler serves the synchronous JSON assistant route rather than the streaming chat route?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "handleAgentRequest",
+      "distractor_symbol_contains": ["handleAgentStreamRequest"],
+      "tags": ["express", "handler", "hard-negative", "json"]
+    },
+    {
+      "id": "simple_agent_stream_turn_builder",
+      "repo": "../examples/simple_agent_app",
+      "question": "Which function creates the streamed assistant turn used by the chat streaming handler?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "createStreamedAssistantTurn",
+      "distractor_symbol_contains": ["createAssistantTurn", "resetSession"],
+      "tags": ["express", "streaming", "function", "hard-negative"]
+    },
+    {
+      "id": "simple_agent_session_reset_route",
+      "repo": "../examples/simple_agent_app",
+      "question": "Where is the session reset API route implemented?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "post_api_session_reset",
+      "tags": ["express", "route-grounded", "session"]
+    },
+    {
+      "id": "rag_upload_handler",
+      "repo": "../examples/simple_rag_app",
+      "question": "Which function handles RAG document uploads?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "handleRagUpload",
+      "tags": ["rag", "upload", "handler"]
+    },
+    {
+      "id": "rag_text_ingest_handler",
+      "repo": "../examples/simple_rag_app",
+      "question": "Which handler ingests raw text into the RAG store?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "handleRagText",
+      "distractor_symbol_contains": ["handleRagUpload", "runAgent"],
+      "tags": ["rag", "ingestion", "handler", "hard-negative"]
+    },
+    {
+      "id": "rag_agent_retrieval_entry",
+      "repo": "../examples/simple_rag_app",
+      "question": "Which server function calls the RAG store retrieval before returning agent context?",
+      "expected_path": "server.js",
+      "expected_symbol_contains": "runAgent",
+      "distractor_symbol_contains": ["handleRagUpload", "handleRagText"],
+      "tags": ["rag", "retrieval", "flow", "handler"]
+    },
+    {
+      "id": "rag_retrieval_store",
+      "repo": "../examples/simple_rag_app",
+      "question": "Which function should be read first to understand the RAG retrieval flow?",
+      "expected_path": "lib/rag-store.js",
+      "expected_symbol_contains": "retrieve",
+      "tags": ["rag", "retrieval", "library"]
+    },
+    {
+      "id": "rag_store_ingest_document",
+      "repo": "../examples/simple_rag_app",
+      "question": "Which library function appends uploaded or text documents into the RAG store?",
+      "expected_path": "lib/rag-store.js",
+      "expected_symbol_contains": "ingestDocument",
+      "distractor_symbol_contains": ["retrieve", "getStats", "reset"],
+      "tags": ["rag", "ingestion", "library", "hard-negative"]
+    },
+    {
+      "id": "rag_store_reset",
+      "repo": "../examples/simple_rag_app",
+      "question": "Which library function clears all documents from the RAG store?",
+      "expected_path": "lib/rag-store.js",
+      "expected_symbol_contains": "reset",
+      "distractor_symbol_contains": ["retrieve", "ingestDocument", "getStats"],
+      "tags": ["rag", "state-reset", "library", "hard-negative"]
+    },
+    {
+      "id": "fastapi_chat_route",
+      "repo": "../examples/simple_fastapi_app",
+      "question": "Where is the FastAPI chat route entrypoint implemented?",
+      "expected_path": "app.py",
+      "expected_symbol_contains": "post_api_chat",
+      "tags": ["fastapi", "route-grounded", "handler"]
+    },
+    {
+      "id": "fastapi_chat_worker",
+      "repo": "../examples/simple_fastapi_app",
+      "question": "Which async function runs the FastAPI chat payload after the route entrypoint delegates?",
+      "expected_path": "app.py",
+      "expected_symbol_contains": "run_chat",
+      "distractor_symbol_contains": ["load_session", "clear_state"],
+      "tags": ["fastapi", "function", "call-chain", "hard-negative"]
+    },
+    {
+      "id": "fastapi_session_loader",
+      "repo": "../examples/simple_fastapi_app",
+      "question": "Which function loads a session for the FastAPI /api/session/{session_id} route?",
+      "expected_path": "app.py",
+      "expected_symbol_contains": "load_session",
+      "distractor_symbol_contains": ["run_chat", "clear_state"],
+      "tags": ["fastapi", "session", "call-chain", "hard-negative"]
+    },
+    {
+      "id": "fastapi_admin_reset_route",
+      "repo": "../examples/simple_fastapi_app",
+      "question": "Where is the FastAPI admin reset route implemented?",
+      "expected_path": "app.py",
+      "expected_symbol_contains": "post_api_admin_reset",
+      "tags": ["fastapi", "route-grounded", "admin"]
+    },
+    {
+      "id": "fastapi_admin_clear_state",
+      "repo": "../examples/simple_fastapi_app",
+      "question": "Which helper clears state for the FastAPI admin reset route?",
+      "expected_path": "app.py",
+      "expected_symbol_contains": "clear_state",
+      "distractor_symbol_contains": ["run_chat", "load_session"],
+      "tags": ["fastapi", "admin", "state-reset", "call-chain"]
+    },
+    {
+      "id": "repo_web_interaction_logic",
+      "repo": "..",
+      "question": "Where is the Web Studio browser interaction logic implemented?",
+      "expected_path": "web/app.js",
+      "tags": ["self-hosted", "frontend", "javascript"]
+    },
+    {
+      "id": "repo_web_tool_action_dispatch",
+      "repo": "..",
+      "question": "Which Web Studio function dispatches list/read/search/verify tool actions from the browser?",
+      "expected_path": "web/app.js",
+      "expected_symbol_contains": "executeToolAction",
+      "distractor_symbol_contains": ["runAnalysis", "generateReport", "renderResult"],
+      "tags": ["self-hosted", "frontend", "tooling", "javascript", "hard-negative"]
+    },
+    {
+      "id": "repo_web_run_history_refresh",
+      "repo": "..",
+      "question": "Which Web Studio function refreshes the persisted engineering run history?",
+      "expected_path": "web/app.js",
+      "expected_symbol_contains": "refreshRuns",
+      "distractor_symbol_contains": ["resumeRun", "applyRun", "openRun"],
+      "tags": ["self-hosted", "frontend", "runs", "javascript", "hard-negative"]
+    },
+    {
+      "id": "repo_config_package_data",
+      "repo": "..",
+      "question": "Where is package data configured so benchmark_adapter_suite.json ships with the Python package?",
+      "expected_path": "pyproject.toml",
+      "distractor_symbol_contains": ["README.md", "MANIFEST.in"],
+      "tags": ["self-hosted", "config", "packaging"]
+    },
+    {
+      "id": "repo_coordination_cli_test",
+      "repo": "..",
+      "question": "Which test file verifies the machine-readable coordination CLI and active claim parsing?",
+      "expected_path": "tests/test_coordination.py",
+      "distractor_symbol_contains": ["tests/test_bundle.py", "tests/test_eval_reporting.py"],
+      "tags": ["self-hosted", "test", "coordination", "cli"]
+    },
+    {
+      "id": "repo_web_health_probe",
+      "repo": "..",
+      "question": "Which Web Studio browser function fetches /api/health?",
+      "expected_path": "web/app.js",
+      "expected_symbol_contains": "refreshHealth",
+      "distractor_symbol_contains": ["boot", "runAnalysis", "generateReport"],
+      "tags": ["self-hosted", "frontend", "health", "api", "hard-negative"]
+    },
+    {
+      "id": "repo_web_apply_run_action",
+      "repo": "..",
+      "question": "Which Web Studio function posts to /api/runs/apply when applying a workspace run?",
+      "expected_path": "web/app.js",
+      "expected_symbol_contains": "applyRun",
+      "distractor_symbol_contains": ["refreshRuns", "renderRuns", "runEngineering"],
+      "tags": ["self-hosted", "frontend", "runs", "api", "hard-negative"]
+    },
+    {
+      "id": "repo_security_verification_allowlist_policy",
+      "repo": "..",
+      "question": "Which Python file defines the allow-list policy for safe verification commands?",
+      "expected_path": "repo_agent/security.py",
+      "distractor_symbol_contains": ["EngineeringAgent", "RepoTools", "workspace_tool"],
+      "tags": ["self-hosted", "security", "verification", "policy", "hard-negative"]
+    },
+    {
+      "id": "repo_security_path_traversal_regression_test",
+      "repo": "..",
+      "question": "Which test file verifies that safe_join blocks path traversal outside the base directory?",
+      "expected_path": "tests/test_security.py",
+      "distractor_symbol_contains": ["repo_agent/security.py", "tests/test_server_assets.py"],
+      "tags": ["self-hosted", "security", "test", "path-traversal", "safety"]
+    },
+    {
+      "id": "repo_security_nested_path_regression_test",
+      "repo": "..",
+      "question": "Which test file verifies that safe_join still allows nested repository-relative paths?",
+      "expected_path": "tests/test_security.py",
+      "distractor_symbol_contains": ["repo_agent/security.py", "tests/test_server_assets.py"],
+      "tags": ["self-hosted", "security", "test", "path-validation", "safety"]
+    }
+  ]
+}

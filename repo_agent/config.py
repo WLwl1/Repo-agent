@@ -17,7 +17,7 @@ class RepoAgentConfig:
     audit_log_path: Path
 
     @classmethod
-    def load(cls, project_root: Path) -> "RepoAgentConfig":
+    def load(cls, project_root: Path) -> RepoAgentConfig:
         project_root = project_root.resolve()
         workspace_root = project_root.parent.resolve()
         extra_roots_raw = os.environ.get("REPO_AGENT_ALLOWED_ROOTS", "").strip()

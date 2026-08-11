@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1040" viewBox="0 0 1900 1040" role="img" aria-labelledby="title desc">
+  <title id="title">Repo Agent Method Figure</title>
+  <desc id="desc">A paper-style method figure for Repo Agent with corrected layout.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#111"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#0065d9"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#c57a17"/>
+    </marker>
+    <style>
+      .paper { fill:#fff; }
+      .topbar { fill:#e9dbf1; stroke:#8b5aa5; stroke-width:1.6; }
+      .left-bg { fill:#fff7f7; stroke:#efc9c9; stroke-width:1.2; }
+      .mid-bg { fill:#fff8ed; stroke:#efc48b; stroke-width:1.2; }
+      .right-bg { fill:#edf7ed; stroke:#b9d8b9; stroke-width:1.2; }
+      .panel { fill:#fff; stroke:#111; stroke-width:1.7; }
+      .panel-soft { fill:#fff; stroke:#222; stroke-width:1.35; }
+      .dashbox { fill:none; stroke:#111; stroke-width:1.5; stroke-dasharray:6 5; }
+      .box { fill:#fefefe; stroke:#111; stroke-width:1.35; }
+      .label-purple { fill:#ead8f3; stroke:#8054a2; stroke-width:1.3; }
+      .label-yellow { fill:#fff1c2; stroke:#d89b23; stroke-width:1.3; }
+      .label-blue { fill:#dcecff; stroke:#2d75c9; stroke-width:1.3; }
+      .label-green { fill:#def2d7; stroke:#58a65c; stroke-width:1.3; }
+      .label-gray { fill:#f5f5f5; stroke:#777; stroke-width:1.2; }
+      .node-teal { fill:#d9f4f1; stroke:#008b86; stroke-width:1.7; }
+      .node-orange { fill:#fff1c7; stroke:#d69013; stroke-width:1.7; }
+      .node-blue { fill:#dcecff; stroke:#2d75c9; stroke-width:1.7; }
+      .node-violet { fill:#ece5ff; stroke:#7550c8; stroke-width:1.7; }
+      .node-green { fill:#e2f4dc; stroke:#4a9a4f; stroke-width:1.7; }
+      .arrow { fill:none; stroke:#111; stroke-width:2; marker-end:url(#arrow); }
+      .arrow-blue { fill:none; stroke:#0065d9; stroke-width:2; marker-end:url(#arrowBlue); }
+      .arrow-orange { fill:none; stroke:#c57a17; stroke-width:2; marker-end:url(#arrowOrange); }
+      .text-title { font:700 30px "Times New Roman", serif; fill:#000; }
+      .section-title { font:700 25px "Times New Roman", serif; fill:#000; }
+      .h { font:700 20px "Times New Roman", serif; fill:#111; }
+      .m { font:400 16px Arial, Helvetica, sans-serif; fill:#111; }
+      .s { font:400 14px Arial, Helvetica, sans-serif; fill:#333; }
+      .xs { font:400 12px Arial, Helvetica, sans-serif; fill:#333; }
+      .blue-text { font:400 15px Arial, Helvetica, sans-serif; fill:#0065d9; }
+      .orange-text { font:400 15px Arial, Helvetica, sans-serif; fill:#b36b0d; }
+      .code { font:400 13px Consolas, "Courier New", monospace; fill:#0f172a; }
+      .code-blue { font:400 13px Consolas, "Courier New", monospace; fill:#005ad7; }
+      .tag { font:700 15px Arial, Helvetica, sans-serif; fill:#111; }
+    </style>
+  </defs>
+
+  <rect class="paper" width="1900" height="1040"/>
+  <rect class="topbar" x="64" y="42" width="1772" height="64" rx="8"/>
+  <text x="950" y="82" text-anchor="middle" class="text-title">Question: Where is the chat endpoint implemented, and what evidence supports the location?</text>
+
+  <!-- section backgrounds -->
+  <rect class="left-bg" x="62" y="114" width="515" height="806"/>
+  <rect class="mid-bg" x="584" y="114" width="485" height="806"/>
+  <rect class="right-bg" x="1076" y="114" width="760" height="806"/>
+  <line x1="577" y1="114" x2="577" y2="920" stroke="#111" stroke-width="2" stroke-dasharray="6 6"/>
+  <line x1="1069" y1="114" x2="1069" y2="920" stroke="#111" stroke-width="2" stroke-dasharray="6 6"/>
+
+  <text x="86" y="158" class="section-title">Repository Evidence Construction</text>
+  <text x="641" y="158" class="section-title">Agentic Investigation Loop</text>
+  <text x="1270" y="158" class="section-title">Repo Agent: Locate First, Decide Next</text>
+
+  <!-- left upper panel -->
+  <rect class="panel" x="72" y="178" width="492" height="320" rx="8"/>
+  <rect class="label-purple" x="88" y="192" width="118" height="28" rx="4"/>
+  <text x="147" y="211" text-anchor="middle" class="tag">Repository</text>
+
+  <rect class="box" x="120" y="244" width="178" height="58" rx="6"/>
+  <text x="209" y="269" text-anchor="middle" class="h">Local Files</text>
+  <text x="209" y="290" text-anchor="middle" class="s">source tree</text>
+
+  <rect class="box" x="120" y="335" width="178" height="64" rx="6"/>
+  <text x="209" y="361" text-anchor="middle" class="h">Static Parsing</text>
+  <text x="209" y="383" text-anchor="middle" class="s">symbols · routes · calls</text>
+
+  <rect class="box" x="120" y="432" width="178" height="58" rx="6"/>
+  <text x="209" y="457" text-anchor="middle" class="h">Index Builder</text>
+  <text x="209" y="478" text-anchor="middle" class="s">chunks · file facts</text>
+
+  <rect class="dashbox" x="338" y="228" width="192" height="224" rx="16"/>
+  <rect class="label-yellow" x="360" y="248" width="146" height="46" rx="8"/>
+  <text x="433" y="268" text-anchor="middle" class="h">Repository</text>
+  <text x="433" y="288" text-anchor="middle" class="h">Graph</text>
+  <rect class="label-blue" x="360" y="314" width="146" height="42" rx="7"/>
+  <text x="433" y="341" text-anchor="middle" class="h">Semantic Features</text>
+  <rect class="label-green" x="360" y="376" width="146" height="42" rx="7"/>
+  <text x="433" y="403" text-anchor="middle" class="h">Evidence Memory</text>
+
+  <path class="arrow" d="M209 302 V335"/>
+  <path class="arrow" d="M209 399 V432"/>
+  <path class="arrow" d="M298 367 H338"/>
+  <path class="arrow" d="M298 461 H360"/>
+
+  <!-- left lower panel -->
+  <rect class="panel-soft" x="72" y="516" width="492" height="372" rx="8"/>
+  <rect class="label-yellow" x="88" y="532" width="132" height="30" rx="4"/>
+  <text x="154" y="552" text-anchor="middle" class="tag">Evidence Base</text>
+  <text x="96" y="596" class="orange-text">[PARSE] extract routes, handlers, symbols, imports</text>
+  <text x="96" y="628" class="code-blue">server.js :: post_api_chat → handleAgentStreamRequest</text>
+  <text x="96" y="660" class="orange-text">[GRAPH] connect routes_to / calls / imports edges</text>
+  <text x="96" y="692" class="code-blue">GraphEdge(route → handler), GraphEdge(handler → dependency)</text>
+  <text x="96" y="724" class="orange-text">[CACHE] persist reusable RepositoryIndex</text>
+  <text x="96" y="756" class="code-blue">CodeChunk + FileFact + RetrievalHit candidates</text>
+  <rect class="label-gray" x="374" y="796" width="156" height="66" rx="6"/>
+  <text x="452" y="822" text-anchor="middle" class="h">Structured</text>
+  <text x="452" y="844" text-anchor="middle" class="h">Evidence</text>
+
+  <!-- middle upper panel -->
+  <rect class="panel" x="596" y="178" width="456" height="320" rx="8"/>
+  <rect class="label-purple" x="618" y="192" width="118" height="28" rx="4"/>
+  <text x="677" y="211" text-anchor="middle" class="tag">Question</text>
+
+  <circle cx="824" cy="342" r="58" fill="#fff" stroke="#111" stroke-width="2"/>
+  <text x="824" y="335" text-anchor="middle" class="h">Repo</text>
+  <text x="824" y="358" text-anchor="middle" class="h">Agent</text>
+
+  <rect class="node-orange" x="714" y="250" width="110" height="42" rx="8"/>
+  <text x="769" y="277" text-anchor="middle" class="h">Plan</text>
+  <rect class="node-blue" x="878" y="250" width="110" height="42" rx="8"/>
+  <text x="933" y="277" text-anchor="middle" class="h">Retrieve</text>
+  <rect class="node-green" x="878" y="390" width="110" height="42" rx="8"/>
+  <text x="933" y="417" text-anchor="middle" class="h">Observe</text>
+  <rect class="node-violet" x="714" y="390" width="110" height="42" rx="8"/>
+  <text x="769" y="417" text-anchor="middle" class="h">Update</text>
+
+  <path class="arrow-orange" d="M824 271 H878"/>
+  <path class="arrow-orange" d="M933 292 V390"/>
+  <path class="arrow-orange" d="M878 411 H824"/>
+  <path class="arrow-orange" d="M769 390 V292"/>
+  <path class="arrow" d="M677 220 C690 244 706 254 714 260"/>
+
+  <rect class="label-blue" x="635" y="453" width="374" height="34" rx="6"/>
+  <text x="822" y="476" text-anchor="middle" class="h">Plan → Retrieve → Observe → Update</text>
+
+  <!-- middle lower panel -->
+  <rect class="panel-soft" x="596" y="516" width="456" height="372" rx="8"/>
+  <text x="618" y="560" class="orange-text">1. infer intent: API lookup / bug trace / flow trace</text>
+  <text x="618" y="592" class="blue-text">2. scout files using role and language signals</text>
+  <text x="618" y="624" class="orange-text">3. read candidate chunks and inspect local context</text>
+  <text x="618" y="656" class="blue-text">4. expand neighbors through repository graph</text>
+  <text x="618" y="688" class="orange-text">5. rerank evidence and compute diagnostics</text>
+  <text x="618" y="720" class="blue-text">6. emit trace with reasons and confidence warnings</text>
+  <rect class="label-gray" x="824" y="796" width="188" height="66" rx="6"/>
+  <text x="918" y="822" text-anchor="middle" class="h">Agent State</text>
+  <text x="918" y="844" text-anchor="middle" class="s">focus terms · hits · trace</text>
+
+  <!-- right upper panel -->
+  <rect class="panel" x="1088" y="178" width="730" height="320" rx="8"/>
+  <rect class="label-yellow" x="1124" y="216" width="178" height="44" rx="8"/>
+  <text x="1213" y="244" text-anchor="middle" class="h">Evidence Query</text>
+  <rect class="node-teal" x="1134" y="324" width="210" height="72" rx="8"/>
+  <text x="1239" y="352" text-anchor="middle" class="h">RepositoryIndex</text>
+  <text x="1239" y="376" text-anchor="middle" class="s">chunks, facts, graph</text>
+
+  <rect class="node-orange" x="1440" y="232" width="198" height="72" rx="8"/>
+  <text x="1539" y="260" text-anchor="middle" class="h">Evidence Engine</text>
+  <text x="1539" y="284" text-anchor="middle" class="s">rank + expand + rerank</text>
+
+  <rect class="node-blue" x="1440" y="372" width="198" height="72" rx="8"/>
+  <text x="1539" y="400" text-anchor="middle" class="h">Safe Tools</text>
+  <text x="1539" y="424" text-anchor="middle" class="s">read, search, verify</text>
+
+  <rect class="label-green" x="1684" y="324" width="106" height="72" rx="8"/>
+  <text x="1737" y="352" text-anchor="middle" class="h">Answer</text>
+  <text x="1737" y="376" text-anchor="middle" class="s">grounded</text>
+
+  <path class="arrow" d="M1302 238 H1440"/>
+  <path class="arrow" d="M1344 360 H1440"/>
+  <path class="arrow" d="M1539 304 V372"/>
+  <path class="arrow" d="M1638 268 C1664 268 1664 360 1684 360"/>
+  <path class="arrow" d="M1638 408 C1664 408 1664 360 1684 360"/>
+  <path class="arrow" d="M1088 360 H1134"/>
+
+  <!-- right lower panel -->
+  <rect class="panel-soft" x="1088" y="516" width="730" height="372" rx="8"/>
+  <rect class="label-yellow" x="1110" y="532" width="164" height="32" rx="6"/>
+  <text x="1192" y="554" text-anchor="middle" class="h">Evidence Trace</text>
+  <rect class="label-blue" x="1580" y="532" width="188" height="32" rx="6"/>
+  <text x="1674" y="554" text-anchor="middle" class="h">Reviewable Output</text>
+
+  <text x="1110" y="600" class="orange-text">Step 1. plan: target API / route / handler evidence</text>
+  <text x="1110" y="632" class="blue-text">Step 2. file scout: server.js, app.py, web/app.js ...</text>
+  <text x="1110" y="664" class="orange-text">Step 3. graph hop: route → handler → called function</text>
+  <text x="1110" y="696" class="blue-text">Step 4. final ranking: file, line range, snippet, reasons</text>
+
+  <rect class="label-green" x="1384" y="748" width="126" height="44" rx="6"/>
+  <text x="1447" y="776" text-anchor="middle" class="h">Report</text>
+  <rect class="label-purple" x="1534" y="748" width="126" height="44" rx="6"/>
+  <text x="1597" y="776" text-anchor="middle" class="h">Bundle</text>
+  <rect class="label-blue" x="1684" y="748" width="92" height="44" rx="6"/>
+  <text x="1730" y="776" text-anchor="middle" class="h">Trace</text>
+
+  <text x="1110" y="838" class="code">Output = ranked snippets + diagnostics + graph edges + handoff prompt</text>
+  <text x="1110" y="866" class="code-blue">Decision: review evidence first, then edit or pass downstream.</text>
+
+  <!-- cross-section connectors -->
+  <path class="arrow" d="M564 338 H596"/>
+  <path class="arrow" d="M1052 338 H1088"/>
+  <path class="arrow-blue" d="M1052 688 H1088"/>
+
+  <text x="64" y="970" class="s">Figure. Repo Agent organizes repository understanding into a reusable evidence base, then uses an agentic loop to produce reviewable outputs before edit decisions.</text>
+</svg>

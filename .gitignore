@@ -1,5 +1,7 @@
 .cache/
 .tmp/
+build/
+*.egg-info/
 logs/
 reports/
 runs/

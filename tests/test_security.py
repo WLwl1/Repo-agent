@@ -70,6 +70,11 @@ def test_verification_command_policy_allows_expected_checks(command: str) -> Non
         "npm exec eslint",
         "pnpm test",
         "pytest",
+        ".\\tools\\npm.cmd test",
+        ".\\tools\\node.exe --check web/app.js",
+        "./tools/npm test",
+        "./tools/uv run pytest",
+        "C:\\tools\\python.exe -m pytest",
     ],
 )
 def test_verification_command_policy_blocks_arbitrary_execution(command: str) -> None:

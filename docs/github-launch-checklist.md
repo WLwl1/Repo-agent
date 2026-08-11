@@ -7,14 +7,14 @@ Use this checklist before publishing Repo Agent publicly.
 - Repository name:
   `repo-agent`
 - Suggested short description:
-  `Evidence-first repository investigation and bug localization before AI edits code.`
+  `Proof-carrying codebase investigation and benchmark-driven repair before AI edits code.`
 - Suggested topics:
-  `agent`, `code-search`, `bug-localization`, `bug-triage`, `repository-analysis`, `developer-tools`, `evidence`, `rag`, `llm`, `code-intelligence`
+  `agent`, `code-search`, `bug-localization`, `repository-analysis`, `developer-tools`, `proof`, `benchmarking`, `rag`, `llm`, `code-intelligence`
 
 ## Visual assets
 
 - README demo image:
-  [assets/studio-overview.svg](../assets/studio-overview.svg)
+  [assets/repo-agent-paper-method-figure-v4.png](../assets/repo-agent-paper-method-figure-v4.png)
 - Social preview image:
   [assets/social-preview.svg](../assets/social-preview.svg)
 
@@ -26,11 +26,11 @@ Use this checklist before publishing Repo Agent publicly.
 - Run:
 
 ```powershell
-py -3 -m compileall repo_agent tests
-py -3 -m repo_agent eval
-py -3 -m pytest
+python -m compileall repo_agent tests examples
 node --check web/app.js
-py -3 -m repo_agent serve
+python -m pytest
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\demo_showcase.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\release_gate.ps1
 ```
 
 - Verify the README renders correctly on GitHub
@@ -45,6 +45,9 @@ py -3 -m repo_agent serve
   - exporting an HTML report
 - 1 architecture figure
 - 1 benchmark snippet from the built-in eval
+- 1 benchmark repair workbench snippet showing generated ablation diffs
+- 1 artifact review snippet showing `9/9` supported claims and `80/80` verified artifacts
+- 1 artifact provenance snippet showing complete claim-to-metric/artifact/command/falsifier edges
 - 1 public roadmap link
 - 3-5 "known limitations" bullets so the project feels honest
 
@@ -52,13 +55,14 @@ py -3 -m repo_agent serve
 
 Suggested title:
 
-`v0.1.0 - Evidence-first repository investigation`
+`v0.1.0 - Proof-carrying repository investigation`
 
 Suggested bullets:
 
 - Added graph-aware repository retrieval with semantic reranking
-- Added ranked evidence, trace output, and HTML report export
-- Added local web studio for bug triage before code edits
-- Added built-in example repositories and CI-backed evals
-- Added safety controls, audit logging, and optional OpenAI-compatible model support
-- Added experimental workspace engineering runs for reviewed follow-up edits
+- Added proof-carrying evidence bundles with strict replay and mutation tests
+- Added generated proof attacks, adaptive policy repair, and minimax certificates
+- Added portable benchmark adapter, repair synthesis, implementation verification, compiler, and patch workbench
+- Added release-pack manifest with tamper-evident artifact hashes
+- Added artifact evaluation card with falsifiers, validation commands, limitations, and reviewer protocol
+- Added artifact provenance graph linking claims to metrics, artifact hashes, validation commands, and falsifiers

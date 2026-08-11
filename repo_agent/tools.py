@@ -38,8 +38,8 @@ class RepoTools:
     def plan(self, query: str):
         return self.repo_index.plan_query(query)
 
-    def semantic_scores(self, query: str) -> dict[str, float]:
-        return self.repo_index.semantic_scores_for(query)
+    def semantic_scores(self, query: str, query_vector: list[float] | None = None) -> dict[str, float]:
+        return self.repo_index.semantic_scores_for(query, query_vector=query_vector)
 
     def scout_files(self, plan, limit: int = 6):
         return self.repo_index.scout_files(plan, limit=limit)
@@ -49,6 +49,16 @@ class RepoTools:
 
     def follow_neighbors(self, seed_hits, plan):
         return self.repo_index.follow_neighbors(seed_hits, plan)
+
+    def mcts_graph_boosts(self, query: str, plan, seed_hits, semantic_scores: dict[str, float], *, iterations: int = 72, max_depth: int | None = None):
+        return self.repo_index.mcts_graph_boosts(
+            query,
+            plan,
+            seed_hits,
+            semantic_scores,
+            iterations=iterations,
+            max_depth=max_depth,
+        )
 
     def rerank(self, query: str, plan, seed_hits, file_boosts, relation_boosts, semantic_scores: dict[str, float], *, top_k: int):
         return self.repo_index.rerank_candidates(
@@ -117,6 +127,64 @@ class RepoTools:
                 )
         matches.sort(key=lambda item: (-item["score"], item["relpath"], item["line_number"]))
         return matches[:limit]
+
+    def search_symbols(self, terms: list[str], *, limit: int = 30) -> list[dict]:
+        """Search parsed symbols, independent of prose/token ranking."""
+        normalized = [term.strip().lower() for term in terms if term and term.strip()]
+        hits: list[dict] = []
+        for chunk in self.repo_index.chunks:
+            haystack = " ".join(
+                [chunk.symbol_name, chunk.qualified_name, chunk.route_path, *chunk.calls]
+            ).lower()
+            matched = [term for term in normalized if term in haystack]
+            if not matched or not chunk.symbol_name:
+                continue
+            hits.append(
+                {
+                    "relpath": chunk.relpath,
+                    "symbol": chunk.symbol_name,
+                    "kind": chunk.symbol_kind,
+                    "start_line": chunk.start_line,
+                    "end_line": chunk.end_line,
+                    "route": chunk.route_path,
+                    "matched_terms": matched,
+                }
+            )
+        hits.sort(key=lambda item: (-len(item["matched_terms"]), item["relpath"], item["start_line"]))
+        return hits[:limit]
+
+    def find_symbol_relations(self, symbol: str, *, direction: str = "both", limit: int = 30) -> list[dict]:
+        """Return parsed caller/callee/import relations for a symbol."""
+        needle = str(symbol or "").strip().lower()
+        if not needle:
+            return []
+        source_ids = [
+            chunk.chunk_id
+            for chunk in self.repo_index.chunks
+            if chunk.symbol_name.lower() == needle or chunk.qualified_name.lower() == needle
+        ]
+        rows: list[dict] = []
+        for source_id in source_ids:
+            edges = []
+            if direction in {"both", "out", "callees"}:
+                edges.extend(self.repo_index.forward_edges.get(source_id, []))
+            if direction in {"both", "in", "callers"}:
+                edges.extend(self.repo_index.reverse_edges.get(source_id, []))
+            for edge in edges:
+                target = self.repo_index.chunk_by_id.get(edge.target)
+                if target is None:
+                    continue
+                rows.append(
+                    {
+                        "source": self.repo_index.chunk_by_id[source_id].source_label,
+                        "target": target.source_label,
+                        "label": edge.label,
+                        "weight": edge.weight,
+                        "start_line": target.start_line,
+                    }
+                )
+        rows.sort(key=lambda item: (-item["weight"], item["target"]))
+        return rows[:limit]
 
     def read_file(self, relpath: str, start_line: int = 1, end_line: int = 120) -> dict:
         path = self._resolve_repo_path(relpath)

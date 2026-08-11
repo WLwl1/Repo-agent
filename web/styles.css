@@ -435,6 +435,32 @@ button.secondary:hover,
   font-size: 12px;
 }
 
+.panel-tools {
+  min-width: min(360px, 42%);
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-tools input {
+  min-height: 34px;
+  padding: 7px 9px;
+}
+
+.panel-tools button {
+  min-height: 34px;
+  padding: 7px 11px;
+}
+
+.panel-tool-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 .surface,
 .evidence-list,
 .tool-output,
@@ -534,6 +560,107 @@ button.secondary:hover,
   font-size: 13px;
   line-height: 1.45;
   word-break: break-word;
+}
+
+.graph-search-strip,
+.proof-strip {
+  margin-bottom: 14px;
+  display: grid;
+  grid-template-columns: 1.1fr repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.graph-search-strip > div,
+.graph-search-strip article,
+.proof-strip > div,
+.proof-strip article {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: #fff;
+}
+
+.graph-search-strip > div,
+.proof-strip > div {
+  background: var(--surface-alt);
+}
+
+.graph-search-strip span,
+.graph-search-strip small,
+.proof-strip span,
+.proof-strip small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.graph-search-strip span,
+.proof-strip span {
+  margin-bottom: 4px;
+  font-weight: 650;
+}
+
+.graph-search-strip strong,
+.proof-strip strong {
+  display: block;
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.proof-graph-card,
+.impact-strip .proof-graph-card,
+.decoy-audit-card {
+  grid-column: 1 / -1;
+}
+
+.proof-graph-card ul,
+.impact-strip .proof-graph-card ul,
+.decoy-audit-card ul {
+  margin: 6px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 10px;
+  list-style: none;
+}
+
+.proof-graph-card li,
+.impact-strip .proof-graph-card li,
+.decoy-audit-card li {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.proof-graph-card code,
+.impact-strip .proof-graph-card code,
+.decoy-audit-card code {
+  overflow-wrap: anywhere;
+  font-size: 11px;
+}
+
+.proof-graph-card li span,
+.impact-strip .proof-graph-card li span,
+.impact-strip .proof-graph-card li small,
+.decoy-audit-card li span,
+.decoy-audit-card li small {
+  margin: 0;
+  font-size: 10px;
+}
+
+.decoy-audit-card {
+  background: #fff7f5 !important;
+}
+
+.decoy-audit-card li small {
+  display: block;
+  color: var(--muted);
+  line-height: 1.35;
 }
 
 .evidence-list {
@@ -740,6 +867,7 @@ button.secondary:hover,
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .report-link {
@@ -808,6 +936,38 @@ button.secondary:hover,
   padding: 10px;
 }
 
+.timeline-card {
+  border-left: 4px solid var(--primary);
+}
+
+.timeline-agent {
+  color: var(--primary-deep);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.timeline-title {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.timeline-phase {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+
+.timeline-card p {
+  margin: 8px 0 0;
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .trace-top {
   display: flex;
   align-items: center;
@@ -838,6 +998,22 @@ button.secondary:hover,
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.run-gates {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.run-gates span {
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: #eff6ff;
+  color: var(--primary-deep);
+  font-size: 11px;
+  font-weight: 650;
 }
 
 @media (max-width: 1240px) {
@@ -904,6 +1080,8 @@ button.secondary:hover,
   .tool-grid-compact,
   .inspector,
   .diagnostics-strip,
+  .graph-search-strip,
+  .proof-strip,
   .map-section:first-child .map-list {
     grid-template-columns: 1fr;
   }
@@ -917,6 +1095,7 @@ button.secondary:hover,
   .primary-actions,
   .run-options,
   .topbar-actions,
+  .panel-tools,
   .panel-head,
   .report-actions {
     align-items: stretch;

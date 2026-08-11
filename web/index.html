@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,23 +17,23 @@
         </div>
       </div>
 
-      <nav class="tabs" aria-label="视图切换">
-        <button class="tab is-active" data-view="answer" type="button">结论</button>
-        <button class="tab" data-view="evidence" type="button">证据</button>
-        <button class="tab" data-view="map" type="button">仓库</button>
-        <button class="tab" data-view="tools" type="button">工具</button>
+      <nav class="tabs" aria-label="View navigation">
+        <button class="tab is-active" data-view="answer" type="button">Answer</button>
+        <button class="tab" data-view="evidence" type="button">Evidence</button>
+        <button class="tab" data-view="map" type="button">Repository</button>
+        <button class="tab" data-view="tools" type="button">Tools</button>
         <button class="tab" data-view="runs" type="button">Runs</button>
-        <button class="tab" data-view="report" type="button">报告</button>
+        <button class="tab" data-view="report" type="button">Report</button>
       </nav>
 
       <div class="sidebar-footer">
         <div class="status-chip">
-          <span>缓存索引</span>
+          <span>Cached Indexes</span>
           <strong id="cacheCount">0</strong>
         </div>
         <div class="status-chip">
-          <span>模型状态</span>
-          <strong id="modelState">检测中</strong>
+          <span>Model</span>
+          <strong id="modelState">Checking</strong>
         </div>
       </div>
     </aside>
@@ -42,12 +42,12 @@
       <header class="topbar">
         <div>
           <p class="eyebrow">Repository Investigation</p>
-          <h1>仓库证据工作台</h1>
+          <h1>Repository Evidence Studio</h1>
         </div>
         <div class="topbar-actions">
           <div class="language-toggle" role="group" aria-label="Language">
-            <button id="langZhBtn" class="is-active" type="button" data-lang="zh">中文</button>
-            <button id="langEnBtn" type="button" data-lang="en">EN</button>
+            <button id="langZhBtn" type="button" data-lang="zh">ZH</button>
+            <button id="langEnBtn" class="is-active" type="button" data-lang="en">EN</button>
           </div>
           <div id="statusText" class="status-text"></div>
         </div>
@@ -57,28 +57,28 @@
         <section class="mainstage">
           <section class="composer">
             <label class="repo-field">
-              <span>仓库路径</span>
-              <input id="repoInput" type="text" placeholder="输入仓库路径，例如 C:\project\my-repo">
+              <span>Repository Path</span>
+              <input id="repoInput" type="text" placeholder="Enter a repository path, for example C:\project\my-repo">
             </label>
 
             <label class="question-field">
-              <span>调查问题或编辑任务</span>
-              <textarea id="questionInput" class="question-box" placeholder="先问清楚：问题在哪、证据是什么、下一步该看哪里"></textarea>
+              <span>Investigation Question Or Edit Task</span>
+              <textarea id="questionInput" class="question-box" placeholder="Ask first: where is the issue, what is the evidence, what should I inspect next?"></textarea>
             </label>
 
             <div class="action-row">
               <div class="primary-actions">
-                <button id="askBtn" class="primary">调查</button>
-                <button id="engineerBtn" class="secondary" type="button">实验编辑</button>
+                <button id="askBtn" class="primary" type="button">Investigate</button>
+                <button id="engineerBtn" class="secondary" type="button">Experimental Edit</button>
               </div>
               <div class="run-options">
-                <select id="executionModeSelect" class="mode-select" title="实验编辑执行模式">
-                  <option value="workspace">工作区沙箱</option>
-                  <option value="local">直接改源仓库</option>
+                <select id="executionModeSelect" class="mode-select" title="Engineering execution mode">
+                  <option value="workspace">Workspace Sandbox</option>
+                  <option value="local">Edit Source Repo</option>
                 </select>
                 <label class="agent-toggle">
                   <input id="modelModeToggle" type="checkbox" checked>
-                  <span>AI 增强</span>
+                  <span>AI Enhanced</span>
                 </label>
               </div>
             </div>
@@ -88,62 +88,67 @@
             <div id="view-answer" class="view-panel is-active">
               <div class="panel-head">
                 <div>
-                  <h2>结论</h2>
-                  <span>最终回答、关键证据和定位建议</span>
+                  <h2>Answer</h2>
+                  <span>Final answer, key evidence, and localization guidance</span>
                 </div>
               </div>
-              <div id="answerBox" class="surface empty-state">点击“调查”后，这里会展示结论、证据和可追踪路径。</div>
+              <div id="answerBox" class="surface empty-state">Click "Investigate" to see the conclusion, evidence, and trace.</div>
             </div>
 
             <div id="view-evidence" class="view-panel">
               <div class="panel-head">
                 <div>
-                  <h2>证据</h2>
-                  <span>按相关性排序的文件、符号和片段</span>
+                  <h2>Evidence</h2>
+                  <span>Ranked files, symbols, and snippets</span>
+                </div>
+                <div class="panel-tools">
+                  <input id="evidenceFilterInput" type="search" placeholder="Filter evidence by file, symbol, reason, or term">
+                  <button id="evidenceFilterClearBtn" class="secondary" type="button">Clear</button>
+                  <span id="evidenceFilterStats" class="panel-tool-meta">0 shown</span>
                 </div>
               </div>
-              <div id="hitList" class="evidence-list empty-state">还没有证据结果。</div>
+              <div id="hitList" class="evidence-list empty-state">No evidence yet.</div>
             </div>
 
             <div id="view-map" class="view-panel">
               <div class="panel-head">
                 <div>
-                  <h2>仓库快照</h2>
-                  <span>索引统计、重点文件和关键关系</span>
+                  <h2>Repository Snapshot</h2>
+                  <span>Index stats, important files, and key relationships</span>
                 </div>
               </div>
-              <div id="mapBox" class="surface empty-state">还没有仓库快照。</div>
+              <div id="mapBox" class="surface empty-state">No repository snapshot yet.</div>
             </div>
 
             <div id="view-tools" class="view-panel">
               <div class="panel-head">
                 <div>
-                  <h2>工具</h2>
-                  <span>安全读取、搜索和验证命令</span>
+                  <h2>Tools</h2>
+                  <span>Safe reads, search, and verification commands</span>
                 </div>
               </div>
               <div class="surface tools-surface">
                 <section class="tool-section">
                   <div class="tool-grid tool-grid-compact">
                     <select id="toolActionSelect">
-                      <option value="startup">启动提示</option>
-                      <option value="verify">检查项目</option>
-                      <option value="list">列目录</option>
-                      <option value="read">读文件</option>
-                      <option value="search">搜文本</option>
-                      <option value="run">跑命令</option>
+                      <option value="startup">Startup Hints</option>
+                      <option value="verify">Verify Project</option>
+                      <option value="list">List Directory</option>
+                      <option value="read">Read File</option>
+                      <option value="search">Search Text</option>
+                      <option value="run">Run Command</option>
                     </select>
-                    <input id="toolPathInput" type="text" placeholder="路径，例如 web/app.js 或 .">
-                    <input id="startLineInput" type="number" min="1" value="1" placeholder="起始行">
-                    <input id="endLineInput" type="number" min="1" value="120" placeholder="结束行">
-                    <input id="searchInput" type="text" placeholder="关键词，例如 chat, stream, render">
-                    <input id="commandInput" type="text" placeholder="命令，例如 python -m repo_agent eval">
-                    <button id="toolRunBtn" class="primary">执行</button>
+                    <input id="toolPathInput" type="text" placeholder="Path, for example web/app.js or .">
+                    <input id="startLineInput" type="number" min="1" value="1" placeholder="Start line">
+                    <input id="endLineInput" type="number" min="1" value="120" placeholder="End line">
+                    <input id="searchInput" type="text" placeholder="Terms, for example chat, stream, render">
+                    <input id="commandInput" type="text" placeholder="Command, for example python -m repo_agent eval">
+                    <button id="toolRunBtn" class="primary" type="button">Run</button>
                   </div>
                 </section>
 
                 <section class="tool-section">
-                  <div id="toolOutput" class="tool-output empty-state">这里会展示目录、文件、启动提示和命令输出。</div>
+                  <div id="toolOutput" class="tool-output empty-state">Directory listings, files, startup hints, and command output appear here.</div>
                 </section>
               </div>
             </div>
@@ -152,9 +157,9 @@
               <div class="panel-head">
                 <div>
                   <h2>Runs</h2>
-                  <span>工程模式运行记录、恢复和应用</span>
+                  <span>Engineering run history, resume, and apply</span>
                 </div>
-                <button id="refreshRunsBtn" class="secondary" type="button">刷新</button>
+                <button id="refreshRunsBtn" class="secondary" type="button">Refresh</button>
               </div>
               <div class="surface runs-surface">
                 <div id="runsBox" class="run-list empty-state">No runs loaded.</div>
@@ -164,12 +169,14 @@
             <div id="view-report" class="view-panel">
               <div class="panel-head">
                 <div>
-                  <h2>报告</h2>
-                  <span>生成可分享的 HTML 调查报告</span>
+                  <h2>Report</h2>
+                  <span>Generate a shareable HTML investigation report</span>
                 </div>
                 <div class="report-actions">
-                  <button id="buildReportBtn" class="secondary" type="button">生成报告</button>
-                  <a id="reportLink" class="report-link disabled" href="#" target="_blank" rel="noreferrer">尚未生成</a>
+                  <button id="buildReportBtn" class="secondary" type="button">Generate Report</button>
+                  <button id="buildImpactBtn" class="secondary" type="button">Generate Impact</button>
+                  <a id="reportLink" class="report-link disabled" href="#" target="_blank" rel="noreferrer">Not generated</a>
+                  <a id="impactLink" class="report-link disabled" href="#" target="_blank" rel="noreferrer">No impact</a>
                 </div>
               </div>
               <div class="report-surface">
@@ -182,16 +189,16 @@
         <aside class="inspector">
           <section class="inspector-block">
             <div class="block-head">
-              <h2>选中证据</h2>
+              <h2>Selected Evidence</h2>
             </div>
-            <div id="selectionPanel" class="surface compact empty-state">点击证据卡片查看细节。</div>
+            <div id="selectionPanel" class="surface compact empty-state">Click an evidence card to inspect details.</div>
           </section>
 
           <section class="inspector-block">
             <div class="block-head">
-              <h2>执行轨迹</h2>
+              <h2>Trace</h2>
             </div>
-            <div id="traceList" class="trace-list empty-state">暂无执行轨迹。</div>
+            <div id="traceList" class="trace-list empty-state">No trace yet.</div>
           </section>
         </aside>
       </section>

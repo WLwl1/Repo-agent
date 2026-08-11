@@ -21,10 +21,56 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
       - name: Compile Python sources
-        run: python -m compileall repo_agent tests
+        run: python -m compileall repo_agent tests examples
       - name: Check web JavaScript syntax
         run: node --check web/app.js
       - name: Run eval
         run: python -m repo_agent eval
+      - name: Run counterfactual benchmark
+        run: python -m repo_agent counterfactual --output .tmp/ci-reports/counterfactual-report.md
+      - name: Run retrieval ablation
+        run: python -m repo_agent ablate --output .tmp/ci-reports/ablation-report.md
+      - name: Build proof bundle
+        run: >
+          python -m repo_agent bundle
+          --repo ./examples/counterfactual_agent_app
+          --question "Which function finally writes streamed tokens for the public /api/chat endpoint?"
+          --format json
+          --output .tmp/ci-reports/proof-carrying-counterfactual.bundle.json
+      - name: Strict replay proof
+        run: >
+          python -m repo_agent replay-proof
+          --bundle .tmp/ci-reports/proof-carrying-counterfactual.bundle.json
+          --strict
+          --output .tmp/ci-reports/proof-replay-report.md
+      - name: Run proof mutation lab
+        run: >
+          python -m repo_agent proof-mutate
+          --bundle .tmp/ci-reports/proof-carrying-counterfactual.bundle.json
+          --output .tmp/ci-reports/proof-mutation-report.md
+      - name: Build proof reliability scorecard
+        run: >
+          python -m repo_agent proof-scorecard
+          --bundle .tmp/ci-reports/proof-carrying-counterfactual.bundle.json
+          --output .tmp/ci-reports/proof-scorecard.md
+      - name: Build release pack
+        run: python -m repo_agent release-pack --output-dir .tmp/release-pack
+      - name: Verify release pack integrity
+        run: python -m repo_agent verify-release-pack --manifest .tmp/release-pack/manifest.json
+      - name: Run proof-backed PR guard demo
+        run: |
+          git diff --name-only HEAD~1 HEAD > .tmp/changed-files.txt || true
+          python -m repo_agent pr-guard \
+            --contract .tmp/release-pack/proof-regression-contract.json \
+            --changed-files-file .tmp/changed-files.txt \
+            --fail-on never \
+            --github-annotations \
+            --output .tmp/ci-reports/proof-pr-guard-report.md \
+            --sarif-output .tmp/ci-reports/proof-pr-guard.sarif
+      - name: Upload proof guard SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: .tmp/ci-reports/proof-pr-guard.sarif
       - name: Run tests
         run: python -m pytest

@@ -13,7 +13,11 @@ authors = [
   { name = "Repo Agent Contributors" }
 ]
 dependencies = [
-  "numpy>=2.0"
+  "mcp>=1.28.1,<2",
+  "tree-sitter>=0.26,<0.27",
+  "tree-sitter-javascript>=0.25,<0.26",
+  "tree-sitter-python>=0.25,<0.26",
+  "tree-sitter-typescript>=0.23.2,<0.24"
 ]
 keywords = ["agent", "code-search", "bug-localization", "repository-analysis", "developer-tools", "rag"]
 classifiers = [
@@ -27,11 +31,19 @@ classifiers = [
 
 [project.optional-dependencies]
 dev = [
-  "pytest>=8.0"
+  "mypy>=1.18",
+  "pytest>=8.0",
+  "pytest-cov>=7.0",
+  "ruff>=0.12.10"
+]
+llm = [
+  "litellm>=1.92,<2"
 ]
 
 [project.scripts]
 repo-agent = "repo_agent.__main__:main"
+repo-agent-mcp = "repo_agent.mcp_server:main"
+repo-agent-import-benchmark = "repo_agent.external_bench:main"
 
 [tool.setuptools]
 include-package-data = true
@@ -41,7 +53,7 @@ where = ["."]
 include = ["repo_agent*"]
 
 [tool.setuptools.package-data]
-repo_agent = ["eval_cases.json", "engineering_cases.json"]
+repo_agent = ["eval_cases.json", "engineering_cases.json", "counterfactual_cases.json", "proof_attack_specs.json", "benchmark_adapter_suite.json", "benchmark_challenge_suite.json"]
 
 [tool.setuptools.data-files]
 "share/repo-agent/web" = ["web/index.html", "web/app.js", "web/styles.css"]
@@ -50,3 +62,23 @@ repo_agent = ["eval_cases.json", "engineering_cases.json"]
 testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "-q"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "B", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+exclude = ["examples/", "test-workspaces/", "runs/"]
+
+[[tool.mypy.overrides]]
+module = "repo_agent.__main__"
+ignore_errors = true

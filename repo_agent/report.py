@@ -3,7 +3,7 @@ from __future__ import annotations
 from html import escape
 from pathlib import Path
 
-from .models import AgentResult, FileFact, GraphEdge, RetrievalHit
+from .models import AgentResult, FileFact, RetrievalHit
 
 
 def write_html_report(
@@ -31,6 +31,8 @@ def write_html_report(
     )
     hit_cards = "\n".join(_render_hit_card(hit, index) for index, hit in enumerate(result.hits[:5], start=1))
     diagnostics = _render_diagnostics(result)
+    graph_audit = _render_graph_search_audit(result)
+    proof_panel = _render_proof_panel(result)
     trace_items = "\n".join(
         f"""
         <article class="trace-item">
@@ -228,6 +230,10 @@ def write_html_report(
       padding: 14px;
       background: rgba(240, 226, 205, 0.45);
     }}
+    .muted {{
+      color: var(--muted);
+      line-height: 1.5;
+    }}
     .diagnostics {{
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -262,8 +268,85 @@ def write_html_report(
       color: var(--ink);
       line-height: 1.5;
     }}
+    .graph-audit {{
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }}
+    .graph-audit-card {{
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      min-width: 0;
+    }}
+    .graph-audit-card strong {{
+      display: block;
+      margin-bottom: 6px;
+      overflow-wrap: anywhere;
+    }}
+    .graph-audit-card small {{
+      color: var(--muted);
+      display: block;
+      line-height: 1.5;
+    }}
+    .proof-panel {{
+      margin-top: 18px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+    }}
+    .proof-panel ul {{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      line-height: 1.6;
+    }}
+    .proof-panel code {{
+      background: rgba(240, 226, 205, 0.7);
+      padding: 2px 5px;
+      border-radius: 6px;
+    }}
+    .decoy-audit {{
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }}
+    .decoy-card {{
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: #fff7f5;
+      min-width: 0;
+    }}
+    .decoy-card strong,
+    .decoy-card small {{
+      display: block;
+      overflow-wrap: anywhere;
+    }}
+    .decoy-card small {{
+      color: var(--muted);
+      line-height: 1.45;
+      margin-top: 5px;
+    }}
+    .proof-graph {{
+      margin-top: 14px;
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      background: rgba(240, 226, 205, 0.32);
+      overflow-x: auto;
+    }}
+    .proof-graph svg {{
+      display: block;
+      min-width: 720px;
+    }}
     @media (max-width: 980px) {{
-      .stats, .grid, .diagnostics {{
+      .stats, .grid, .diagnostics, .graph-audit {{
+        grid-template-columns: 1fr;
+      }}
+      .decoy-audit {{
         grid-template-columns: 1fr;
       }}
     }}
@@ -283,6 +366,8 @@ def write_html_report(
         <div class="stat"><label>Graph Edges</label><strong>{repo_stats.get('graph_edge_count', 0)}</strong></div>
       </div>
       {diagnostics}
+      {graph_audit}
+      {proof_panel}
     </section>
     <section class="grid">
       <section class="panel">
@@ -384,6 +469,188 @@ def _render_diagnostics(result: AgentResult) -> str:
           <ul>{warnings or "<li>none</li>"}</ul>
         </div>
       </section>
+    """
+
+
+def _render_graph_search_audit(result: AgentResult) -> str:
+    graph_search = result.graph_search or {}
+    top_visited = list(graph_search.get("top_visited") or [])
+    if not top_visited:
+        return ""
+    cards = []
+    for item in top_visited[:6]:
+        path = " -> ".join(str(label) for label in item.get("path", [])[:5]) or "none"
+        cards.append(
+            f"""
+            <article class="graph-audit-card">
+              <strong>{escape(str(item.get('chunk', '')))}</strong>
+              <small>
+                visits {int(item.get('visits', 0))} &middot;
+                reward {float(item.get('average_reward', 0.0)):.3f} &middot;
+                boost +{float(item.get('boost', 0.0)):.2f}
+              </small>
+              <small>path {escape(path)}</small>
+            </article>
+            """
+        )
+    return f"""
+      <section>
+        <h2>Graph Search Audit</h2>
+        <p class="muted">
+          graph_mcts &middot; iterations {int(graph_search.get('iterations', 0))}
+          &middot; depth {int(graph_search.get('max_depth', 0))}
+          &middot; visited {int(graph_search.get('visited_count', 0))}
+        </p>
+        <div class="graph-audit">{''.join(cards)}</div>
+      </section>
+    """
+
+
+def _render_proof_panel(result: AgentResult) -> str:
+    proof = result.proof or {}
+    if not proof:
+        return ""
+    checks = "".join(
+        (
+            f"<li><code>{escape(str(item.get('name', 'check')))}</code> "
+            f"{'PASS' if item.get('passed') else 'FAIL'} - {escape(str(item.get('detail', '')))}</li>"
+        )
+        for item in proof.get("checks", [])[:6]
+    )
+    paths = "".join(
+        (
+            f"<li><code>{escape(str(item.get('route', '')))}</code> "
+            f"depth {int(item.get('depth', 0))} "
+            f"boost +{float(item.get('boost', 0.0)):.2f}: "
+            f"{escape(' -> '.join(str(label) for label in item.get('path', [])))}</li>"
+        )
+        for item in proof.get("supporting_paths", [])[:4]
+    )
+    proof_graph = _build_proof_graph_svg(dict(proof.get("proof_graph") or {}))
+    decoy_audit = _render_decoy_audit(list(proof.get("decoy_audit") or []))
+    return f"""
+      <section class="proof-panel">
+        <h2>Proof-Carrying Retrieval</h2>
+        <p class="muted">
+          status <code>{escape(str(proof.get('status', 'unknown')))}</code>
+          &middot; strategy <code>{escape(str(proof.get('strategy', '')))}</code>
+        </p>
+        <p>{escape(str(proof.get('claim', '')))}</p>
+        <ul>{checks or '<li>No proof checks recorded.</li>'}</ul>
+        <ul>{paths or '<li>No route-anchored supporting path recorded.</li>'}</ul>
+        {decoy_audit}
+        {proof_graph}
+      </section>
+    """
+
+
+def _render_decoy_audit(decoys: list[dict]) -> str:
+    if not decoys:
+        return ""
+    cards = []
+    for item in decoys[:6]:
+        roles = ", ".join(str(role) for role in item.get("conflicting_roles", [])) or "none"
+        routes = ", ".join(str(route) for route in item.get("requested_routes", [])) or "none"
+        cards.append(
+            f"""
+            <article class="decoy-card">
+              <strong>{escape(str(item.get('candidate', '')))}</strong>
+              <small>
+                rejected {str(bool(item.get('rejected'))).lower()} &middot;
+                gap {float(item.get('score_gap', 0.0)):.2f} &middot;
+                route anchored {str(bool(item.get('route_anchored'))).lower()}
+              </small>
+              <small>roles {escape(roles)} &middot; requested {escape(routes)}</small>
+              <small>{escape(str(item.get('reason', '')))}</small>
+            </article>
+            """
+        )
+    return f"""
+      <h3>Contrastive Decoy Audit</h3>
+      <div class="decoy-audit">{''.join(cards)}</div>
+    """
+
+
+def _build_proof_graph_svg(proof_graph: dict) -> str:
+    nodes = list(proof_graph.get("nodes") or [])[:10]
+    edges = list(proof_graph.get("edges") or [])[:14]
+    if not nodes:
+        return ""
+    width = 760
+    height = max(260, 90 + len(nodes) * 42)
+    positions: dict[str, tuple[int, int]] = {}
+    for index, node in enumerate(nodes):
+        roles = set(node.get("roles") or [])
+        if "route_anchor" in roles:
+            x = 36
+        elif "top_hit" in roles:
+            x = 292
+        elif "decoy" in roles:
+            x = 548
+        else:
+            x = 292 if index % 2 else 164
+        y = 42 + index * 42
+        positions[str(node.get("id", ""))] = (x, y)
+
+    edge_markup = []
+    for edge in edges:
+        source = str(edge.get("source", ""))
+        target = str(edge.get("target", ""))
+        if source not in positions or target not in positions:
+            continue
+        sx, sy = positions[source]
+        tx, ty = positions[target]
+        color = "#1d5f73" if edge.get("label") in {"route_path", "anchors"} else "#9b7a55"
+        edge_markup.append(
+            f'<path d="M {sx + 148} {sy + 16} C {sx + 210} {sy + 16}, {tx - 42} {ty + 16}, {tx} {ty + 16}" '
+            f'fill="none" stroke="{color}" stroke-width="1.2" opacity="0.62"></path>'
+        )
+        edge_markup.append(
+            f'<text x="{(sx + tx) / 2 + 54:.0f}" y="{(sy + ty) / 2 + 10:.0f}" '
+            f'font-size="10" font-family="Segoe UI, sans-serif" fill="{color}">{escape(str(edge.get("label", "")))}</text>'
+        )
+
+    node_markup = []
+    for node in nodes:
+        node_id = str(node.get("id", ""))
+        x, y = positions[node_id]
+        roles = set(node.get("roles") or [])
+        fill = "#eef7f2"
+        stroke = "#1d5f73"
+        if "route_anchor" in roles:
+            fill = "#eaf4ff"
+            stroke = "#2f6fb0"
+        elif "top_hit" in roles:
+            fill = "#fff3df"
+            stroke = "#b84c2d"
+        elif "decoy" in roles:
+            fill = "#fff1f1"
+            stroke = "#a94b58"
+        role_label = ", ".join(str(role) for role in node.get("roles", [])[:2])
+        score = f"score {float(node.get('score')):.2f}" if node.get("score") is not None else role_label
+        node_markup.append(
+            f'<rect x="{x}" y="{y}" rx="10" ry="10" width="150" height="34" fill="{fill}" '
+            f'stroke="{stroke}" stroke-width="1.4"></rect>'
+        )
+        node_markup.append(
+            f'<text x="{x + 9}" y="{y + 14}" font-size="11" font-family="Segoe UI, sans-serif" fill="#15212d">'
+            f'{escape(_truncate(node_id, 22))}</text>'
+        )
+        node_markup.append(
+            f'<text x="{x + 9}" y="{y + 28}" font-size="9" font-family="Segoe UI, sans-serif" fill="#556575">'
+            f'{escape(_truncate(score, 24))}</text>'
+        )
+
+    return f"""
+      <div class="proof-graph" aria-label="Proof graph">
+        <svg width="100%" viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg">
+          <text x="36" y="24" font-size="12" font-family="Segoe UI, sans-serif" fill="#556575">route anchors</text>
+          <text x="292" y="24" font-size="12" font-family="Segoe UI, sans-serif" fill="#556575">supporting path / top hit</text>
+          <text x="548" y="24" font-size="12" font-family="Segoe UI, sans-serif" fill="#556575">decoy candidates</text>
+          {''.join(edge_markup)}
+          {''.join(node_markup)}
+        </svg>
+      </div>
     """
 
 

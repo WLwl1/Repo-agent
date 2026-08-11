@@ -5,12 +5,17 @@ const modelState = document.getElementById('modelState');
 const answerBox = document.getElementById('answerBox');
 const mapBox = document.getElementById('mapBox');
 const hitList = document.getElementById('hitList');
+const evidenceFilterInput = document.getElementById('evidenceFilterInput');
+const evidenceFilterClearBtn = document.getElementById('evidenceFilterClearBtn');
+const evidenceFilterStats = document.getElementById('evidenceFilterStats');
 const traceList = document.getElementById('traceList');
 const selectionPanel = document.getElementById('selectionPanel');
 const reportLink = document.getElementById('reportLink');
 const reportFrame = document.getElementById('reportFrame');
 const statusText = document.getElementById('statusText');
 const buildReportBtn = document.getElementById('buildReportBtn');
+const buildImpactBtn = document.getElementById('buildImpactBtn');
+const impactLink = document.getElementById('impactLink');
 const toolActionSelect = document.getElementById('toolActionSelect');
 const toolPathInput = document.getElementById('toolPathInput');
 const startLineInput = document.getElementById('startLineInput');
@@ -31,6 +36,7 @@ const actionButtons = [
   document.getElementById('askBtn'),
   engineerBtn,
   buildReportBtn,
+  buildImpactBtn,
   toolRunBtn,
 ].filter(Boolean);
 
@@ -51,6 +57,7 @@ const state = {
   lastTool: null,
   runs: [],
   selectedHitIndex: 0,
+  evidenceFilter: '',
 };
 
 const I18N = {
@@ -61,6 +68,8 @@ const I18N = {
     statusAnalysisDoneModel: (model) => `分析完成，已使用 ${model}`,
     statusReportBuilding: '正在生成报告...',
     statusReportDone: '报告已生成',
+    statusImpactBuilding: '正在生成 Impact...',
+    statusImpactDone: 'Impact 已生成',
     statusEngineering: '实验编辑任务运行中...',
     statusEngineeringDone: (status, runId) => `实验编辑 ${status || 'finished'}: ${runId || ''}`,
     statusRunsRefreshed: 'Runs refreshed',
@@ -99,6 +108,10 @@ const I18N = {
     answerSubtitle: '最终回答、关键证据和定位建议',
     evidenceTitle: '证据',
     evidenceSubtitle: '按相关性排序的文件、符号和片段',
+    evidenceFilterPlaceholder: '按文件、符号、原因或术语过滤证据',
+    evidenceFilterClear: 'Clear',
+    evidenceFilterStats: (shown, total) => `${shown}/${total} 条`,
+    evidenceFilterEmpty: '没有证据匹配当前过滤条件。',
     mapTitle: '仓库快照',
     mapSubtitle: '索引统计、重点文件和关键关系',
     toolsTitle: '工具',
@@ -109,8 +122,11 @@ const I18N = {
     reportTitle: '报告',
     reportSubtitle: '生成可分享的 HTML 调查报告',
     buildReport: '生成报告',
+    buildImpact: '生成 Impact',
     reportPending: '尚未生成',
     reportOpen: '打开 HTML 报告',
+    impactPending: '尚未生成 Impact',
+    impactOpen: '打开 Impact',
     selectedEvidence: '选中证据',
     traceTitle: '执行轨迹',
     answerEmpty: '点击“调查”后，这里会展示结论、证据和可追踪路径。',
@@ -141,6 +157,13 @@ const I18N = {
     diagnosticsCoverage: '证据覆盖',
     diagnosticsGraph: '图支撑',
     diagnosticsNote: '提示',
+    graphSearchTitle: '图搜索',
+    graphSearchMeta: (iterations, visited) => `${iterations} 轮 · ${visited} 节点`,
+    impactTitle: 'Proof-Guided Impact',
+    impactMeta: (files, routes) => `${files} 文件 · ${routes} 路由`,
+    impactRisk: '风险',
+    impactChecks: '验证计划',
+    impactRoutes: '暴露路由',
     diagnosticsFiles: (hits, files) => `${hits} 条 · ${files} 文件`,
     diagnosticsEdges: (edges) => `${edges} 条边`,
     diagnosticsNone: '无明显风险',
@@ -187,6 +210,8 @@ const I18N = {
     statusAnalysisDoneModel: (model) => `Analysis complete with ${model}`,
     statusReportBuilding: 'Generating report...',
     statusReportDone: 'Report generated',
+    statusImpactBuilding: 'Generating impact...',
+    statusImpactDone: 'Impact generated',
     statusEngineering: 'Experimental engineering task running...',
     statusEngineeringDone: (status, runId) => `Engineering ${status || 'finished'}: ${runId || ''}`,
     statusRunsRefreshed: 'Runs refreshed',
@@ -225,6 +250,10 @@ const I18N = {
     answerSubtitle: 'Final answer, key evidence, and localization guidance',
     evidenceTitle: 'Evidence',
     evidenceSubtitle: 'Ranked files, symbols, and snippets',
+    evidenceFilterPlaceholder: 'Filter evidence by file, symbol, reason, or term',
+    evidenceFilterClear: 'Clear',
+    evidenceFilterStats: (shown, total) => `${shown}/${total} shown`,
+    evidenceFilterEmpty: 'No evidence matches the current filter.',
     mapTitle: 'Repository Snapshot',
     mapSubtitle: 'Index stats, important files, and key relationships',
     toolsTitle: 'Tools',
@@ -235,8 +264,12 @@ const I18N = {
     reportTitle: 'Report',
     reportSubtitle: 'Generate a shareable HTML investigation report',
     buildReport: 'Generate Report',
+    buildImpact: 'Generate Impact',
     reportPending: 'Not generated',
     reportOpen: 'Open HTML Report',
+    impactPending: 'No impact',
+    impactOpen: 'Open Impact',
+    openEvidenceFile: 'Open File In Tools',
     selectedEvidence: 'Selected Evidence',
     traceTitle: 'Trace',
     answerEmpty: 'Click "Investigate" to see the conclusion, evidence, and trace.',
@@ -267,6 +300,13 @@ const I18N = {
     diagnosticsCoverage: 'Evidence Coverage',
     diagnosticsGraph: 'Graph Support',
     diagnosticsNote: 'Note',
+    graphSearchTitle: 'Graph Search',
+    graphSearchMeta: (iterations, visited) => `${iterations} iterations · ${visited} visited`,
+    impactTitle: 'Proof-Guided Impact',
+    impactMeta: (files, routes) => `${files} files · ${routes} routes`,
+    impactRisk: 'Risk',
+    impactChecks: 'Verification Plan',
+    impactRoutes: 'Exposed Routes',
     diagnosticsFiles: (hits, files) => `${hits} hits · ${files} files`,
     diagnosticsEdges: (edges) => `${edges} edges`,
     diagnosticsNone: 'No obvious risk',
@@ -311,9 +351,20 @@ const I18N = {
 document.getElementById('askBtn').addEventListener('click', runAnalysis);
 engineerBtn.addEventListener('click', runEngineering);
 buildReportBtn.addEventListener('click', generateReport);
+buildImpactBtn?.addEventListener('click', generateImpact);
 toolRunBtn.addEventListener('click', executeToolAction);
 toolActionSelect.addEventListener('change', updateToolForm);
 toolOutput.addEventListener('click', handleToolOutputClick);
+selectionPanel.addEventListener('click', handleSelectionPanelClick);
+evidenceFilterInput?.addEventListener('input', () => {
+  state.evidenceFilter = evidenceFilterInput.value.trim();
+  syncSelectedEvidenceToFilter();
+  renderEvidence(state.lastResult?.hits || []);
+  renderSelection();
+});
+evidenceFilterClearBtn?.addEventListener('click', () => {
+  clearEvidenceFilter();
+});
 refreshRunsBtn?.addEventListener('click', refreshRuns);
 runsBox?.addEventListener('click', handleRunsClick);
 langZhBtn?.addEventListener('click', () => setLanguage('zh'));
@@ -382,6 +433,29 @@ async function generateReport() {
   });
 }
 
+async function generateImpact() {
+  await runTask(t().statusImpactBuilding, async () => {
+    persistRepo();
+    ensureRepoReady();
+    const data = await postJSON('/api/impact', buildPayload());
+    state.lastResult = data;
+    state.selectedHitIndex = 0;
+    renderResult();
+    await renderMapFromRepo();
+    await refreshHealth();
+
+    if (data.impact_url) {
+      impactLink.href = data.impact_url;
+      impactLink.classList.remove('disabled');
+      impactLink.textContent = t().impactOpen;
+      reportFrame.src = data.impact_url;
+    }
+
+    setActiveView('report');
+    statusText.textContent = t().statusImpactDone;
+  });
+}
+
 async function runEngineering() {
   await runTask(t().statusEngineering, async () => {
     persistRepo();
@@ -410,8 +484,11 @@ async function runEngineering() {
 function normalizeEngineeringResult(data) {
   const changedFiles = Array.isArray(data.changed_files) ? data.changed_files : [];
   const verification = Array.isArray(data.verification) ? data.verification : [];
+  const verifier = data.verifier_result || {};
+  const reviewer = data.reviewer_result || {};
+  const timeline = Array.isArray(data.timeline) ? data.timeline : [];
   const lines = [
-    '## Experimental Engineering Run',
+    '## Multi-Agent Engineering Run',
     data.answer || `Run ended with status \`${data.status || 'unknown'}\`.`,
     '',
     '## Run',
@@ -433,6 +510,27 @@ function normalizeEngineeringResult(data) {
   if (changedFiles.length) {
     lines.push('', '## Changed Files', ...changedFiles.map((item) => `- \`${item}\``));
   }
+  if (verifier.status || reviewer.status) {
+    lines.push('', '## Agent Gates');
+    if (verifier.status) {
+      lines.push(`- Verifier Agent: \`${verifier.status}\` — ${verifier.summary || ''}`);
+      if (verifier.primary_failure?.type) {
+        lines.push(`- Primary failure: \`${verifier.primary_failure.type}\``);
+      }
+    }
+    if (reviewer.status) {
+      lines.push(`- Reviewer Agent: \`${reviewer.status}\` risk \`${reviewer.risk_score ?? '?'}\` — ${reviewer.summary || ''}`);
+    }
+  }
+  if (Array.isArray(reviewer.file_risks) && reviewer.file_risks.length) {
+    lines.push('', '## File Risk Review');
+    reviewer.file_risks.slice(0, 8).forEach((item) => {
+      lines.push(`- \`${item.relpath}\` risk \`${item.risk_score}\`: ${(item.reasons || []).join(', ')}`);
+    });
+  }
+  if (Array.isArray(reviewer.suggested_actions) && reviewer.suggested_actions.length) {
+    lines.push('', '## Suggested Actions', ...reviewer.suggested_actions.map((item) => `- ${item}`));
+  }
   if (verification.length) {
     lines.push(
       '',
@@ -446,11 +544,17 @@ function normalizeEngineeringResult(data) {
   if (data.review) {
     lines.push('', '## Reviewer', data.review);
   }
+  if (timeline.length) {
+    lines.push('', '## Timeline', `${timeline.length} structured multi-agent event(s) recorded.`);
+  }
   return {
     mode: 'autonomous_engineering',
     query: data.task || '',
     answer: lines.join('\n'),
     trace: data.trace || [],
+    timeline,
+    verifier_result: verifier,
+    reviewer_result: reviewer,
     hits: [],
     stats: data.stats || {},
     model_name: data.model || '',
@@ -502,16 +606,30 @@ function applyLanguage() {
   document.querySelector('.agent-toggle span').textContent = copy.aiMode;
   setPanelCopy('view-answer', copy.answerTitle, copy.answerSubtitle);
   setPanelCopy('view-evidence', copy.evidenceTitle, copy.evidenceSubtitle);
+  if (evidenceFilterInput) {
+    evidenceFilterInput.placeholder = copy.evidenceFilterPlaceholder;
+  }
+  if (evidenceFilterClearBtn) {
+    evidenceFilterClearBtn.textContent = copy.evidenceFilterClear || I18N.en.evidenceFilterClear;
+  }
   setPanelCopy('view-map', copy.mapTitle, copy.mapSubtitle);
   setPanelCopy('view-tools', copy.toolsTitle, copy.toolsSubtitle);
   setPanelCopy('view-runs', copy.runsTitle, copy.runsSubtitle);
   setPanelCopy('view-report', copy.reportTitle, copy.reportSubtitle);
   refreshRunsBtn.textContent = copy.refresh;
   buildReportBtn.textContent = copy.buildReport;
+  if (buildImpactBtn) {
+    buildImpactBtn.textContent = copy.buildImpact;
+  }
   if (reportLink.classList.contains('disabled')) {
     reportLink.textContent = copy.reportPending;
   } else {
     reportLink.textContent = copy.reportOpen;
+  }
+  if (impactLink?.classList.contains('disabled')) {
+    impactLink.textContent = copy.impactPending;
+  } else if (impactLink) {
+    impactLink.textContent = copy.impactOpen;
   }
   document.querySelectorAll('.block-head h2')[0].textContent = copy.selectedEvidence;
   document.querySelectorAll('.block-head h2')[1].textContent = copy.traceTitle;
@@ -570,6 +688,12 @@ function renderRuns() {
         <span>${escapeHtml(run.status || '')}</span>
       </div>
       <small>${escapeHtml(run.execution_mode || 'local')} · ${escapeHtml(run.model || '')}</small>
+      <div class="run-gates">
+        ${run.verification_status ? `<span>Verifier: ${escapeHtml(run.verification_status)}</span>` : ''}
+        ${run.review_status ? `<span>Reviewer: ${escapeHtml(run.review_status)}</span>` : ''}
+        ${run.risk_score !== null && run.risk_score !== undefined ? `<span>Risk: ${Number(run.risk_score).toFixed(2)}</span>` : ''}
+        ${run.timeline_count ? `<span>${Number(run.timeline_count)} events</span>` : ''}
+      </div>
       <p>${escapeHtml(run.task || '')}</p>
       <div class="tool-actions">
         <button class="secondary" type="button" data-run-action="open" data-run-id="${escapeHtml(run.run_id || '')}">Open</button>
@@ -783,10 +907,10 @@ function renderResult() {
   }
 
   answerBox.classList.remove('empty-state');
-  answerBox.innerHTML = `${renderDiagnostics(data.diagnostics)}${renderMarkdown(data.answer || t().answerEmptyShort)}`;
+  answerBox.innerHTML = `${renderDiagnostics(data.diagnostics)}${renderGraphSearch(data.graph_search)}${renderProof(data.proof)}${renderImpact(data.impact)}${renderMarkdown(data.answer || t().answerEmptyShort)}`;
 
   renderEvidence(data.hits || []);
-  renderTrace(data.trace || []);
+  renderTrace(data.timeline?.length ? data.timeline : (data.trace || []));
   renderSelection();
 }
 
@@ -819,14 +943,168 @@ function renderDiagnostics(diagnostics) {
   `;
 }
 
+function renderGraphSearch(graphSearch) {
+  const topVisited = Array.isArray(graphSearch?.top_visited) ? graphSearch.top_visited : [];
+  if (!topVisited.length) {
+    return '';
+  }
+  const items = topVisited.slice(0, 4).map((item) => {
+    const path = Array.isArray(item.path) ? item.path.slice(0, 4).join(' -> ') : '';
+    return `
+      <article>
+        <span>${escapeHtml(item.chunk || '')}</span>
+        <strong>
+          ${Number(item.visits || 0)} visits &middot;
+          reward ${Number(item.average_reward || 0).toFixed(3)} &middot;
+          +${Number(item.boost || 0).toFixed(2)}
+        </strong>
+        ${path ? `<small>${escapeHtml(path)}</small>` : ''}
+      </article>
+    `;
+  }).join('');
+  return `
+    <section class="graph-search-strip">
+      <div>
+        <span>${escapeHtml(t().graphSearchTitle)}</span>
+        <strong>${escapeHtml(t().graphSearchMeta(Number(graphSearch.iterations || 0), Number(graphSearch.visited_count || 0)))}</strong>
+      </div>
+      ${items}
+    </section>
+  `;
+}
+
+function renderProof(proof) {
+  if (!proof || !proof.status) {
+    return '';
+  }
+  const checks = Array.isArray(proof.checks) ? proof.checks : [];
+  const paths = Array.isArray(proof.supporting_paths) ? proof.supporting_paths : [];
+  const proofGraph = proof.proof_graph || {};
+  const decoys = Array.isArray(proof.decoy_audit) ? proof.decoy_audit : [];
+  const checkItems = checks.slice(0, 3).map((item) => `
+    <article>
+      <span>${escapeHtml(item.name || 'check')}</span>
+      <strong>${item.passed ? 'PASS' : 'FAIL'} &middot; ${escapeHtml(item.detail || '')}</strong>
+    </article>
+  `).join('');
+  const firstPath = paths[0]?.path && Array.isArray(paths[0].path) ? paths[0].path.join(' -> ') : '';
+  return `
+    <section class="proof-strip">
+      <div>
+        <span>Proof-Carrying Retrieval</span>
+        <strong>${escapeHtml(proof.status || 'unknown')}</strong>
+        ${firstPath ? `<small>${escapeHtml(firstPath)}</small>` : ''}
+      </div>
+      ${checkItems}
+      ${renderDecoyAudit(decoys)}
+      ${renderProofGraph(proofGraph)}
+    </section>
+  `;
+}
+
+function renderImpact(impact) {
+  if (!impact || impact.status !== 'analyzed') {
+    return '';
+  }
+  const summary = impact.impact_summary || {};
+  const target = impact.target || {};
+  const routes = Array.isArray(impact.exposed_routes) ? impact.exposed_routes : [];
+  const checks = Array.isArray(impact.verification_plan) ? impact.verification_plan : [];
+  const routeText = routes.slice(0, 3).map((item) => item.route).filter(Boolean).join(', ') || 'none';
+  const checkItems = checks.slice(0, 3).map((item) => `
+    <li>
+      <code>${escapeHtml(item.priority || '')}</code>
+      <span>${escapeHtml(item.check || '')}</span>
+      <small>${escapeHtml(item.reason || '')}</small>
+    </li>
+  `).join('');
+  return `
+    <section class="proof-strip impact-strip">
+      <div>
+        <span>${escapeHtml(t().impactTitle)}</span>
+        <strong>${escapeHtml(t().impactMeta(Number(summary.impacted_file_count || 0), Number(summary.exposed_route_count || 0)))}</strong>
+        <small>${escapeHtml(target.label || '')}</small>
+      </div>
+      <article>
+        <span>${escapeHtml(t().impactRisk)}</span>
+        <strong>${escapeHtml(summary.risk_level || 'unknown')}</strong>
+      </article>
+      <article>
+        <span>${escapeHtml(t().impactRoutes)}</span>
+        <strong>${escapeHtml(routeText)}</strong>
+      </article>
+      <article class="proof-graph-card">
+        <span>${escapeHtml(t().impactChecks)}</span>
+        <ul>${checkItems}</ul>
+      </article>
+    </section>
+  `;
+}
+
+function renderDecoyAudit(decoys) {
+  if (!decoys.length) {
+    return '';
+  }
+  const items = decoys.slice(0, 4).map((item) => {
+    const roles = Array.isArray(item.conflicting_roles) ? item.conflicting_roles.join(', ') : '';
+    const routes = Array.isArray(item.requested_routes) ? item.requested_routes.join(', ') : '';
+    return `
+      <li>
+        <code>${escapeHtml(item.candidate || '')}</code>
+        <span>gap ${Number(item.score_gap || 0).toFixed(2)} · route ${item.route_anchored ? 'yes' : 'no'} · ${escapeHtml(roles || routes || 'contrastive')}</span>
+        <small>${escapeHtml(item.reason || '')}</small>
+      </li>
+    `;
+  }).join('');
+  return `
+    <article class="decoy-audit-card">
+      <span>Contrastive Decoy Audit</span>
+      <ul>${items}</ul>
+    </article>
+  `;
+}
+
+function renderProofGraph(proofGraph) {
+  const nodes = Array.isArray(proofGraph?.nodes) ? proofGraph.nodes : [];
+  const edges = Array.isArray(proofGraph?.edges) ? proofGraph.edges : [];
+  if (!nodes.length && !edges.length) {
+    return '';
+  }
+  const nodeItems = nodes.slice(0, 6).map((node) => {
+    const roles = Array.isArray(node.roles) ? node.roles.join(', ') : '';
+    const score = node.score !== undefined ? ` · ${Number(node.score).toFixed(2)}` : '';
+    return `<li><code>${escapeHtml(node.id || '')}</code><span>${escapeHtml(roles)}${escapeHtml(score)}</span></li>`;
+  }).join('');
+  const edgeItems = edges.slice(0, 6).map((edge) => (
+    `<li><code>${escapeHtml(edge.source || '')}</code><span>${escapeHtml(edge.label || '')} -> ${escapeHtml(edge.target || '')}</span></li>`
+  )).join('');
+  return `
+    <article class="proof-graph-card">
+      <span>Proof graph</span>
+      <ul>${nodeItems}${edgeItems}</ul>
+    </article>
+  `;
+}
+
 function renderEvidence(hits) {
   hitList.replaceChildren();
+  const entries = filteredEvidenceEntries(hits);
+  if (evidenceFilterStats) {
+    evidenceFilterStats.textContent = t().evidenceFilterStats(entries.length, hits.length);
+  }
   if (!hits.length) {
     hitList.innerHTML = `<div class="empty-state">${escapeHtml(t().evidenceEmpty)}</div>`;
     return;
   }
+  if (!entries.length) {
+    hitList.innerHTML = `<div class="empty-state">${escapeHtml(t().evidenceFilterEmpty)}</div>`;
+    return;
+  }
+  if (!entries.some((entry) => entry.index === state.selectedHitIndex)) {
+    state.selectedHitIndex = entries[0].index;
+  }
 
-  const cards = hits.map((hit, index) => {
+  const cards = entries.map(({ hit, index }) => {
     const card = document.createElement('article');
     card.className = `hit-card${index === state.selectedHitIndex ? ' is-selected' : ''}`;
     card.innerHTML = `
@@ -849,6 +1127,45 @@ function renderEvidence(hits) {
   hitList.replaceChildren(...cards);
 }
 
+function filteredEvidenceEntries(hits) {
+  const query = String(state.evidenceFilter || '').trim().toLowerCase();
+  const entries = hits.map((hit, index) => ({ hit, index }));
+  if (!query) {
+    return entries;
+  }
+  const terms = query.split(/\s+/).filter(Boolean);
+  return entries.filter(({ hit }) => {
+    const haystack = [
+      hit.source_label,
+      hit.relpath,
+      hit.symbol_kind,
+      ...(Array.isArray(hit.reasons) ? hit.reasons : []),
+      ...(Array.isArray(hit.matched_terms) ? hit.matched_terms : []),
+      hit.snippet,
+    ].join(' ').toLowerCase();
+    return terms.every((term) => haystack.includes(term));
+  });
+}
+
+function syncSelectedEvidenceToFilter() {
+  const hits = state.lastResult?.hits || [];
+  const entries = filteredEvidenceEntries(hits);
+  if (entries.length && !entries.some((entry) => entry.index === state.selectedHitIndex)) {
+    state.selectedHitIndex = entries[0].index;
+  }
+}
+
+function clearEvidenceFilter() {
+  state.evidenceFilter = '';
+  if (evidenceFilterInput) {
+    evidenceFilterInput.value = '';
+    evidenceFilterInput.focus();
+  }
+  syncSelectedEvidenceToFilter();
+  renderEvidence(state.lastResult?.hits || []);
+  renderSelection();
+}
+
 function renderTrace(trace) {
   traceList.replaceChildren();
   if (!trace.length) {
@@ -858,14 +1175,32 @@ function renderTrace(trace) {
 
   const cards = trace.map((item) => {
     const card = document.createElement('article');
-    card.className = 'trace-card';
-    card.innerHTML = `
-      <div class="trace-top">
-        <span class="trace-step">${item.step ?? '?'}</span>
-        <span class="trace-type">${escapeHtml(item.type || 'trace')}</span>
-      </div>
-      <pre>${escapeHtml(String(item.content || ''))}</pre>
-    `;
+    const isTimeline = Boolean(item.agent || item.phase || item.title);
+    card.className = `trace-card${isTimeline ? ' timeline-card' : ''}`;
+    if (isTimeline) {
+      const details = item.details && Object.keys(item.details).length
+        ? JSON.stringify(item.details, null, 2)
+        : '';
+      card.innerHTML = `
+        <div class="trace-top">
+          <span class="trace-step">${item.step ?? '?'}</span>
+          <span class="trace-type">${escapeHtml(item.status || 'event')}</span>
+        </div>
+        <div class="timeline-agent">${escapeHtml(item.agent || 'Agent')}</div>
+        <div class="timeline-title">${escapeHtml(item.title || item.phase || 'Timeline event')}</div>
+        <div class="timeline-phase">${escapeHtml(item.phase || '')}</div>
+        ${item.summary ? `<p>${escapeHtml(String(item.summary))}</p>` : ''}
+        ${details ? `<pre>${escapeHtml(details)}</pre>` : ''}
+      `;
+    } else {
+      card.innerHTML = `
+        <div class="trace-top">
+          <span class="trace-step">${item.step ?? '?'}</span>
+          <span class="trace-type">${escapeHtml(item.type || 'trace')}</span>
+        </div>
+        <pre>${escapeHtml(String(item.content || ''))}</pre>
+      `;
+    }
     return card;
   });
 
@@ -888,8 +1223,34 @@ function renderSelection() {
       ${(hit.reasons || []).slice(0, 4).map((reason) => `<span class="pill reason">${escapeHtml(reason)}</span>`).join('')}
       ${(hit.matched_terms || []).slice(0, 4).map((term) => `<span class="pill">${escapeHtml(term)}</span>`).join('')}
     </div>
+    <div class="tool-actions">
+      <button
+        class="secondary"
+        type="button"
+        data-selection-action="open-file"
+      >${escapeHtml(t().openEvidenceFile || I18N.en.openEvidenceFile)}</button>
+    </div>
     <pre class="selection-code">${escapeHtml(hit.snippet || '')}</pre>
   `;
+}
+
+async function handleSelectionPanelClick(event) {
+  const button = event.target.closest('button[data-selection-action="open-file"]');
+  if (!button) {
+    return;
+  }
+  const hits = state.lastResult?.hits || [];
+  const hit = hits[state.selectedHitIndex];
+  if (!hit?.relpath) {
+    return;
+  }
+  toolPathInput.value = hit.relpath;
+  toolActionSelect.value = 'read';
+  updateToolForm();
+  startLineInput.value = Math.max(1, Number(hit.start_line || 1));
+  endLineInput.value = Math.max(Number(startLineInput.value) + 20, Number(hit.end_line || hit.start_line || 1));
+  setActiveView('tools');
+  await executeToolAction();
 }
 
 function renderMap() {

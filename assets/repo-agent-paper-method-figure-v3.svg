@@ -1,0 +1,119 @@
+<svg width="2200" height="1240" viewBox="0 0 2200 1240" xmlns="http://www.w3.org/2000/svg">
+<rect width="2200" height="1240" fill="#FFFFFF"/>
+<rect x="24" y="24" width="2152" height="1192" fill="none" stroke="#D1D5DB" stroke-width="2"/>
+<text x="1100.0" y="78" font-family="Times New Roman, serif" font-size="34" font-weight="700" fill="#111827" text-anchor="middle">Repo Agent: Evidence-First Repository Investigation</text>
+<text x="1100.0" y="116" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#4B5563" text-anchor="middle">Local repository evidence is constructed before optional model reasoning or code edits.</text>
+<rect x="62" y="150" width="630" height="805" fill="#FFF7ED" stroke="#111827" stroke-width="2"/>
+<text x="86" y="190" font-family="Times New Roman, serif" font-size="28" font-weight="700" fill="#111827">(a) Repository evidence construction</text>
+<rect x="720" y="150" width="700" height="805" fill="#EFF6FF" stroke="#111827" stroke-width="2"/>
+<text x="744" y="190" font-family="Times New Roman, serif" font-size="28" font-weight="700" fill="#111827">(b) Evidence-guided localization loop</text>
+<rect x="1448" y="150" width="490" height="805" fill="#ECFDF5" stroke="#111827" stroke-width="2"/>
+<text x="1472" y="190" font-family="Times New Roman, serif" font-size="28" font-weight="700" fill="#111827">(c) Reviewable decision surface</text>
+<rect x="105" y="235" width="210" height="74" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="210.0" y="269" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Local repo</text>
+<text x="210.0" y="289" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">source tree</text>
+<rect x="105" y="365" width="210" height="88" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="210.0" y="399" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Static parser</text>
+<text x="210.0" y="433" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">symbols / routes / calls</text>
+<rect x="105" y="515" width="210" height="88" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="210.0" y="549" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Chunker</text>
+<text x="210.0" y="583" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">CodeChunk + FileFact</text>
+<line x1="210" y1="309" x2="196" y2="365" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M210 365L194 357L194 373Z" fill="#111827"/>
+<line x1="210" y1="453" x2="196" y2="515" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M210 515L194 507L194 523Z" fill="#111827"/>
+<rect x="390" y="250" width="220" height="92" rx="8" fill="#FFFDF8" stroke="#111827" stroke-width="2"/>
+<text x="500.0" y="284" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Route graph</text>
+<text x="500.0" y="322" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">routes_to / calls / imports</text>
+<rect x="390" y="390" width="220" height="92" rx="8" fill="#FFFDF8" stroke="#111827" stroke-width="2"/>
+<text x="500.0" y="424" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Semantic projection</text>
+<text x="500.0" y="462" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">query-to-code recall</text>
+<rect x="390" y="530" width="220" height="92" rx="8" fill="#FFFDF8" stroke="#111827" stroke-width="2"/>
+<text x="500.0" y="564" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Evidence memory</text>
+<text x="500.0" y="602" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">repo brief + role hints</text>
+<line x1="315" y1="405" x2="376" y2="296" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M390 296L374 288L374 304Z" fill="#111827"/>
+<line x1="315" y1="560" x2="376" y2="436" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M390 436L374 428L374 444Z" fill="#111827"/>
+<line x1="315" y1="560" x2="376" y2="576" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M390 576L374 568L374 584Z" fill="#111827"/>
+<rect x="210" y="700" width="340" height="126" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<ellipse cx="380" cy="700" rx="170" ry="18" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="380" y="744" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">RepositoryIndex</text>
+<text x="236" y="774" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">CodeChunk</text>
+<text x="236" y="798" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">FileFact</text>
+<text x="236" y="822" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">GraphEdge</text>
+<text x="236" y="846" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">RepositoryMemory</text>
+<line x1="500" y1="622" x2="486" y2="700" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M500 700L484 692L484 708Z" fill="#111827"/>
+<line x1="210" y1="603" x2="306" y2="700" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M320 700L304 692L304 708Z" fill="#111827"/>
+<rect x="205" y="855" width="350" height="38" rx="19" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+<text x="380" y="879" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">cacheable, deterministic, model-free by default</text>
+<rect x="870" y="232" width="420" height="68" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1080.0" y="266" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Repository question or bug-localization prompt</text>
+<line x1="1075" y1="300" x2="1061" y2="360" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M1075 360L1059 352L1059 368Z" fill="#111827"/>
+<rect x="955" y="365" width="240" height="76" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1075.0" y="399" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Plan</text>
+<text x="1075.0" y="421" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">intent + focus terms</text>
+<rect x="1190" y="500" width="230" height="76" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1305.0" y="534" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Retrieve</text>
+<text x="1305.0" y="556" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">lexical / semantic / graph</text>
+<rect x="955" y="660" width="240" height="76" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1075.0" y="694" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Observe</text>
+<text x="1075.0" y="716" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">read snippets + tool output</text>
+<rect x="720" y="500" width="230" height="76" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="835.0" y="534" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Update</text>
+<text x="835.0" y="556" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">rerank + refine query</text>
+<line x1="965" y1="400" x2="1160" y2="400" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/><path d="M1174 400L1158 392L1158 408Z" fill="#1D4ED8"/>
+<line x1="1335" y1="452" x2="1321" y2="625" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/><path d="M1335 625L1319 617L1319 633Z" fill="#1D4ED8"/>
+<line x1="1175" y1="680" x2="807" y2="680" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/><path d="M821 680L805 672L805 688Z" fill="#1D4ED8"/>
+<line x1="805" y1="628" x2="791" y2="452" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/><path d="M805 452L789 444L789 460Z" fill="#1D4ED8"/>
+<rect x="910" y="488" width="330" height="114" rx="18" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1075" y="532" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Evidence State</text>
+<text x="1075" y="562" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">hits, graph slice, trace, diagnostics</text>
+<line x1="550" y1="763" x2="896" y2="548" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M910 548L894 540L894 556Z" fill="#111827"/>
+<text x="654" y="722" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">retrieval candidates</text>
+<rect x="786" y="790" width="576" height="105" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="816" y="826" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Evidence diagnostics</text>
+<rect x="816" y="850" width="94" height="30" rx="15" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+<text x="863" y="870" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">confidence</text>
+<rect x="922" y="850" width="94" height="30" rx="15" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+<text x="969" y="870" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">coverage</text>
+<rect x="1028" y="850" width="94" height="30" rx="15" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+<text x="1075" y="870" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">score gap</text>
+<rect x="1134" y="850" width="94" height="30" rx="15" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+<text x="1181" y="870" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">graph support</text>
+<rect x="1240" y="850" width="94" height="30" rx="15" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+<text x="1287" y="870" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">warnings</text>
+<rect x="776" y="318" width="584" height="34" rx="6" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+<text x="800" y="340" font-family="Consolas, monospace" font-size="14" font-weight="700" fill="#111827">tool belt:</text>
+<text x="890" y="340" font-family="Consolas, monospace" font-size="14" font-weight="400" fill="#4B5563">repo_brief | find_relevant_code | list_directory | search_text | read_file | verify_project</text>
+<rect x="780" y="930" width="580" height="56" rx="8" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2"/>
+<text x="805" y="964" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#6D28D9">Optional OpenAI-compatible tool-calling loop: model chooses safe repo tools, evidence remains observable.</text>
+<line x1="1075" y1="930" x2="1061" y2="895" stroke="#6D28D9" stroke-width="3" stroke-linecap="round" stroke-dasharray="14 10"/><path d="M1075 895L1059 887L1059 903Z" fill="#6D28D9"/>
+<rect x="1500" y="245" width="380" height="90" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1690.0" y="279" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Grounded answer</text>
+<text x="1690.0" y="315" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">ranked snippets + file/line references</text>
+<rect x="1500" y="390" width="380" height="90" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1690.0" y="424" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">HTML report</text>
+<text x="1690.0" y="460" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">shareable evidence trail</text>
+<rect x="1500" y="535" width="380" height="90" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1690.0" y="569" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Evidence bundle</text>
+<text x="1690.0" y="605" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">Codex / Aider / OpenHands handoff</text>
+<line x1="1362" y1="548" x2="1486" y2="290" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M1500 290L1484 282L1484 298Z" fill="#111827"/>
+<line x1="1362" y1="548" x2="1486" y2="435" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M1500 435L1484 427L1484 443Z" fill="#111827"/>
+<line x1="1362" y1="548" x2="1486" y2="580" stroke="#111827" stroke-width="3" stroke-linecap="round"/><path d="M1500 580L1484 572L1484 588Z" fill="#111827"/>
+<rect x="1500" y="705" width="380" height="128" rx="8" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2"/>
+<text x="1525" y="745" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Optional engineering path</text>
+<text x="1525" y="778" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">inspect -&gt; edit in workspace copy -&gt; verify -&gt; repair -&gt; finish</text>
+<text x="1525" y="810" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">reviewed apply-run copies approved diff back to source</text>
+<line x1="1360" y1="960" x2="1486" y2="770" stroke="#6D28D9" stroke-width="3" stroke-linecap="round" stroke-dasharray="14 10"/><path d="M1500 770L1484 762L1484 778Z" fill="#6D28D9"/>
+<rect x="62" y="1010" width="1876" height="150" rx="8" fill="#F9FAFB" stroke="#111827" stroke-width="2"/>
+<text x="90" y="1047" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Cross-cutting controls</text>
+<rect x="90" y="1072" width="420" height="92" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="110" y="1105" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Path safety</text>
+<text x="110" y="1134" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">allowed roots, safe joins, static-file validation</text>
+<rect x="545" y="1072" width="420" height="92" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="565" y="1105" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Index hygiene</text>
+<text x="565" y="1134" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">generated caches, reports, logs, and runs are ignored</text>
+<rect x="1000" y="1072" width="420" height="92" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="1020" y="1105" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Verification policy</text>
+<text x="1020" y="1134" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">allow-listed command shapes; subprocess shell=False</text>
+<rect x="1455" y="1072" width="420" height="92" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="1475" y="1105" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Run records</text>
+<text x="1475" y="1134" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">tool calls, changed files, diff snapshots, verification output</text>
+</svg>

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -22,19 +23,32 @@ class LLMClient:
     base_url: str = ""
     model: str = ""
     timeout_seconds: int = 40
+    provider: str = "auto"
+    max_retries: int = 3
+    last_error: str = ""
+    embedding_model: str = ""
 
     @property
     def available(self) -> bool:
+        if self.provider == "litellm":
+            return bool(self.model)
         return bool(self.api_key and self.base_url and self.model)
 
     @classmethod
-    def from_env(cls, env_file: str | Path | None = None) -> "LLMClient":
+    def from_env(cls, env_file: str | Path | None = None) -> LLMClient:
         file_values = _load_env_file(env_file) if env_file else {}
         return cls(
             api_key=_env_value("OPENAI_API_KEY", file_values, "").strip(),
             base_url=_env_value("OPENAI_BASE_URL", file_values, "https://api.openai.com/v1").strip(),
-            model=_env_value("OPENAI_MODEL", file_values, _env_value("MODEL", file_values, "gpt-4o-mini")).strip(),
+            model=_env_value("OPENAI_MODEL", file_values, _env_value("MODEL", file_values, "gpt-5.4-mini")).strip(),
+            embedding_model=_env_value(
+                "REPO_AGENT_EMBEDDING_MODEL",
+                file_values,
+                "text-embedding-3-small",
+            ).strip(),
             timeout_seconds=int(_env_value("REPO_AGENT_LLM_TIMEOUT", file_values, "40")),
+            provider=_env_value("REPO_AGENT_LLM_PROVIDER", file_values, "auto").strip().lower(),
+            max_retries=max(1, int(_env_value("REPO_AGENT_LLM_MAX_RETRIES", file_values, "3"))),
         )
 
     def chat(
@@ -58,7 +72,7 @@ class LLMClient:
         if tool_choice is not None:
             payload["tool_choice"] = tool_choice
 
-        data = self._post_json(self._chat_completions_url(), payload)
+        data = self._completion(payload)
         if not data:
             return None
         choices = data.get("choices") or []
@@ -68,6 +82,69 @@ class LLMClient:
         if not isinstance(message, dict):
             return None
         return LLMResponse(message=message, raw=data)
+
+    def embed(self, texts: list[str]) -> list[list[float]]:
+        """Encode texts through the configured OpenAI-compatible embedding API."""
+        if not texts or not self.embedding_model:
+            return []
+        if self.provider == "litellm" or (self.provider == "auto" and "/" in self.embedding_model and _litellm_available()):
+            try:
+                from litellm import embedding  # type: ignore[import-not-found]
+
+                kwargs: dict[str, Any] = {"model": self.embedding_model, "input": texts}
+                if self.api_key:
+                    kwargs["api_key"] = self.api_key
+                if self.base_url:
+                    kwargs["api_base"] = self.base_url
+                response = embedding(**kwargs)
+                payload = response.model_dump() if hasattr(response, "model_dump") else response
+                rows = (payload or {}).get("data") or []
+                ordered = sorted(rows, key=lambda row: int(row.get("index", 0)))
+                vectors = [list(map(float, row["embedding"])) for row in ordered]
+                return vectors if len(vectors) == len(texts) else []
+            except (ImportError, OSError, RuntimeError, TypeError, ValueError):
+                return []
+        if not self.api_key or not self.base_url:
+            return []
+        payload = {"model": self.embedding_model, "input": texts}
+        data = self._post_json(self._embeddings_url(), payload)
+        if not data:
+            return []
+        rows = data.get("data") or []
+        ordered = sorted(
+            (row for row in rows if isinstance(row, dict) and isinstance(row.get("embedding"), list)),
+            key=lambda row: int(row.get("index", 0)),
+        )
+        vectors = [list(map(float, row["embedding"])) for row in ordered]
+        return vectors if len(vectors) == len(texts) else []
+
+    def _completion(self, payload: dict[str, Any]) -> dict[str, Any] | None:
+        if self.provider == "litellm" or (self.provider == "auto" and _litellm_available() and "/" in self.model):
+            response = self._completion_litellm(payload)
+            if response is not None or self.provider == "litellm":
+                return response
+        return self._post_json(self._chat_completions_url(), payload)
+
+    def _completion_litellm(self, payload: dict[str, Any]) -> dict[str, Any] | None:
+        try:
+            from litellm import completion
+
+            kwargs = dict(payload)
+            if self.api_key:
+                kwargs["api_key"] = self.api_key
+            if self.base_url:
+                kwargs["api_base"] = self.base_url
+            kwargs["timeout"] = self.timeout_seconds
+            kwargs["max_retries"] = self.max_retries
+            response = completion(**kwargs)
+            if hasattr(response, "model_dump"):
+                return response.model_dump()
+            if isinstance(response, dict):
+                return response
+            return json.loads(response.model_dump_json())
+        except (ImportError, OSError, RuntimeError, TypeError, ValueError) as exc:
+            self.last_error = f"litellm: {type(exc).__name__}: {exc}"
+            return None
 
     def synthesize(self, query: str, bundle: InvestigationBundle, baseline_answer: str) -> str:
         if not self.available:
@@ -112,17 +189,32 @@ class LLMClient:
         }
         body = json.dumps(payload).encode("utf-8")
         req = request.Request(endpoint, data=body, headers=headers, method="POST")
-        try:
-            with request.urlopen(req, timeout=self.timeout_seconds) as response:
-                return json.loads(response.read().decode("utf-8"))
-        except (error.URLError, json.JSONDecodeError, TimeoutError, OSError):
-            return None
+        for attempt in range(self.max_retries):
+            try:
+                with request.urlopen(req, timeout=self.timeout_seconds) as response:
+                    self.last_error = ""
+                    return json.loads(response.read().decode("utf-8"))
+            except error.HTTPError as exc:
+                self.last_error = f"http {exc.code}: {exc.reason}"
+                if exc.code not in {408, 409, 429, 500, 502, 503, 504}:
+                    return None
+            except (error.URLError, json.JSONDecodeError, TimeoutError, OSError) as exc:
+                self.last_error = f"{type(exc).__name__}: {exc}"
+            if attempt + 1 < self.max_retries:
+                time.sleep(min(0.5 * (2**attempt), 2.0))
+        return None
 
     def _chat_completions_url(self) -> str:
         base = self.base_url.rstrip("/")
         if base.endswith("/chat/completions"):
             return base
         return f"{base}/chat/completions"
+
+    def _embeddings_url(self) -> str:
+        base = self.base_url.rstrip("/")
+        if base.endswith("/embeddings"):
+            return base
+        return f"{base}/embeddings"
 
 
 def message_text(message: dict[str, Any]) -> str:
@@ -177,6 +269,14 @@ def _message_content(message: dict[str, Any]) -> str:
                 parts.append(str(item.get("text", "")))
         return "\n".join(parts)
     return str(content)
+
+
+def _litellm_available() -> bool:
+    try:
+        import litellm  # noqa: F401
+    except ImportError:
+        return False
+    return True
 
 
 def _truncate(text: str, max_lines: int) -> str:

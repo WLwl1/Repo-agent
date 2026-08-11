@@ -1,0 +1,123 @@
+<svg width="2400" height="1350" viewBox="0 0 2400 1350" xmlns="http://www.w3.org/2000/svg">
+<rect width="2400" height="1350" fill="#FFFFFF"/>
+<rect x="32" y="32" width="2336" height="1286" fill="none" stroke="#D1D5DB" stroke-width="2"/>
+<text x="1200.0" y="82" font-family="Times New Roman, serif" font-size="40" font-weight="700" fill="#111827" text-anchor="middle">Repo Agent: Evidence-First Repository Investigation</text>
+<text x="1200.0" y="120" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#4B5563" text-anchor="middle">A local evidence layer is built before optional model reasoning or code editing.</text>
+<rect x="70" y="155" width="640" height="820" fill="#FFF7ED" stroke="#111827" stroke-width="2"/>
+<text x="98" y="197" font-family="Times New Roman, serif" font-size="27" font-weight="700" fill="#111827">(a) Evidence construction</text>
+<rect x="750" y="155" width="920" height="820" fill="#EFF6FF" stroke="#111827" stroke-width="2"/>
+<text x="778" y="197" font-family="Times New Roman, serif" font-size="27" font-weight="700" fill="#111827">(b) Evidence-guided localization</text>
+<rect x="1710" y="155" width="560" height="820" fill="#ECFDF5" stroke="#111827" stroke-width="2"/>
+<text x="1738" y="197" font-family="Times New Roman, serif" font-size="27" font-weight="700" fill="#111827">(c) Decision surface</text>
+<rect x="2060" y="68" width="210" height="78" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<polyline points="2082,92 2142,92" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="2142,92 2126.9,99.9 2126.9,84.1" fill="#111827"/>
+<text x="2160" y="98" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">primary flow</text>
+<polyline points="2082,124 2142,124" fill="none" stroke="#6D28D9" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="14 10"/><polygon points="2142,124 2126.9,131.9 2126.9,116.1" fill="#6D28D9"/>
+<text x="2160" y="130" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">optional path</text>
+<rect x="120" y="245" width="230" height="72" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="235.0" y="282" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Local repo</text>
+<text x="235.0" y="299" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">source tree</text>
+<rect x="120" y="375" width="230" height="86" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="235.0" y="412" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Static parser</text>
+<text x="235.0" y="443" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">symbols, routes, calls</text>
+<rect x="120" y="515" width="230" height="86" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="235.0" y="552" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Code facts</text>
+<text x="235.0" y="583" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">chunks + file summaries</text>
+<polyline points="235,317 235,375" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="235,375 227.1,359.9 242.9,359.9" fill="#111827"/>
+<polyline points="235,461 235,515" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="235,515 227.1,499.9 242.9,499.9" fill="#111827"/>
+<rect x="440" y="285" width="230" height="76" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="555.0" y="322" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Route graph</text>
+<text x="555.0" y="343" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">route -&gt; handler edges</text>
+<rect x="440" y="425" width="230" height="76" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="555.0" y="462" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Semantic signals</text>
+<text x="555.0" y="483" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">query-code projection</text>
+<rect x="440" y="565" width="230" height="76" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="555.0" y="602" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Repo memory</text>
+<text x="555.0" y="623" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">roles + brief</text>
+<polyline points="350,560 440,323" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="440,323 442.0,339.9 427.3,334.3" fill="#111827"/>
+<polyline points="350,560 440,463" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="440,463 435.5,479.4 424.0,468.7" fill="#111827"/>
+<polyline points="350,560 440,603" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="440,603 423.0,603.6 429.8,589.4" fill="#111827"/>
+<rect x="170" y="740" width="480" height="132" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<ellipse cx="410" cy="740" rx="240" ry="24" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="410" y="784" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">RepositoryIndex</text>
+<text x="200" y="816" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">CodeChunk</text>
+<text x="200" y="843" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">FileFact</text>
+<text x="200" y="870" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">GraphEdge</text>
+<text x="200" y="897" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">RepositoryMemory</text>
+<polyline points="235,601 310,740" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="310,740 295.9,730.5 309.7,723.0" fill="#111827"/>
+<polyline points="555,641 555,740" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="555,740 547.1,724.9 562.9,724.9" fill="#111827"/>
+<rect x="200" y="902" width="420" height="36" rx="18" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="410" y="925" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">cacheable and deterministic; no API key required</text>
+<rect x="840" y="230" width="780" height="68" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1230.0" y="267" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Repository question or bug-localization prompt</text>
+<rect x="840" y="325" width="780" height="44" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="865" y="353" font-family="Consolas, monospace" font-size="14" font-weight="400" fill="#111827">safe tool belt:</text>
+<text x="985" y="353" font-family="Consolas, monospace" font-size="14" font-weight="400" fill="#4B5563">repo_brief | find_relevant_code | list_directory | search_text | read_file | verify_project</text>
+<rect x="790" y="445" width="150" height="88" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="865.0" y="482" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Plan</text>
+<text x="865.0" y="515" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">intent</text>
+<rect x="985" y="445" width="170" height="88" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1070.0" y="482" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Retrieve</text>
+<text x="1070.0" y="515" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">recall</text>
+<rect x="1200" y="445" width="170" height="88" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1285.0" y="482" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Inspect</text>
+<text x="1285.0" y="515" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">read</text>
+<rect x="1415" y="445" width="185" height="88" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1507.5" y="482" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Rank</text>
+<text x="1507.5" y="515" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">diagnose</text>
+<polyline points="940,489 985,489" fill="none" stroke="#1D4ED8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="985,489 969.9,496.9 969.9,481.1" fill="#1D4ED8"/>
+<polyline points="1155,489 1200,489" fill="none" stroke="#1D4ED8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="1200,489 1184.9,496.9 1184.9,481.1" fill="#1D4ED8"/>
+<polyline points="1370,489 1415,489" fill="none" stroke="#1D4ED8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="1415,489 1399.9,496.9 1399.9,481.1" fill="#1D4ED8"/>
+<polyline points="1220,298 1220,445" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="1220,445 1212.1,429.9 1227.9,429.9" fill="#111827"/>
+<polyline points="650,806 915,690" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="915,690 904.3,703.2 898.0,688.9" fill="#111827"/>
+<polyline points="1510,752 1510,825 790,825 790,533" fill="none" stroke="#6D28D9" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="14 10"/><polygon points="790,533 797.9,548.1 782.1,548.1" fill="#6D28D9"/>
+<text x="690" y="770" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">RepositoryIndex feeds retrieval</text>
+<rect x="915" y="630" width="595" height="122" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1212" y="675" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Evidence State</text>
+<text x="1212" y="705" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">candidate hits, graph slice, trace events, diagnostics</text>
+<rect x="955" y="722" width="92" height="30" rx="15" fill="#F8FAFC" stroke="#D1D5DB" stroke-width="1"/>
+<text x="1001" y="742" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">confidence</text>
+<rect x="1059" y="722" width="92" height="30" rx="15" fill="#F8FAFC" stroke="#D1D5DB" stroke-width="1"/>
+<text x="1105" y="742" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">coverage</text>
+<rect x="1163" y="722" width="92" height="30" rx="15" fill="#F8FAFC" stroke="#D1D5DB" stroke-width="1"/>
+<text x="1209" y="742" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">score gap</text>
+<rect x="1267" y="722" width="92" height="30" rx="15" fill="#F8FAFC" stroke="#D1D5DB" stroke-width="1"/>
+<text x="1313" y="742" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">graph support</text>
+<rect x="1371" y="722" width="92" height="30" rx="15" fill="#F8FAFC" stroke="#D1D5DB" stroke-width="1"/>
+<text x="1417" y="742" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="middle">warnings</text>
+<text x="930" y="852" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#6D28D9">feedback refines focus terms and evidence ranking</text>
+<rect x="865" y="900" width="720" height="50" rx="8" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2"/>
+<text x="895" y="932" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#6D28D9">Optional model loop: the model may choose safe tools, but outputs remain tied to observed evidence.</text>
+<rect x="1780" y="255" width="420" height="86" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1990.0" y="292" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Grounded answer</text>
+<text x="1990.0" y="323" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">file/line references + ranked evidence</text>
+<rect x="1780" y="410" width="420" height="86" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1990.0" y="447" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">HTML report</text>
+<text x="1990.0" y="478" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">reviewable evidence trail</text>
+<rect x="1780" y="565" width="420" height="86" rx="8" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+<text x="1990.0" y="602" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="middle">Evidence bundle</text>
+<text x="1990.0" y="633" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563" text-anchor="middle">handoff prompt + graph context</text>
+<polyline points="1600,489 1740,489" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="1740,489 1724.9,496.9 1724.9,481.1" fill="#111827"/>
+<polyline points="1740,489 1780,298" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="1780,298 1784.6,314.4 1769.2,311.1" fill="#111827"/>
+<polyline points="1740,489 1780,453" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="1780,453 1774.0,468.9 1763.5,457.3" fill="#111827"/>
+<polyline points="1740,489 1780,608" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><polygon points="1780,608 1767.8,596.2 1782.6,591.2" fill="#111827"/>
+<rect x="1780" y="760" width="420" height="118" rx="8" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2"/>
+<text x="1808" y="800" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Optional engineering path</text>
+<text x="1808" y="832" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">inspect -&gt; edit workspace copy -&gt; verify -&gt; repair -&gt; finish</text>
+<text x="1808" y="862" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">reviewed apply-run copies approved diff back to source</text>
+<polyline points="1585,925 1780,820" fill="none" stroke="#6D28D9" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="14 10"/><polygon points="1780,820 1770.4,834.1 1763.0,820.2" fill="#6D28D9"/>
+<rect x="70" y="1035" width="2200" height="200" rx="8" fill="#F9FAFB" stroke="#111827" stroke-width="2"/>
+<text x="100" y="1076" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Cross-cutting controls and artifacts</text>
+<rect x="100" y="1100" width="500" height="80" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="124" y="1134" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Path safety</text>
+<text x="124" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">allowed roots; safe joins; static file validation</text>
+<rect x="640" y="1100" width="500" height="80" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="664" y="1134" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Index hygiene</text>
+<text x="664" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">generated caches, logs, reports, and runs ignored</text>
+<rect x="1180" y="1100" width="500" height="80" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="1204" y="1134" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Verification policy</text>
+<text x="1204" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">allow-listed command shapes; subprocess shell=False</text>
+<rect x="1720" y="1100" width="500" height="80" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="1744" y="1134" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#111827">Run records</text>
+<text x="1744" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#4B5563">tool calls, changed files, diffs, verification output</text>
+</svg>

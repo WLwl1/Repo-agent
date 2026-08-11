@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1040" viewBox="0 0 1900 1040" role="img" aria-labelledby="title desc">
+<title id="title">Repo Agent Method Figure</title>
+<desc id="desc">Aligned paper-style method figure for Repo Agent.</desc>
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#111"/></marker>
+<marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#0065d9"/></marker>
+<style>
+.paper { fill:#fff; }
+.topbar { fill:#e9dbf1; stroke:#8b5aa5; stroke-width:1.6; }
+.left-bg { fill:#fff7f7; stroke:#efc9c9; stroke-width:1.2; }
+.mid-bg { fill:#fff8ed; stroke:#efc48b; stroke-width:1.2; }
+.right-bg { fill:#edf7ed; stroke:#b9d8b9; stroke-width:1.2; }
+.panel { fill:#fff; stroke:#111; stroke-width:1.7; }
+.panel-soft { fill:#fff; stroke:#222; stroke-width:1.35; }
+.dashbox { fill:none; stroke:#111; stroke-width:1.35; stroke-dasharray:6 5; }
+.box { fill:#fff; stroke:#111; stroke-width:1.25; }
+.label-purple { fill:#ead8f3; stroke:#8054a2; stroke-width:1.25; }
+.label-yellow { fill:#fff1c2; stroke:#d89b23; stroke-width:1.25; }
+.label-blue { fill:#dcecff; stroke:#2d75c9; stroke-width:1.25; }
+.label-green { fill:#def2d7; stroke:#58a65c; stroke-width:1.25; }
+.label-gray { fill:#f5f5f5; stroke:#777; stroke-width:1.1; }
+.node-teal { fill:#d9f4f1; stroke:#008b86; stroke-width:1.6; }
+.node-orange { fill:#fff1c7; stroke:#d69013; stroke-width:1.6; }
+.node-blue { fill:#dcecff; stroke:#2d75c9; stroke-width:1.6; }
+.node-violet { fill:#ece5ff; stroke:#7550c8; stroke-width:1.6; }
+.node-green { fill:#e2f4dc; stroke:#4a9a4f; stroke-width:1.6; }
+.arrow { fill:none; stroke:#111; stroke-width:2; marker-end:url(#arrow); }
+.arrow-blue { fill:none; stroke:#0065d9; stroke-width:2; marker-end:url(#arrowBlue); }
+.text-title { font:700 30px 'Times New Roman', serif; fill:#000; }
+.section-title { font:700 24px 'Times New Roman', serif; fill:#000; }
+.h { font:700 18px 'Times New Roman', serif; fill:#111; }
+.m { font:400 15px Arial, Helvetica, sans-serif; fill:#111; }
+.s { font:400 13px Arial, Helvetica, sans-serif; fill:#333; }
+.code { font:400 12px Consolas, 'Courier New', monospace; fill:#0f172a; }
+.code-blue { font:400 12px Consolas, 'Courier New', monospace; fill:#005ad7; }
+.blue-text { font:400 14px Arial, Helvetica, sans-serif; fill:#0065d9; }
+.orange-text { font:400 14px Arial, Helvetica, sans-serif; fill:#b36b0d; }
+.tag { font:700 14px Arial, Helvetica, sans-serif; fill:#111; }
+</style>
+</defs>
+<rect class="paper" width="1900" height="1040"/>
+<rect class="topbar" x="64" y="42" width="1772" height="64" rx="8"/>
+<text x="950" y="82" class="text-title" text-anchor="middle">Question: Where is the chat endpoint implemented, and what evidence supports the location?</text>
+<rect class="left-bg" x="62" y="114" width="515" height="806" rx="0"/>
+<text x="90" y="158" class="section-title" text-anchor="start">Repository Evidence Construction</text>
+<rect class="mid-bg" x="584" y="114" width="485" height="806" rx="0"/>
+<text x="612" y="158" class="section-title" text-anchor="start">Agentic Investigation Loop</text>
+<rect class="right-bg" x="1076" y="114" width="760" height="806" rx="0"/>
+<text x="1104" y="158" class="section-title" text-anchor="start">Repo Agent: Locate First, Decide Next</text>
+<line x1="577" y1="114" x2="577" y2="920" stroke="#111" stroke-width="2" stroke-dasharray="6 6"/>
+<line x1="1069" y1="114" x2="1069" y2="920" stroke="#111" stroke-width="2" stroke-dasharray="6 6"/>
+<rect class="panel" x="78" y="176" width="470" height="320" rx="8"/>
+<rect class="label-purple" x="96" y="194" width="120" height="28" rx="4"/>
+<text x="156.0" y="214.0" class="tag" text-anchor="middle">Repository</text>
+<rect class="box" x="118" y="244" width="175" height="58" rx="7"/>
+<text x="205.5" y="274" class="h" text-anchor="middle">Local Files</text>
+<text x="205.5" y="299" class="s" text-anchor="middle">source tree</text>
+<rect class="box" x="118" y="334" width="175" height="64" rx="7"/>
+<text x="205.5" y="364" class="h" text-anchor="middle">Static Parsing</text>
+<text x="205.5" y="389" class="s" text-anchor="middle">symbols / routes / calls</text>
+<rect class="box" x="118" y="428" width="175" height="58" rx="7"/>
+<text x="205.5" y="458" class="h" text-anchor="middle">Index Builder</text>
+<text x="205.5" y="483" class="s" text-anchor="middle">chunks / file facts</text>
+<rect class="dashbox" x="338" y="232" width="178" height="220" rx="14"/>
+<rect class="label-yellow" x="356" y="252" width="142" height="45" rx="7"/>
+<text x="427.0" y="282" class="h" text-anchor="middle">Repository Graph</text>
+<rect class="label-blue" x="356" y="316" width="142" height="45" rx="7"/>
+<text x="427.0" y="346" class="h" text-anchor="middle">Semantic Features</text>
+<rect class="label-green" x="356" y="380" width="142" height="45" rx="7"/>
+<text x="427.0" y="410" class="h" text-anchor="middle">Evidence Memory</text>
+<path class="arrow" d="M205 302 L205 334"/>
+<path class="arrow" d="M205 398 L205 428"/>
+<path class="arrow" d="M293 366 L338 366"/>
+<path class="arrow" d="M293 457 L356 457"/>
+<rect class="panel-soft" x="78" y="512" width="470" height="374" rx="8"/>
+<rect class="label-yellow" x="96" y="530" width="132" height="30" rx="4"/>
+<text x="162.0" y="551.0" class="tag" text-anchor="middle">Evidence Base</text>
+<text x="100" y="590" class="orange-text" text-anchor="start">[PARSE] extract routes, handlers, symbols, imports</text>
+<text x="100" y="622" class="code-blue" text-anchor="start">server.js :: post_api_chat -&gt; handleAgentStreamRequest</text>
+<text x="100" y="654" class="orange-text" text-anchor="start">[GRAPH] connect routes_to / calls / imports edges</text>
+<text x="100" y="686" class="code-blue" text-anchor="start">GraphEdge(route -&gt; handler), GraphEdge(handler -&gt; dependency)</text>
+<text x="100" y="718" class="orange-text" text-anchor="start">[CACHE] persist reusable RepositoryIndex</text>
+<text x="100" y="750" class="code-blue" text-anchor="start">CodeChunk + FileFact + RetrievalHit candidates</text>
+<rect class="label-gray" x="370" y="790" width="150" height="62" rx="7"/>
+<text x="445.0" y="820" class="h" text-anchor="middle">Structured Evidence</text>
+<rect class="panel" x="602" y="176" width="438" height="308" rx="8"/>
+<rect class="label-purple" x="624" y="194" width="118" height="28" rx="4"/>
+<text x="683.0" y="214.0" class="tag" text-anchor="middle">Question</text>
+<circle cx="821" cy="335" r="54" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="821" y="327" class="h" text-anchor="middle">Repo</text>
+<text x="821" y="351" class="h" text-anchor="middle">Agent</text>
+<rect class="node-orange" x="710" y="246" width="110" height="42" rx="7"/>
+<text x="765.0" y="276" class="h" text-anchor="middle">Plan</text>
+<rect class="node-blue" x="872" y="246" width="110" height="42" rx="7"/>
+<text x="927.0" y="276" class="h" text-anchor="middle">Retrieve</text>
+<rect class="node-green" x="872" y="382" width="110" height="42" rx="7"/>
+<text x="927.0" y="412" class="h" text-anchor="middle">Observe</text>
+<rect class="node-violet" x="710" y="382" width="110" height="42" rx="7"/>
+<text x="765.0" y="412" class="h" text-anchor="middle">Update</text>
+<path class="arrow-blue" d="M820 267 L872 267"/>
+<path class="arrow-blue" d="M927 288 L927 382"/>
+<path class="arrow-blue" d="M872 403 L820 403"/>
+<path class="arrow-blue" d="M765 382 L765 288"/>
+<path class="arrow" d="M682 222 L704 246 L718 252"/>
+<rect class="label-blue" x="635" y="444" width="374" height="34" rx="7"/>
+<text x="822.0" y="474" class="h" text-anchor="middle">Plan -&gt; Retrieve -&gt; Observe -&gt; Update</text>
+<rect class="panel-soft" x="602" y="512" width="438" height="374" rx="8"/>
+<text x="622" y="560" class="orange-text" text-anchor="start">1. infer intent: API lookup / bug trace / flow trace</text>
+<text x="622" y="592" class="blue-text" text-anchor="start">2. scout files using role and language signals</text>
+<text x="622" y="624" class="orange-text" text-anchor="start">3. read candidate chunks and inspect local context</text>
+<text x="622" y="656" class="blue-text" text-anchor="start">4. expand neighbors through repository graph</text>
+<text x="622" y="688" class="orange-text" text-anchor="start">5. rerank evidence and compute diagnostics</text>
+<text x="622" y="720" class="blue-text" text-anchor="start">6. emit trace with reasons and confidence warnings</text>
+<rect class="label-gray" x="826" y="790" width="180" height="62" rx="7"/>
+<text x="916.0" y="820" class="h" text-anchor="middle">Agent State</text>
+<text x="916.0" y="845" class="s" text-anchor="middle">focus terms / hits / trace</text>
+<rect class="panel" x="1092" y="176" width="710" height="308" rx="8"/>
+<rect class="label-yellow" x="1125" y="218" width="180" height="44" rx="7"/>
+<text x="1215.0" y="248" class="h" text-anchor="middle">Evidence Query</text>
+<rect class="node-teal" x="1136" y="324" width="210" height="70" rx="7"/>
+<text x="1241.0" y="354" class="h" text-anchor="middle">RepositoryIndex</text>
+<text x="1241.0" y="379" class="s" text-anchor="middle">chunks, facts, graph</text>
+<rect class="node-orange" x="1442" y="232" width="198" height="70" rx="7"/>
+<text x="1541.0" y="262" class="h" text-anchor="middle">Evidence Engine</text>
+<text x="1541.0" y="287" class="s" text-anchor="middle">rank + expand + rerank</text>
+<rect class="node-blue" x="1442" y="372" width="198" height="70" rx="7"/>
+<text x="1541.0" y="402" class="h" text-anchor="middle">Safe Tools</text>
+<text x="1541.0" y="427" class="s" text-anchor="middle">read, search, verify</text>
+<rect class="label-green" x="1682" y="324" width="105" height="70" rx="7"/>
+<text x="1734.5" y="354" class="h" text-anchor="middle">Answer</text>
+<text x="1734.5" y="379" class="s" text-anchor="middle">grounded</text>
+<path class="arrow" d="M1305 240 L1442 240"/>
+<path class="arrow" d="M1346 359 L1442 359"/>
+<path class="arrow" d="M1541 302 L1541 372"/>
+<path class="arrow" d="M1640 267 L1664 267 L1664 359 L1682 359"/>
+<path class="arrow" d="M1640 407 L1664 407 L1664 359 L1682 359"/>
+<path class="arrow" d="M1092 359 L1136 359"/>
+<rect class="panel-soft" x="1092" y="512" width="710" height="374" rx="8"/>
+<rect class="label-yellow" x="1114" y="530" width="164" height="32" rx="4"/>
+<text x="1196.0" y="552.0" class="tag" text-anchor="middle">Evidence Trace</text>
+<rect class="label-blue" x="1580" y="530" width="188" height="32" rx="4"/>
+<text x="1674.0" y="552.0" class="tag" text-anchor="middle">Reviewable Output</text>
+<text x="1114" y="600" class="orange-text" text-anchor="start">Step 1. plan: target API / route / handler evidence</text>
+<text x="1114" y="632" class="blue-text" text-anchor="start">Step 2. file scout: server.js, app.py, web/app.js ...</text>
+<text x="1114" y="664" class="orange-text" text-anchor="start">Step 3. graph hop: route -&gt; handler -&gt; called function</text>
+<text x="1114" y="696" class="blue-text" text-anchor="start">Step 4. final ranking: file, line range, snippet, reasons</text>
+<rect class="label-green" x="1390" y="748" width="120" height="44" rx="7"/>
+<text x="1450.0" y="778" class="h" text-anchor="middle">Report</text>
+<rect class="label-purple" x="1538" y="748" width="120" height="44" rx="7"/>
+<text x="1598.0" y="778" class="h" text-anchor="middle">Bundle</text>
+<rect class="label-blue" x="1686" y="748" width="90" height="44" rx="7"/>
+<text x="1731.0" y="778" class="h" text-anchor="middle">Trace</text>
+<text x="1114" y="838" class="code" text-anchor="start">Output = ranked snippets + diagnostics + graph edges + handoff prompt</text>
+<text x="1114" y="866" class="code-blue" text-anchor="start">Decision: review evidence first, then edit or pass downstream.</text>
+<path class="arrow" d="M548 330 L602 330"/>
+<path class="arrow" d="M1040 330 L1092 330"/>
+<path class="arrow-blue" d="M1040 684 L1092 684"/>
+<text x="64" y="970" class="s" text-anchor="start">Figure. Repo Agent organizes repository understanding into a reusable evidence base, then uses an agentic loop to produce reviewable outputs before edit decisions.</text>
+</svg>

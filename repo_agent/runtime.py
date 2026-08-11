@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any
 
 from .agent import RepoAgent
 from .audit import AuditLogger
@@ -9,14 +10,16 @@ from .bundle import build_evidence_bundle, default_bundle_path, write_evidence_b
 from .cache import IndexCache
 from .config import RepoAgentConfig
 from .engineering import EngineeringAgent, create_workspace_copy, new_run_id
+from .impact import analyze_impact, render_impact_markdown, write_impact_output
 from .indexer import RepositoryIndex, build_index
 from .llm import LLMClient
 from .memory import build_repo_memory, render_repo_brief
 from .models import AgentResult
 from .report import write_html_report
-from .ignore import IGNORED_DIRS, IGNORED_FILES
+from .ignore import IGNORED_DIRS, IGNORED_FILES, is_ignored_relpath
 from .security import agent_policy, safe_join, validate_question, validate_repo_path
 from .tools import RepoTools
+from datetime import UTC
 
 
 class RepoAgentRuntime:
@@ -40,11 +43,17 @@ class RepoAgentRuntime:
             self.audit.log("index_cache_hit", repo=str(repo_root))
             return self._memory[cache_key]
         repo_index = None if force_rebuild else self.cache.load(repo_root, signature)
+        if repo_index is not None and self.llm.available:
+            if repo_index.embedding_model != self.llm.embedding_model:
+                repo_index = None
         if repo_index is None:
             repo_index = build_index(
                 repo_root,
                 max_files=self.config.max_index_files,
                 max_file_bytes=self.config.max_index_file_bytes,
+                file_cache=self.cache,
+                embedding_provider=self.llm.embed if self.llm.available else None,
+                embedding_model=self.llm.embedding_model if self.llm.available else "",
             )
             self.cache.save(repo_root, signature, repo_index)
             self.audit.log("index_built", repo=str(repo_root), chunks=repo_index.stats().get("chunk_count", 0))
@@ -66,7 +75,9 @@ class RepoAgentRuntime:
         repo_root = validate_repo_path(repo_path, self.config)
         safe_question = validate_question(question, self.config)
         repo_index = self.load_index(repo_root, force_rebuild=force_rebuild)
-        agent = RepoAgent(repo_index, llm_client=self.llm if use_model else None)
+        # The configured client supplies embeddings even for deterministic
+        # answer mode; tool-calling remains gated by use_model in answer().
+        agent = RepoAgent(repo_index, llm_client=self.llm if self.llm.available else None)
         result = agent.answer(safe_question, top_k=top_k, use_model=use_model)
         self.audit.log(
             "ask",
@@ -142,6 +153,52 @@ class RepoAgentRuntime:
         )
         return bundle, bundle_path
 
+    def generate_impact(
+        self,
+        repo_path: str | Path,
+        question: str,
+        *,
+        top_k: int = 6,
+        use_model: bool = False,
+        force_rebuild: bool = False,
+        target: str = "",
+        max_depth: int = 3,
+        output_path: str | Path | None = None,
+    ) -> tuple[dict, Path, AgentResult, RepositoryIndex]:
+        result, repo_index = self.ask(
+            repo_path=repo_path,
+            question=question,
+            top_k=top_k,
+            use_model=use_model,
+            force_rebuild=force_rebuild,
+        )
+        selected_target = target or str(result.proof.get("top_hit", ""))
+        if not selected_target and result.hits:
+            selected_target = result.hits[0].chunk.source_label
+        payload = analyze_impact(
+            repo_index,
+            target=selected_target,
+            query=result.query,
+            proof=result.proof,
+            max_depth=max_depth,
+        )
+        output = (
+            Path(output_path).expanduser().resolve()
+            if output_path is not None
+            else self._default_impact_path(question)
+        )
+        impact_path = write_impact_output(payload, output)
+        payload["output_path"] = str(impact_path)
+        payload["markdown"] = render_impact_markdown(payload)
+        self.audit.log(
+            "impact_generated",
+            repo=str(repo_index.repo_root),
+            target=selected_target,
+            impact=str(impact_path),
+            risk=str((payload.get("impact_summary") or {}).get("risk_level", "")),
+        )
+        return payload, impact_path, result, repo_index
+
     def health(self) -> dict:
         return {
             "ok": True,
@@ -166,7 +223,7 @@ class RepoAgentRuntime:
         task: str,
         *,
         max_steps: int | None = None,
-        execution_mode: str = "workspace",
+        execution_mode: str | None = "workspace",
         force_rebuild: bool = False,
     ) -> tuple[dict, RepositoryIndex]:
         repo_root = validate_repo_path(repo_path, self.config)
@@ -215,7 +272,7 @@ class RepoAgentRuntime:
         return result.as_dict(), repo_index
 
     def list_engineering_runs(self, limit: int = 30) -> list[dict]:
-        runs = []
+        runs: list[dict] = []
         if not self.runs_dir.exists():
             return runs
         for path in sorted(self.runs_dir.glob("run_*/run.json"), key=lambda item: item.stat().st_mtime, reverse=True):
@@ -232,6 +289,10 @@ class RepoAgentRuntime:
                     "execution_mode": data.get("execution_mode", "local"),
                     "applied": bool(data.get("applied", False)),
                     "changed_files": data.get("changed_files", []),
+                    "verification_status": (data.get("verifier_result") or {}).get("status", ""),
+                    "review_status": (data.get("reviewer_result") or {}).get("status", ""),
+                    "risk_score": (data.get("reviewer_result") or {}).get("risk_score", None),
+                    "timeline_count": len(data.get("timeline") or []),
                     "run_path": str(path.parent),
                     "workspace_root": data.get("workspace_root", ""),
                 }
@@ -268,7 +329,7 @@ class RepoAgentRuntime:
         applied_files: list[str] = []
         for relpath in data.get("changed_files", []):
             clean = str(relpath or "").replace("\\", "/").strip()
-            if not clean or clean.startswith(".env") or "/.env" in clean:
+            if not clean or is_ignored_relpath(clean):
                 continue
             source_path = safe_join(source_root, clean)
             workspace_path = safe_join(workspace_root, clean)
@@ -288,6 +349,18 @@ class RepoAgentRuntime:
                 "step": len(data.get("trace", [])) + 1,
                 "type": "applied_to_source",
                 "content": "\n".join(applied_files) or "no files applied",
+                "created_at": data["applied_at"],
+            }
+        )
+        data.setdefault("timeline", []).append(
+            {
+                "step": len(data.get("timeline", [])) + 1,
+                "agent": "Coordinator Agent",
+                "phase": "apply",
+                "status": "completed",
+                "title": "Workspace applied to source",
+                "summary": "\n".join(applied_files) or "No files applied.",
+                "details": {"applied_files": applied_files, "source_repo_root": str(source_root)},
                 "created_at": data["applied_at"],
             }
         )
@@ -332,6 +405,7 @@ class RepoAgentRuntime:
         tools = RepoTools(repo_index)
         data = payload or {}
         action_name = str(action or "").strip().lower()
+        result: dict[str, Any]
 
         if action_name == "list":
             result = {
@@ -413,6 +487,10 @@ class RepoAgentRuntime:
         safe_name = "".join(char if char.isalnum() else "_" for char in question.lower()).strip("_") or "report"
         return (self.reports_dir / f"{safe_name[:48]}.html").resolve()
 
+    def _default_impact_path(self, question: str) -> Path:
+        safe_name = "".join(char if char.isalnum() else "_" for char in question.lower()).strip("_") or "impact"
+        return (self.reports_dir / f"{safe_name[:48]}.impact.md").resolve()
+
 
 def _int_value(value, *, default: int, minimum: int, maximum: int) -> int:
     try:
@@ -422,14 +500,16 @@ def _int_value(value, *, default: int, minimum: int, maximum: int) -> int:
     return max(minimum, min(maximum, numeric))
 
 
-def _execution_mode(value: str) -> str:
-    mode = str(value or "local").strip().lower()
+def _execution_mode(value: str | None) -> str:
+    mode = str(value or "workspace").strip().lower()
     if mode in {"workspace", "sandbox", "copy"}:
         return "workspace"
-    return "local"
+    if mode in {"local", "source"}:
+        return "local"
+    raise ValueError("execution_mode must be 'workspace' or 'local'")
 
 
 def _utc_now() -> str:
-    from datetime import datetime, timezone
+    from datetime import datetime
 
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()

@@ -1,0 +1,40 @@
+[
+  {
+    "name": "public_chat_stream_writer_vs_admin_legacy_decoys",
+    "repo": "..\\examples\\counterfactual_agent_app",
+    "question": "Which function finally writes streamed tokens for the public /api/chat endpoint?",
+    "expected_path": "server.js",
+    "expected_symbol_contains": "writeChatDelta",
+    "distractor_symbol_contains": [
+      "writeAdminChatDelta",
+      "writeLegacyChatDelta",
+      "fakeStreamWriter",
+      "chatOutputNotes"
+    ]
+  },
+  {
+    "name": "public_chat_handler_vs_legacy_admin_handlers",
+    "repo": "..\\examples\\counterfactual_agent_app",
+    "question": "Which handler serves the public /api/chat route, not the admin replay or legacy chat route?",
+    "expected_path": "server.js",
+    "expected_symbol_contains": "handlePublicChat",
+    "distractor_symbol_contains": [
+      "handleAdminChatReplay",
+      "handleLegacyChat",
+      "fakeStreamWriter"
+    ]
+  },
+  {
+    "name": "session_restore_persistence_vs_chat_stream_noise",
+    "repo": "..\\examples\\counterfactual_agent_app",
+    "question": "For /api/session/:id/restore, which function persists the restored conversation turn?",
+    "expected_path": "server.js",
+    "expected_symbol_contains": "persistConversationTurn",
+    "distractor_symbol_contains": [
+      "writeChatDelta",
+      "writeAdminChatDelta",
+      "writeLegacyChatDelta",
+      "chatOutputNotes"
+    ]
+  }
+]

@@ -3,8 +3,10 @@ $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
 
-$tracked = git ls-files
-$candidates = @($tracked) + @(".env")
+# Disable Git's C-style path quoting so PowerShell can validate tracked files
+# whose names contain non-ASCII characters (for example, Chinese documents).
+$tracked = git -c core.quotePath=false ls-files
+$candidates = @($tracked)
 $patterns = @(
     "sk-[A-Za-z0-9_-]{20,}",
     "ghp_[A-Za-z0-9]{20,}",
@@ -26,11 +28,10 @@ foreach ($relativePath in ($candidates | Sort-Object -Unique)) {
     foreach ($pattern in $patterns) {
         $matches = Select-String -Path $fullPath -Pattern $pattern -AllMatches -CaseSensitive -ErrorAction SilentlyContinue
         foreach ($match in $matches) {
-            $line = $match.Line.Trim()
-            if ($relativePath -eq ".env.example" -and $line -match "=\s*$") {
+            if ($relativePath -eq ".env.example" -and $match.Line.Trim() -match "=\s*$") {
                 continue
             }
-            $findings.Add("${relativePath}:$($match.LineNumber): $line")
+            $findings.Add("${relativePath}:$($match.LineNumber): potential secret-like value")
         }
     }
 }

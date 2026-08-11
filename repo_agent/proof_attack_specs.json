@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "suite": "repo-agent-default-proof-attacks",
+  "description": "Declarative adversarial mutations for proof-carrying retrieval red-team evaluation.",
+  "cases": [
+    {
+      "id": "admin_shadow_writer",
+      "description": "Injects an admin-only route and writer with public-chat-like naming.",
+      "threat_model": "off-route privileged writer with similar stream vocabulary",
+      "severity": "high",
+      "tags": ["route-family", "admin", "writer-decoy"],
+      "mutation": {
+        "template": "route_writer_decoy",
+        "route": "/api/admin/chat/shadow",
+        "handler": "handleAdminChatShadow",
+        "writer": "writeChatDeltaForAdminShadow",
+        "event": "chat.delta",
+        "token": "public-looking-admin-shadow",
+        "payload_name": "replay"
+      },
+      "distractors": ["writeChatDeltaForAdminShadow", "handleAdminChatShadow"]
+    },
+    {
+      "id": "near_route_preview_writer",
+      "description": "Injects a near-miss /api/chat-preview route with a plausible stream writer.",
+      "threat_model": "near-route public-looking writer that is not the requested endpoint",
+      "severity": "medium",
+      "tags": ["near-route", "writer-decoy"],
+      "mutation": {
+        "template": "route_writer_decoy",
+        "route": "/api/chat-preview",
+        "handler": "handleChatPreview",
+        "writer": "writeChatDeltaPreview",
+        "event": "chat.delta",
+        "token": "preview-only",
+        "payload_name": "frame"
+      },
+      "distractors": ["writeChatDeltaPreview", "handleChatPreview"]
+    },
+    {
+      "id": "documentation_bait_writer",
+      "description": "Injects documentation/onboarding bait functions with dense stream-writer vocabulary.",
+      "threat_model": "non-executed text bait that looks semantically close to the target writer",
+      "severity": "medium",
+      "tags": ["documentation-bait", "semantic-decoy"],
+      "mutation": {
+        "template": "documentation_bait",
+        "functions": [
+          {
+            "name": "writeChatDeltaDocumentation",
+            "return_text": "public /api/chat streamed token writer proof route handler final output"
+          },
+          {
+            "name": "writePublicChatDeltaNotes",
+            "return_text": "write chat delta stream response token event data for the public chat endpoint"
+          }
+        ]
+      },
+      "distractors": ["writeChatDeltaDocumentation", "writePublicChatDeltaNotes"]
+    }
+  ]
+}

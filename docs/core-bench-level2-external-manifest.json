@@ -1,0 +1,3021 @@
+{
+  "schema_version": "1.0",
+  "protocol_id": "repo-agent-retrieval-research-v1",
+  "dataset": "zhangfw123/CORE-Bench",
+  "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+  "level": "LEVEL-2",
+  "subdataset": "Multi-SWE-bench",
+  "selection": {
+    "algorithm": "sha256(dataset_revision:repository), then prefix query order",
+    "repository_count": 22,
+    "query_count": 200,
+    "repositories": [
+      "anuraghazra__github",
+      "facebook__zstd",
+      "rayon",
+      "sharkdp__bat",
+      "nlohmann__json",
+      "elastic__logstash",
+      "google__gson",
+      "Kong__insomnia",
+      "googlecontainertools__jib",
+      "sveltejs__svelte",
+      "jqlang__jq",
+      "iamkun__dayjs",
+      "fmtlib__fmt",
+      "catchorg__Catch2",
+      "cli__cli",
+      "darkreader__darkreader",
+      "grpc__grpc",
+      "nushell__nushell",
+      "mockito__mockito",
+      "BurntSushi__ripgrep",
+      "serde",
+      "ponylang__ponyc"
+    ]
+  },
+  "cases": [
+    {
+      "id": "anuraghazra__github-readme-stats-1041",
+      "repo": "anuraghazra__github",
+      "metadata": {
+        "source_repository": "anuraghazra__github",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "anuraghazra__github",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "anuraghazra__github-readme-stats-117",
+      "repo": "anuraghazra__github",
+      "metadata": {
+        "source_repository": "anuraghazra__github",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "anuraghazra__github",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "anuraghazra__github-readme-stats-1314",
+      "repo": "anuraghazra__github",
+      "metadata": {
+        "source_repository": "anuraghazra__github",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "anuraghazra__github",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "anuraghazra__github-readme-stats-1370",
+      "repo": "anuraghazra__github",
+      "metadata": {
+        "source_repository": "anuraghazra__github",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "anuraghazra__github",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "anuraghazra__github-readme-stats-1378",
+      "repo": "anuraghazra__github",
+      "metadata": {
+        "source_repository": "anuraghazra__github",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "anuraghazra__github",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "anuraghazra__github-readme-stats-148",
+      "repo": "anuraghazra__github",
+      "metadata": {
+        "source_repository": "anuraghazra__github",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "anuraghazra__github",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "anuraghazra__github-readme-stats-1608",
+      "repo": "anuraghazra__github",
+      "metadata": {
+        "source_repository": "anuraghazra__github",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "anuraghazra__github",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "anuraghazra__github-readme-stats-2075",
+      "repo": "anuraghazra__github",
+      "metadata": {
+        "source_repository": "anuraghazra__github",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "anuraghazra__github",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "anuraghazra__github-readme-stats-2099",
+      "repo": "anuraghazra__github",
+      "metadata": {
+        "source_repository": "anuraghazra__github",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "anuraghazra__github",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "anuraghazra__github-readme-stats-2228",
+      "repo": "anuraghazra__github",
+      "metadata": {
+        "source_repository": "anuraghazra__github",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "anuraghazra__github",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "facebook__zstd-1008",
+      "repo": "facebook__zstd",
+      "metadata": {
+        "source_repository": "facebook__zstd",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "facebook__zstd",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "facebook__zstd-1080",
+      "repo": "facebook__zstd",
+      "metadata": {
+        "source_repository": "facebook__zstd",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "facebook__zstd",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "facebook__zstd-1105",
+      "repo": "facebook__zstd",
+      "metadata": {
+        "source_repository": "facebook__zstd",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "facebook__zstd",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "facebook__zstd-1106",
+      "repo": "facebook__zstd",
+      "metadata": {
+        "source_repository": "facebook__zstd",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "facebook__zstd",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "facebook__zstd-1107",
+      "repo": "facebook__zstd",
+      "metadata": {
+        "source_repository": "facebook__zstd",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "facebook__zstd",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "facebook__zstd-1243",
+      "repo": "facebook__zstd",
+      "metadata": {
+        "source_repository": "facebook__zstd",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "facebook__zstd",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "facebook__zstd-1390",
+      "repo": "facebook__zstd",
+      "metadata": {
+        "source_repository": "facebook__zstd",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "facebook__zstd",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "facebook__zstd-1416",
+      "repo": "facebook__zstd",
+      "metadata": {
+        "source_repository": "facebook__zstd",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "facebook__zstd",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "facebook__zstd-1459",
+      "repo": "facebook__zstd",
+      "metadata": {
+        "source_repository": "facebook__zstd",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "facebook__zstd",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "facebook__zstd-1530",
+      "repo": "facebook__zstd",
+      "metadata": {
+        "source_repository": "facebook__zstd",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "facebook__zstd",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "rayon-rs__rayon-863",
+      "repo": "rayon",
+      "metadata": {
+        "source_repository": "rayon",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "rayon",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "rayon-rs__rayon-986",
+      "repo": "rayon",
+      "metadata": {
+        "source_repository": "rayon",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "rayon",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sharkdp__bat-1197",
+      "repo": "sharkdp__bat",
+      "metadata": {
+        "source_repository": "sharkdp__bat",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sharkdp__bat",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sharkdp__bat-1276",
+      "repo": "sharkdp__bat",
+      "metadata": {
+        "source_repository": "sharkdp__bat",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sharkdp__bat",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sharkdp__bat-1402",
+      "repo": "sharkdp__bat",
+      "metadata": {
+        "source_repository": "sharkdp__bat",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sharkdp__bat",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sharkdp__bat-1518",
+      "repo": "sharkdp__bat",
+      "metadata": {
+        "source_repository": "sharkdp__bat",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sharkdp__bat",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sharkdp__bat-2544",
+      "repo": "sharkdp__bat",
+      "metadata": {
+        "source_repository": "sharkdp__bat",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sharkdp__bat",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sharkdp__bat-2665",
+      "repo": "sharkdp__bat",
+      "metadata": {
+        "source_repository": "sharkdp__bat",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sharkdp__bat",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sharkdp__bat-2896",
+      "repo": "sharkdp__bat",
+      "metadata": {
+        "source_repository": "sharkdp__bat",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sharkdp__bat",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sharkdp__bat-3075",
+      "repo": "sharkdp__bat",
+      "metadata": {
+        "source_repository": "sharkdp__bat",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sharkdp__bat",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sharkdp__bat-3108",
+      "repo": "sharkdp__bat",
+      "metadata": {
+        "source_repository": "sharkdp__bat",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sharkdp__bat",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sharkdp__bat-3189",
+      "repo": "sharkdp__bat",
+      "metadata": {
+        "source_repository": "sharkdp__bat",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sharkdp__bat",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nlohmann__json-1138",
+      "repo": "nlohmann__json",
+      "metadata": {
+        "source_repository": "nlohmann__json",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nlohmann__json",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nlohmann__json-1301",
+      "repo": "nlohmann__json",
+      "metadata": {
+        "source_repository": "nlohmann__json",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nlohmann__json",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nlohmann__json-1303",
+      "repo": "nlohmann__json",
+      "metadata": {
+        "source_repository": "nlohmann__json",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nlohmann__json",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nlohmann__json-1314",
+      "repo": "nlohmann__json",
+      "metadata": {
+        "source_repository": "nlohmann__json",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nlohmann__json",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nlohmann__json-1323",
+      "repo": "nlohmann__json",
+      "metadata": {
+        "source_repository": "nlohmann__json",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nlohmann__json",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nlohmann__json-1343",
+      "repo": "nlohmann__json",
+      "metadata": {
+        "source_repository": "nlohmann__json",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nlohmann__json",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nlohmann__json-1446",
+      "repo": "nlohmann__json",
+      "metadata": {
+        "source_repository": "nlohmann__json",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nlohmann__json",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nlohmann__json-1555",
+      "repo": "nlohmann__json",
+      "metadata": {
+        "source_repository": "nlohmann__json",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nlohmann__json",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nlohmann__json-18",
+      "repo": "nlohmann__json",
+      "metadata": {
+        "source_repository": "nlohmann__json",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nlohmann__json",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nlohmann__json-1821",
+      "repo": "nlohmann__json",
+      "metadata": {
+        "source_repository": "nlohmann__json",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nlohmann__json",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nlohmann__json-2019",
+      "repo": "nlohmann__json",
+      "metadata": {
+        "source_repository": "nlohmann__json",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nlohmann__json",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "elastic__logstash-13825",
+      "repo": "elastic__logstash",
+      "metadata": {
+        "source_repository": "elastic__logstash",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "elastic__logstash",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "elastic__logstash-13902",
+      "repo": "elastic__logstash",
+      "metadata": {
+        "source_repository": "elastic__logstash",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "elastic__logstash",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "elastic__logstash-13930",
+      "repo": "elastic__logstash",
+      "metadata": {
+        "source_repository": "elastic__logstash",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "elastic__logstash",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "elastic__logstash-13931",
+      "repo": "elastic__logstash",
+      "metadata": {
+        "source_repository": "elastic__logstash",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "elastic__logstash",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "elastic__logstash-13997",
+      "repo": "elastic__logstash",
+      "metadata": {
+        "source_repository": "elastic__logstash",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "elastic__logstash",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "elastic__logstash-14000",
+      "repo": "elastic__logstash",
+      "metadata": {
+        "source_repository": "elastic__logstash",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "elastic__logstash",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "elastic__logstash-14027",
+      "repo": "elastic__logstash",
+      "metadata": {
+        "source_repository": "elastic__logstash",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "elastic__logstash",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "elastic__logstash-14045",
+      "repo": "elastic__logstash",
+      "metadata": {
+        "source_repository": "elastic__logstash",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "elastic__logstash",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "elastic__logstash-14058",
+      "repo": "elastic__logstash",
+      "metadata": {
+        "source_repository": "elastic__logstash",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "elastic__logstash",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "elastic__logstash-14571",
+      "repo": "elastic__logstash",
+      "metadata": {
+        "source_repository": "elastic__logstash",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "elastic__logstash",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "elastic__logstash-14878",
+      "repo": "elastic__logstash",
+      "metadata": {
+        "source_repository": "elastic__logstash",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "elastic__logstash",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "google__gson-1093",
+      "repo": "google__gson",
+      "metadata": {
+        "source_repository": "google__gson",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "google__gson",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "google__gson-1391",
+      "repo": "google__gson",
+      "metadata": {
+        "source_repository": "google__gson",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "google__gson",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "google__gson-1555",
+      "repo": "google__gson",
+      "metadata": {
+        "source_repository": "google__gson",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "google__gson",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "google__gson-1703",
+      "repo": "google__gson",
+      "metadata": {
+        "source_repository": "google__gson",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "google__gson",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "google__gson-1787",
+      "repo": "google__gson",
+      "metadata": {
+        "source_repository": "google__gson",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "google__gson",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "Kong__insomnia-7734",
+      "repo": "Kong__insomnia",
+      "metadata": {
+        "source_repository": "Kong__insomnia",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "kong__insomnia",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "googlecontainertools__jib-2536",
+      "repo": "googlecontainertools__jib",
+      "metadata": {
+        "source_repository": "googlecontainertools__jib",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "googlecontainertools__jib",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "googlecontainertools__jib-2542",
+      "repo": "googlecontainertools__jib",
+      "metadata": {
+        "source_repository": "googlecontainertools__jib",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "googlecontainertools__jib",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "googlecontainertools__jib-2688",
+      "repo": "googlecontainertools__jib",
+      "metadata": {
+        "source_repository": "googlecontainertools__jib",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "googlecontainertools__jib",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "googlecontainertools__jib-4035",
+      "repo": "googlecontainertools__jib",
+      "metadata": {
+        "source_repository": "googlecontainertools__jib",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "googlecontainertools__jib",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "googlecontainertools__jib-4144",
+      "repo": "googlecontainertools__jib",
+      "metadata": {
+        "source_repository": "googlecontainertools__jib",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "googlecontainertools__jib",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10027",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10046",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10071",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10077",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10114",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10181",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10187",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10209",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10259",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10266",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10287",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10291",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "sveltejs__svelte-10368",
+      "repo": "sveltejs__svelte",
+      "metadata": {
+        "source_repository": "sveltejs__svelte",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "sveltejs__svelte",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-1793",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-2157",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-2646",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-2654",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-2658",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-2674",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-2728",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-2821",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-2824",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-2839",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-2840",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-2919",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "jqlang__jq-3161",
+      "repo": "jqlang__jq",
+      "metadata": {
+        "source_repository": "jqlang__jq",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "jqlang__jq",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1008",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1010",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1019",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1023",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1112",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1160",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1161",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1201",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1202",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1209",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1295",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1307",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "iamkun__dayjs-1319",
+      "repo": "iamkun__dayjs",
+      "metadata": {
+        "source_repository": "iamkun__dayjs",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "iamkun__dayjs",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-1171",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-1361",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-1390",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-1407",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-1663",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-1837",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-2158",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-2292",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-2310",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-2317",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-2394",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "fmtlib__fmt-2610",
+      "repo": "fmtlib__fmt",
+      "metadata": {
+        "source_repository": "fmtlib__fmt",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "fmtlib__fmt",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-1422",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-1448",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-1608",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-1609",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-1614",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-1616",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-2128",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-2187",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-2288",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-2394",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-2723",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "catchorg__Catch2-2849",
+      "repo": "catchorg__Catch2",
+      "metadata": {
+        "source_repository": "catchorg__Catch2",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "catchorg__catch2",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10009",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10016",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10048",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10072",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10074",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10078",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10124",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10139",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10154",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10158",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10180",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "cli__cli-10239",
+      "repo": "cli__cli",
+      "metadata": {
+        "source_repository": "cli__cli",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "cli__cli",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "darkreader__darkreader-6747",
+      "repo": "darkreader__darkreader",
+      "metadata": {
+        "source_repository": "darkreader__darkreader",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "darkreader__darkreader",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "darkreader__darkreader-7241",
+      "repo": "darkreader__darkreader",
+      "metadata": {
+        "source_repository": "darkreader__darkreader",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "darkreader__darkreader",
+        "split": "dev",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-2371",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-2629",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-2630",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-2631",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-2735",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-2760",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-2932",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-2951",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-2996",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-3119",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-3201",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-3258",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-3351",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-3361",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "grpc__grpc-go-3476",
+      "repo": "grpc__grpc",
+      "metadata": {
+        "source_repository": "grpc__grpc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "grpc__grpc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-10381",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-10395",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-10405",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-10629",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-11169",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-11292",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-11493",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-11672",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-11948",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-12118",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-12901",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-13357",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "nushell__nushell-13870",
+      "repo": "nushell__nushell",
+      "metadata": {
+        "source_repository": "nushell__nushell",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "nushell__nushell",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "mockito__mockito-3129",
+      "repo": "mockito__mockito",
+      "metadata": {
+        "source_repository": "mockito__mockito",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "mockito__mockito",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "mockito__mockito-3133",
+      "repo": "mockito__mockito",
+      "metadata": {
+        "source_repository": "mockito__mockito",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "mockito__mockito",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "mockito__mockito-3167",
+      "repo": "mockito__mockito",
+      "metadata": {
+        "source_repository": "mockito__mockito",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "mockito__mockito",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "mockito__mockito-3173",
+      "repo": "mockito__mockito",
+      "metadata": {
+        "source_repository": "mockito__mockito",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "mockito__mockito",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "mockito__mockito-3220",
+      "repo": "mockito__mockito",
+      "metadata": {
+        "source_repository": "mockito__mockito",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "mockito__mockito",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "mockito__mockito-3424",
+      "repo": "mockito__mockito",
+      "metadata": {
+        "source_repository": "mockito__mockito",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "mockito__mockito",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-1294",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-1367",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-1642",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-1980",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-2209",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-2295",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-2488",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-2576",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-2610",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-2626",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-454",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-723",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "BurntSushi__ripgrep-954",
+      "repo": "BurntSushi__ripgrep",
+      "metadata": {
+        "source_repository": "BurntSushi__ripgrep",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "burntsushi__ripgrep",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "serde-rs__serde-2709",
+      "repo": "serde",
+      "metadata": {
+        "source_repository": "serde",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "serde",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "serde-rs__serde-2798",
+      "repo": "serde",
+      "metadata": {
+        "source_repository": "serde",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "serde",
+        "split": "test",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "ponylang__ponyc-1035",
+      "repo": "ponylang__ponyc",
+      "metadata": {
+        "source_repository": "ponylang__ponyc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "ponylang__ponyc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "ponylang__ponyc-1051",
+      "repo": "ponylang__ponyc",
+      "metadata": {
+        "source_repository": "ponylang__ponyc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "ponylang__ponyc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "ponylang__ponyc-1057",
+      "repo": "ponylang__ponyc",
+      "metadata": {
+        "source_repository": "ponylang__ponyc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "ponylang__ponyc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "ponylang__ponyc-1124",
+      "repo": "ponylang__ponyc",
+      "metadata": {
+        "source_repository": "ponylang__ponyc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "ponylang__ponyc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "ponylang__ponyc-1260",
+      "repo": "ponylang__ponyc",
+      "metadata": {
+        "source_repository": "ponylang__ponyc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "ponylang__ponyc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "ponylang__ponyc-1339",
+      "repo": "ponylang__ponyc",
+      "metadata": {
+        "source_repository": "ponylang__ponyc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "ponylang__ponyc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "ponylang__ponyc-1411",
+      "repo": "ponylang__ponyc",
+      "metadata": {
+        "source_repository": "ponylang__ponyc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "ponylang__ponyc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "ponylang__ponyc-1486",
+      "repo": "ponylang__ponyc",
+      "metadata": {
+        "source_repository": "ponylang__ponyc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "ponylang__ponyc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    },
+    {
+      "id": "ponylang__ponyc-1516",
+      "repo": "ponylang__ponyc",
+      "metadata": {
+        "source_repository": "ponylang__ponyc",
+        "dataset_revision": "23aee66caabfcd8fec37cb5518c96ae43069460a",
+        "repository_identity": "ponylang__ponyc",
+        "split": "train",
+        "split_seed": 20260804
+      }
+    }
+  ],
+  "splits": {
+    "train": {
+      "case_count": 122,
+      "repository_count": 13,
+      "case_ids": [
+        "Kong__insomnia-7734",
+        "catchorg__Catch2-1422",
+        "catchorg__Catch2-1448",
+        "catchorg__Catch2-1608",
+        "catchorg__Catch2-1609",
+        "catchorg__Catch2-1614",
+        "catchorg__Catch2-1616",
+        "catchorg__Catch2-2128",
+        "catchorg__Catch2-2187",
+        "catchorg__Catch2-2288",
+        "catchorg__Catch2-2394",
+        "catchorg__Catch2-2723",
+        "catchorg__Catch2-2849",
+        "cli__cli-10009",
+        "cli__cli-10016",
+        "cli__cli-10048",
+        "cli__cli-10072",
+        "cli__cli-10074",
+        "cli__cli-10078",
+        "cli__cli-10124",
+        "cli__cli-10139",
+        "cli__cli-10154",
+        "cli__cli-10158",
+        "cli__cli-10180",
+        "cli__cli-10239",
+        "elastic__logstash-13825",
+        "elastic__logstash-13902",
+        "elastic__logstash-13930",
+        "elastic__logstash-13931",
+        "elastic__logstash-13997",
+        "elastic__logstash-14000",
+        "elastic__logstash-14027",
+        "elastic__logstash-14045",
+        "elastic__logstash-14058",
+        "elastic__logstash-14571",
+        "elastic__logstash-14878",
+        "google__gson-1093",
+        "google__gson-1391",
+        "google__gson-1555",
+        "google__gson-1703",
+        "google__gson-1787",
+        "grpc__grpc-go-2371",
+        "grpc__grpc-go-2629",
+        "grpc__grpc-go-2630",
+        "grpc__grpc-go-2631",
+        "grpc__grpc-go-2735",
+        "grpc__grpc-go-2760",
+        "grpc__grpc-go-2932",
+        "grpc__grpc-go-2951",
+        "grpc__grpc-go-2996",
+        "grpc__grpc-go-3119",
+        "grpc__grpc-go-3201",
+        "grpc__grpc-go-3258",
+        "grpc__grpc-go-3351",
+        "grpc__grpc-go-3361",
+        "grpc__grpc-go-3476",
+        "iamkun__dayjs-1008",
+        "iamkun__dayjs-1010",
+        "iamkun__dayjs-1019",
+        "iamkun__dayjs-1023",
+        "iamkun__dayjs-1112",
+        "iamkun__dayjs-1160",
+        "iamkun__dayjs-1161",
+        "iamkun__dayjs-1201",
+        "iamkun__dayjs-1202",
+        "iamkun__dayjs-1209",
+        "iamkun__dayjs-1295",
+        "iamkun__dayjs-1307",
+        "iamkun__dayjs-1319",
+        "jqlang__jq-1793",
+        "jqlang__jq-2157",
+        "jqlang__jq-2646",
+        "jqlang__jq-2654",
+        "jqlang__jq-2658",
+        "jqlang__jq-2674",
+        "jqlang__jq-2728",
+        "jqlang__jq-2821",
+        "jqlang__jq-2824",
+        "jqlang__jq-2839",
+        "jqlang__jq-2840",
+        "jqlang__jq-2919",
+        "jqlang__jq-3161",
+        "mockito__mockito-3129",
+        "mockito__mockito-3133",
+        "mockito__mockito-3167",
+        "mockito__mockito-3173",
+        "mockito__mockito-3220",
+        "mockito__mockito-3424",
+        "ponylang__ponyc-1035",
+        "ponylang__ponyc-1051",
+        "ponylang__ponyc-1057",
+        "ponylang__ponyc-1124",
+        "ponylang__ponyc-1260",
+        "ponylang__ponyc-1339",
+        "ponylang__ponyc-1411",
+        "ponylang__ponyc-1486",
+        "ponylang__ponyc-1516",
+        "rayon-rs__rayon-863",
+        "rayon-rs__rayon-986",
+        "sharkdp__bat-1197",
+        "sharkdp__bat-1276",
+        "sharkdp__bat-1402",
+        "sharkdp__bat-1518",
+        "sharkdp__bat-2544",
+        "sharkdp__bat-2665",
+        "sharkdp__bat-2896",
+        "sharkdp__bat-3075",
+        "sharkdp__bat-3108",
+        "sharkdp__bat-3189",
+        "sveltejs__svelte-10027",
+        "sveltejs__svelte-10046",
+        "sveltejs__svelte-10071",
+        "sveltejs__svelte-10077",
+        "sveltejs__svelte-10114",
+        "sveltejs__svelte-10181",
+        "sveltejs__svelte-10187",
+        "sveltejs__svelte-10209",
+        "sveltejs__svelte-10259",
+        "sveltejs__svelte-10266",
+        "sveltejs__svelte-10287",
+        "sveltejs__svelte-10291",
+        "sveltejs__svelte-10368"
+      ]
+    },
+    "dev": {
+      "case_count": 28,
+      "repository_count": 4,
+      "case_ids": [
+        "darkreader__darkreader-6747",
+        "darkreader__darkreader-7241",
+        "facebook__zstd-1008",
+        "facebook__zstd-1080",
+        "facebook__zstd-1105",
+        "facebook__zstd-1106",
+        "facebook__zstd-1107",
+        "facebook__zstd-1243",
+        "facebook__zstd-1390",
+        "facebook__zstd-1416",
+        "facebook__zstd-1459",
+        "facebook__zstd-1530",
+        "googlecontainertools__jib-2536",
+        "googlecontainertools__jib-2542",
+        "googlecontainertools__jib-2688",
+        "googlecontainertools__jib-4035",
+        "googlecontainertools__jib-4144",
+        "nlohmann__json-1138",
+        "nlohmann__json-1301",
+        "nlohmann__json-1303",
+        "nlohmann__json-1314",
+        "nlohmann__json-1323",
+        "nlohmann__json-1343",
+        "nlohmann__json-1446",
+        "nlohmann__json-1555",
+        "nlohmann__json-18",
+        "nlohmann__json-1821",
+        "nlohmann__json-2019"
+      ]
+    },
+    "test": {
+      "case_count": 50,
+      "repository_count": 5,
+      "case_ids": [
+        "BurntSushi__ripgrep-1294",
+        "BurntSushi__ripgrep-1367",
+        "BurntSushi__ripgrep-1642",
+        "BurntSushi__ripgrep-1980",
+        "BurntSushi__ripgrep-2209",
+        "BurntSushi__ripgrep-2295",
+        "BurntSushi__ripgrep-2488",
+        "BurntSushi__ripgrep-2576",
+        "BurntSushi__ripgrep-2610",
+        "BurntSushi__ripgrep-2626",
+        "BurntSushi__ripgrep-454",
+        "BurntSushi__ripgrep-723",
+        "BurntSushi__ripgrep-954",
+        "anuraghazra__github-readme-stats-1041",
+        "anuraghazra__github-readme-stats-117",
+        "anuraghazra__github-readme-stats-1314",
+        "anuraghazra__github-readme-stats-1370",
+        "anuraghazra__github-readme-stats-1378",
+        "anuraghazra__github-readme-stats-148",
+        "anuraghazra__github-readme-stats-1608",
+        "anuraghazra__github-readme-stats-2075",
+        "anuraghazra__github-readme-stats-2099",
+        "anuraghazra__github-readme-stats-2228",
+        "fmtlib__fmt-1171",
+        "fmtlib__fmt-1361",
+        "fmtlib__fmt-1390",
+        "fmtlib__fmt-1407",
+        "fmtlib__fmt-1663",
+        "fmtlib__fmt-1837",
+        "fmtlib__fmt-2158",
+        "fmtlib__fmt-2292",
+        "fmtlib__fmt-2310",
+        "fmtlib__fmt-2317",
+        "fmtlib__fmt-2394",
+        "fmtlib__fmt-2610",
+        "nushell__nushell-10381",
+        "nushell__nushell-10395",
+        "nushell__nushell-10405",
+        "nushell__nushell-10629",
+        "nushell__nushell-11169",
+        "nushell__nushell-11292",
+        "nushell__nushell-11493",
+        "nushell__nushell-11672",
+        "nushell__nushell-11948",
+        "nushell__nushell-12118",
+        "nushell__nushell-12901",
+        "nushell__nushell-13357",
+        "nushell__nushell-13870",
+        "serde-rs__serde-2709",
+        "serde-rs__serde-2798"
+      ]
+    }
+  },
+  "freeze": {
+    "protocol_id": "repo-agent-retrieval-research-v1",
+    "algorithm": "sha256(canonical_json(test_cases_sorted_by_id))",
+    "suite_sha256": "93270b6d899efb1393e684158030accb3a5ae263aad37514ddca0c6ae5ff87ee",
+    "test_sha256": "1971053abf37553d3055b0c16d48f9bba56b9b5b4f46aef1452caf99cdfbb04a",
+    "test_case_ids": [
+      "BurntSushi__ripgrep-1294",
+      "BurntSushi__ripgrep-1367",
+      "BurntSushi__ripgrep-1642",
+      "BurntSushi__ripgrep-1980",
+      "BurntSushi__ripgrep-2209",
+      "BurntSushi__ripgrep-2295",
+      "BurntSushi__ripgrep-2488",
+      "BurntSushi__ripgrep-2576",
+      "BurntSushi__ripgrep-2610",
+      "BurntSushi__ripgrep-2626",
+      "BurntSushi__ripgrep-454",
+      "BurntSushi__ripgrep-723",
+      "BurntSushi__ripgrep-954",
+      "anuraghazra__github-readme-stats-1041",
+      "anuraghazra__github-readme-stats-117",
+      "anuraghazra__github-readme-stats-1314",
+      "anuraghazra__github-readme-stats-1370",
+      "anuraghazra__github-readme-stats-1378",
+      "anuraghazra__github-readme-stats-148",
+      "anuraghazra__github-readme-stats-1608",
+      "anuraghazra__github-readme-stats-2075",
+      "anuraghazra__github-readme-stats-2099",
+      "anuraghazra__github-readme-stats-2228",
+      "fmtlib__fmt-1171",
+      "fmtlib__fmt-1361",
+      "fmtlib__fmt-1390",
+      "fmtlib__fmt-1407",
+      "fmtlib__fmt-1663",
+      "fmtlib__fmt-1837",
+      "fmtlib__fmt-2158",
+      "fmtlib__fmt-2292",
+      "fmtlib__fmt-2310",
+      "fmtlib__fmt-2317",
+      "fmtlib__fmt-2394",
+      "fmtlib__fmt-2610",
+      "nushell__nushell-10381",
+      "nushell__nushell-10395",
+      "nushell__nushell-10405",
+      "nushell__nushell-10629",
+      "nushell__nushell-11169",
+      "nushell__nushell-11292",
+      "nushell__nushell-11493",
+      "nushell__nushell-11672",
+      "nushell__nushell-11948",
+      "nushell__nushell-12118",
+      "nushell__nushell-12901",
+      "nushell__nushell-13357",
+      "nushell__nushell-13870",
+      "serde-rs__serde-2709",
+      "serde-rs__serde-2798"
+    ],
+    "test_case_count": 50,
+    "test_repository_count": 5
+  },
+  "raw_artifacts": [
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/anuraghazra__github/queries.jsonl",
+      "size_bytes": 76347,
+      "sha256": "74c90895aa0530fd50b0388955d303b44a95de798303298d52c5855e5eccd6f9"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/anuraghazra__github/qrels.jsonl",
+      "size_bytes": 10129,
+      "sha256": "6057fbe4ee3957292d25b5b5f74f4a666ff3868171149f268292831e7aa0824c"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/facebook__zstd/queries.jsonl",
+      "size_bytes": 2409207,
+      "sha256": "5a53e13ae2053e2c35c2f662c07a48e208f20d70a0064f73cb638a595493df21"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/facebook__zstd/qrels.jsonl",
+      "size_bytes": 19152,
+      "sha256": "e636ecadd1792be53261e9d9edea32cfe50b63672c3206d000526d56a1383752"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/rayon/queries.jsonl",
+      "size_bytes": 252670,
+      "sha256": "3619715cd5d4ceba0700764b0d3fe560edf40523e5d6c4ae664df35d6b80623c"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/rayon/qrels.jsonl",
+      "size_bytes": 9052,
+      "sha256": "34a7ef76ed281b458829e3f7a83fb2be5c704e0acbd8903ff9f094a0e505423c"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/sharkdp__bat/queries.jsonl",
+      "size_bytes": 676743,
+      "sha256": "cb72ec2d67d2d20ed4aa180a98134f911e199a597a702fa9d8984ad8b8112c2e"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/sharkdp__bat/qrels.jsonl",
+      "size_bytes": 15609,
+      "sha256": "3a8ec3523802add9aaaf95e01478c906b696cf8242e2de084131f687ccd4cab6"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/nlohmann__json/queries.jsonl",
+      "size_bytes": 2717536,
+      "sha256": "9a1af7db4e5c1854c875c8b8960ddae6d468dd1a4334082927b21ec17f0ac1cd"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/nlohmann__json/qrels.jsonl",
+      "size_bytes": 33643,
+      "sha256": "92fbb6a3e80e2c0084c0aa1a069957d7da2d9e93d3a759dafd72b24da5485dd9"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/elastic__logstash/queries.jsonl",
+      "size_bytes": 4295454,
+      "sha256": "2470c9937063f37c81937ff7b7e995e7b3168eb242a103ffd2e29c889a9c6f5c"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/elastic__logstash/qrels.jsonl",
+      "size_bytes": 31500,
+      "sha256": "de047936d21a3cfc5e1cfcc59244d336c77690edeeaccaaf10d8a876fa929d23"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/google__gson/queries.jsonl",
+      "size_bytes": 792419,
+      "sha256": "96a75660c88d9d3b3f618dbd0b79e4f7ddacb85663195ef287a606440425bac1"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/google__gson/qrels.jsonl",
+      "size_bytes": 5418,
+      "sha256": "f477d93bc79a111ef772379f60d89a4082ae9477612a1f0a05e0c54f0fbf7e9a"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/Kong__insomnia/queries.jsonl",
+      "size_bytes": 144908,
+      "sha256": "5474e10a2b40e2f35be73b36dfd747fd4ae79721718f463394bdea1244766bab"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/Kong__insomnia/qrels.jsonl",
+      "size_bytes": 133,
+      "sha256": "1aa3e253f9e04e2d92ac242e71ce18c24794a05f80a9fb6a58ada01dc2315a74"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/googlecontainertools__jib/queries.jsonl",
+      "size_bytes": 1129048,
+      "sha256": "129cfd721b12e06b85cc66f8565dc64222b36d0b84e8282d3a6666296ab49997"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/googlecontainertools__jib/qrels.jsonl",
+      "size_bytes": 3875,
+      "sha256": "187cb5c1e6bbbbef6a5e325e276dc9c7eafc0a14985b939af5f73b1a3d33862e"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/sveltejs__svelte/queries.jsonl",
+      "size_bytes": 3534828,
+      "sha256": "dfa544a20d7fff61d57cf22b37a017fa3d69124e403bd9087ddbf23982454eca"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/sveltejs__svelte/qrels.jsonl",
+      "size_bytes": 9522,
+      "sha256": "f32431ea55add59d62d304f4bc00ec89b86c409b767a40ea2eb029c4cf19f602"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/jqlang__jq/queries.jsonl",
+      "size_bytes": 1596320,
+      "sha256": "3738c4b0c4b546a95c96f252d923aec23252cb0d342efe4a98fe0f1ded2f4baf"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/jqlang__jq/qrels.jsonl",
+      "size_bytes": 7500,
+      "sha256": "246078df76aeeaeb6f220d01509f9945c4478ddcd0dc0c487cb1fcdc85efb535"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/iamkun__dayjs/queries.jsonl",
+      "size_bytes": 267856,
+      "sha256": "153f276aa3b2286333bd45fc66a75bfca034c17b109987030f5ba655637341cb"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/iamkun__dayjs/qrels.jsonl",
+      "size_bytes": 3406,
+      "sha256": "8926fff955d3cd753d17bcd0ea4bdfd63f9bf9a76ca7d99ba56eda4794df9e4f"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/fmtlib__fmt/queries.jsonl",
+      "size_bytes": 2064001,
+      "sha256": "f219534e779154ca3938a789765f7aaaaa5afd5592768e1fbde0d51763ed7599"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/fmtlib__fmt/qrels.jsonl",
+      "size_bytes": 8890,
+      "sha256": "4f63ec8194ea0bffdcfd6dd8e211c23e3decf637b620cfce12d40aa92144c7a6"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/catchorg__Catch2/queries.jsonl",
+      "size_bytes": 1805576,
+      "sha256": "8d086177b2e383835875bbf9a277b60cb71be609719448115a567e5a599f8925"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/catchorg__Catch2/qrels.jsonl",
+      "size_bytes": 32606,
+      "sha256": "ddedc699d2d368f9333a242907953dc20306559dc9a1aa0b6326d5c26203761e"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/cli__cli/queries.jsonl",
+      "size_bytes": 3537845,
+      "sha256": "32661e143d4e527fd5a7d3c5bfbb99a02c996a3b35caf49100a001507f8cc1e9"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/cli__cli/qrels.jsonl",
+      "size_bytes": 7564,
+      "sha256": "4178f0ebf9a6cb5c470db0408741edff39f7c3ff6fae2b5b49e112046579f181"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/darkreader__darkreader/queries.jsonl",
+      "size_bytes": 97624,
+      "sha256": "a3d7143f135a476e15c312c17a9d774435c12c5c9ac8a785156935f6662ca8f1"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/darkreader__darkreader/qrels.jsonl",
+      "size_bytes": 596,
+      "sha256": "0a33ce7502740b014aa680d1fe91ac4ac7300d32563e9dfec32f44c94d9ac347"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/grpc__grpc/queries.jsonl",
+      "size_bytes": 4816536,
+      "sha256": "51699eb6cedb4d0c21953999ba5461fb38be649643c62c0a856fd4af2a3f8448"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/grpc__grpc/qrels.jsonl",
+      "size_bytes": 22528,
+      "sha256": "e3c68df6e41d46bb5984a94c319b87f3928141961fbb13fadacf7a3f4b83d4cf"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/nushell__nushell/queries.jsonl",
+      "size_bytes": 7342111,
+      "sha256": "114f1cb0e1a79dac8c9d141004277682ac0ebccd91a6660594ccde4dbb08d789"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/nushell__nushell/qrels.jsonl",
+      "size_bytes": 20976,
+      "sha256": "ec8557d4bf305bf2956c93a610ebeaa06a5930e7d7fdd27520e95206c547872f"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/mockito__mockito/queries.jsonl",
+      "size_bytes": 2451704,
+      "sha256": "c4eb2c5274b9496afbfd38b312c1a4c20b494839eedbf09ee9b44c2af0d51b36"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/mockito__mockito/qrels.jsonl",
+      "size_bytes": 11097,
+      "sha256": "fd8f6b7daf65f3078b84e8449b83c087bd9d6dd59db02949c0e24e409e80498d"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/BurntSushi__ripgrep/queries.jsonl",
+      "size_bytes": 1195781,
+      "sha256": "71d4fe458bfb1f9aa0aada17c95b59064f39e542b7793b865957acae8adca604"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/BurntSushi__ripgrep/qrels.jsonl",
+      "size_bytes": 96937,
+      "sha256": "108301db8cca8eaec598d87a8ad85e93361e05797fa231bec661d182a43df611"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/serde/queries.jsonl",
+      "size_bytes": 230813,
+      "sha256": "b06522b3b705a9d9105a3a193b61d1dd44cd61b85474a319da29767ba8e4613a"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/serde/qrels.jsonl",
+      "size_bytes": 1375,
+      "sha256": "4e9d14610f78074de34036d1e5410ee79b07a66075b68ed0b818c69335906f6b"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/ponylang__ponyc/queries.jsonl",
+      "size_bytes": 2743135,
+      "sha256": "5b9e0dd7221e3da8ba9877b27b6b88d45a8fe449d4595122adb05346f6083c6a"
+    },
+    {
+      "source_path": "data/LEVEL-2/Multi-SWE-bench/ponylang__ponyc/qrels.jsonl",
+      "size_bytes": 13500,
+      "sha256": "197adc4163e0f6560f04e8c0f95a64328fb6883fab39fcc248a1967629de07be"
+    },
+    {
+      "source_path": "combined/queries.jsonl",
+      "size_bytes": 44178462,
+      "sha256": "82f06f0f83c891f9ef21331cb18be25c28c741ea1d2356f9d954ec31cd8a4238"
+    },
+    {
+      "source_path": "combined/qrels.jsonl",
+      "size_bytes": 365008,
+      "sha256": "5dff56dc14859f8da90308d2d06d461afec3c8d5aa30c444be48cf86c43d00ba"
+    }
+  ],
+  "corpus_downloaded": false,
+  "external_validity_audit": {
+    "schema_version": "1.0",
+    "protocol_id": "repo-agent-retrieval-research-v1",
+    "status": "pass",
+    "valid": true,
+    "metrics": {
+      "case_count": 200,
+      "repository_count": 22,
+      "split_summary": {
+        "train": {
+          "case_count": 122,
+          "repository_count": 13,
+          "case_ids": [
+            "Kong__insomnia-7734",
+            "catchorg__Catch2-1422",
+            "catchorg__Catch2-1448",
+            "catchorg__Catch2-1608",
+            "catchorg__Catch2-1609",
+            "catchorg__Catch2-1614",
+            "catchorg__Catch2-1616",
+            "catchorg__Catch2-2128",
+            "catchorg__Catch2-2187",
+            "catchorg__Catch2-2288",
+            "catchorg__Catch2-2394",
+            "catchorg__Catch2-2723",
+            "catchorg__Catch2-2849",
+            "cli__cli-10009",
+            "cli__cli-10016",
+            "cli__cli-10048",
+            "cli__cli-10072",
+            "cli__cli-10074",
+            "cli__cli-10078",
+            "cli__cli-10124",
+            "cli__cli-10139",
+            "cli__cli-10154",
+            "cli__cli-10158",
+            "cli__cli-10180",
+            "cli__cli-10239",
+            "elastic__logstash-13825",
+            "elastic__logstash-13902",
+            "elastic__logstash-13930",
+            "elastic__logstash-13931",
+            "elastic__logstash-13997",
+            "elastic__logstash-14000",
+            "elastic__logstash-14027",
+            "elastic__logstash-14045",
+            "elastic__logstash-14058",
+            "elastic__logstash-14571",
+            "elastic__logstash-14878",
+            "google__gson-1093",
+            "google__gson-1391",
+            "google__gson-1555",
+            "google__gson-1703",
+            "google__gson-1787",
+            "grpc__grpc-go-2371",
+            "grpc__grpc-go-2629",
+            "grpc__grpc-go-2630",
+            "grpc__grpc-go-2631",
+            "grpc__grpc-go-2735",
+            "grpc__grpc-go-2760",
+            "grpc__grpc-go-2932",
+            "grpc__grpc-go-2951",
+            "grpc__grpc-go-2996",
+            "grpc__grpc-go-3119",
+            "grpc__grpc-go-3201",
+            "grpc__grpc-go-3258",
+            "grpc__grpc-go-3351",
+            "grpc__grpc-go-3361",
+            "grpc__grpc-go-3476",
+            "iamkun__dayjs-1008",
+            "iamkun__dayjs-1010",
+            "iamkun__dayjs-1019",
+            "iamkun__dayjs-1023",
+            "iamkun__dayjs-1112",
+            "iamkun__dayjs-1160",
+            "iamkun__dayjs-1161",
+            "iamkun__dayjs-1201",
+            "iamkun__dayjs-1202",
+            "iamkun__dayjs-1209",
+            "iamkun__dayjs-1295",
+            "iamkun__dayjs-1307",
+            "iamkun__dayjs-1319",
+            "jqlang__jq-1793",
+            "jqlang__jq-2157",
+            "jqlang__jq-2646",
+            "jqlang__jq-2654",
+            "jqlang__jq-2658",
+            "jqlang__jq-2674",
+            "jqlang__jq-2728",
+            "jqlang__jq-2821",
+            "jqlang__jq-2824",
+            "jqlang__jq-2839",
+            "jqlang__jq-2840",
+            "jqlang__jq-2919",
+            "jqlang__jq-3161",
+            "mockito__mockito-3129",
+            "mockito__mockito-3133",
+            "mockito__mockito-3167",
+            "mockito__mockito-3173",
+            "mockito__mockito-3220",
+            "mockito__mockito-3424",
+            "ponylang__ponyc-1035",
+            "ponylang__ponyc-1051",
+            "ponylang__ponyc-1057",
+            "ponylang__ponyc-1124",
+            "ponylang__ponyc-1260",
+            "ponylang__ponyc-1339",
+            "ponylang__ponyc-1411",
+            "ponylang__ponyc-1486",
+            "ponylang__ponyc-1516",
+            "rayon-rs__rayon-863",
+            "rayon-rs__rayon-986",
+            "sharkdp__bat-1197",
+            "sharkdp__bat-1276",
+            "sharkdp__bat-1402",
+            "sharkdp__bat-1518",
+            "sharkdp__bat-2544",
+            "sharkdp__bat-2665",
+            "sharkdp__bat-2896",
+            "sharkdp__bat-3075",
+            "sharkdp__bat-3108",
+            "sharkdp__bat-3189",
+            "sveltejs__svelte-10027",
+            "sveltejs__svelte-10046",
+            "sveltejs__svelte-10071",
+            "sveltejs__svelte-10077",
+            "sveltejs__svelte-10114",
+            "sveltejs__svelte-10181",
+            "sveltejs__svelte-10187",
+            "sveltejs__svelte-10209",
+            "sveltejs__svelte-10259",
+            "sveltejs__svelte-10266",
+            "sveltejs__svelte-10287",
+            "sveltejs__svelte-10291",
+            "sveltejs__svelte-10368"
+          ]
+        },
+        "dev": {
+          "case_count": 28,
+          "repository_count": 4,
+          "case_ids": [
+            "darkreader__darkreader-6747",
+            "darkreader__darkreader-7241",
+            "facebook__zstd-1008",
+            "facebook__zstd-1080",
+            "facebook__zstd-1105",
+            "facebook__zstd-1106",
+            "facebook__zstd-1107",
+            "facebook__zstd-1243",
+            "facebook__zstd-1390",
+            "facebook__zstd-1416",
+            "facebook__zstd-1459",
+            "facebook__zstd-1530",
+            "googlecontainertools__jib-2536",
+            "googlecontainertools__jib-2542",
+            "googlecontainertools__jib-2688",
+            "googlecontainertools__jib-4035",
+            "googlecontainertools__jib-4144",
+            "nlohmann__json-1138",
+            "nlohmann__json-1301",
+            "nlohmann__json-1303",
+            "nlohmann__json-1314",
+            "nlohmann__json-1323",
+            "nlohmann__json-1343",
+            "nlohmann__json-1446",
+            "nlohmann__json-1555",
+            "nlohmann__json-18",
+            "nlohmann__json-1821",
+            "nlohmann__json-2019"
+          ]
+        },
+        "test": {
+          "case_count": 50,
+          "repository_count": 5,
+          "case_ids": [
+            "BurntSushi__ripgrep-1294",
+            "BurntSushi__ripgrep-1367",
+            "BurntSushi__ripgrep-1642",
+            "BurntSushi__ripgrep-1980",
+            "BurntSushi__ripgrep-2209",
+            "BurntSushi__ripgrep-2295",
+            "BurntSushi__ripgrep-2488",
+            "BurntSushi__ripgrep-2576",
+            "BurntSushi__ripgrep-2610",
+            "BurntSushi__ripgrep-2626",
+            "BurntSushi__ripgrep-454",
+            "BurntSushi__ripgrep-723",
+            "BurntSushi__ripgrep-954",
+            "anuraghazra__github-readme-stats-1041",
+            "anuraghazra__github-readme-stats-117",
+            "anuraghazra__github-readme-stats-1314",
+            "anuraghazra__github-readme-stats-1370",
+            "anuraghazra__github-readme-stats-1378",
+            "anuraghazra__github-readme-stats-148",
+            "anuraghazra__github-readme-stats-1608",
+            "anuraghazra__github-readme-stats-2075",
+            "anuraghazra__github-readme-stats-2099",
+            "anuraghazra__github-readme-stats-2228",
+            "fmtlib__fmt-1171",
+            "fmtlib__fmt-1361",
+            "fmtlib__fmt-1390",
+            "fmtlib__fmt-1407",
+            "fmtlib__fmt-1663",
+            "fmtlib__fmt-1837",
+            "fmtlib__fmt-2158",
+            "fmtlib__fmt-2292",
+            "fmtlib__fmt-2310",
+            "fmtlib__fmt-2317",
+            "fmtlib__fmt-2394",
+            "fmtlib__fmt-2610",
+            "nushell__nushell-10381",
+            "nushell__nushell-10395",
+            "nushell__nushell-10405",
+            "nushell__nushell-10629",
+            "nushell__nushell-11169",
+            "nushell__nushell-11292",
+            "nushell__nushell-11493",
+            "nushell__nushell-11672",
+            "nushell__nushell-11948",
+            "nushell__nushell-12118",
+            "nushell__nushell-12901",
+            "nushell__nushell-13357",
+            "nushell__nushell-13870",
+            "serde-rs__serde-2709",
+            "serde-rs__serde-2798"
+          ]
+        }
+      }
+    },
+    "checks": [
+      {
+        "id": "minimum_cases",
+        "passed": true,
+        "detail": "200 cases >= 200"
+      },
+      {
+        "id": "minimum_repositories",
+        "passed": true,
+        "detail": "22 repositories >= 20"
+      },
+      {
+        "id": "three_nonempty_splits",
+        "passed": true,
+        "detail": "train/dev/test are non-empty"
+      },
+      {
+        "id": "repository_disjoint",
+        "passed": true,
+        "detail": "repositories do not cross split boundaries"
+      },
+      {
+        "id": "external_source",
+        "passed": true,
+        "detail": "external:CORE-Bench/LEVEL-2"
+      },
+      {
+        "id": "no_test_tuning",
+        "passed": true,
+        "detail": "tuning log contains no test cases"
+      },
+      {
+        "id": "frozen_test_partition",
+        "passed": true,
+        "detail": "test partition is frozen and unchanged"
+      }
+    ],
+    "failed_checks": []
+  },
+  "claim_boundary": "This manifest proves dataset selection, disjoint splitting, and test freezing; retrieval metrics require the corpus and a completed evaluator run."
+}

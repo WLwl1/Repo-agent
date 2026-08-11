@@ -5,6 +5,7 @@ import re
 from pathlib import Path
 
 from .models import SourceAnalysis, Symbol
+from .tree_sitter_backend import analyze_javascript_like
 
 SUPPORTED_EXTENSIONS = {
     ".py": "python",
@@ -16,6 +17,7 @@ SUPPORTED_EXTENSIONS = {
     ".jsx": "javascript",
     ".html": "html",
     ".css": "css",
+    ".toml": "toml",
 }
 
 FUNCTION_RE = re.compile(
@@ -72,6 +74,8 @@ PY_ROUTE_METHODS = {"route", "api_route", "get", "post", "put", "patch", "delete
 
 
 def detect_language(path: Path) -> str | None:
+    if path.name == "MANIFEST.in":
+        return "manifest"
     return SUPPORTED_EXTENSIONS.get(path.suffix.lower())
 
 
@@ -80,19 +84,22 @@ def analyze_source(path: Path, text: str) -> SourceAnalysis:
     if language == "python":
         return _analyze_python(text)
     if language in {"javascript", "typescript"}:
+        tree_sitter_analysis = analyze_javascript_like(language, text)
+        if tree_sitter_analysis is not None:
+            return tree_sitter_analysis
         return _analyze_javascript(language, text)
     if language == "html":
         return _analyze_html(text)
     if language == "css":
         return _analyze_css(text)
-    return SourceAnalysis(language=language or "unknown", imports=[], symbols=[])
+    return SourceAnalysis(language=language or "unknown", imports=[], symbols=[], parser_backend="text")
 
 
 def _analyze_python(text: str) -> SourceAnalysis:
     try:
         tree = ast.parse(text)
     except SyntaxError:
-        return SourceAnalysis(language="python", imports=[], symbols=[])
+        return SourceAnalysis(language="python", imports=[], symbols=[], parser_backend="python-ast-error")
 
     imports: list[str] = []
     symbols: list[Symbol] = []
@@ -105,7 +112,7 @@ def _analyze_python(text: str) -> SourceAnalysis:
             imports.append(module_name)
 
     for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+        if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef):
             for method, route_path, route_line in _extract_python_routes(node):
                 symbols.append(
                     Symbol(
@@ -125,6 +132,8 @@ def _analyze_python(text: str) -> SourceAnalysis:
                     start_line=node.lineno,
                     end_line=getattr(node, "end_lineno", node.lineno),
                     calls=_extract_python_calls(node),
+                    references=_extract_python_references(node, excluded={node.name}),
+                    qualified_name=node.name,
                 )
             )
         elif isinstance(node, ast.ClassDef):
@@ -135,11 +144,14 @@ def _analyze_python(text: str) -> SourceAnalysis:
                     start_line=node.lineno,
                     end_line=getattr(node, "end_lineno", node.lineno),
                     calls=_extract_python_calls(node),
+                    references=_extract_python_references(node, excluded={node.name}),
+                    inherits=[_python_call_name(base) for base in node.bases if _python_call_name(base)],
+                    qualified_name=node.name,
                 )
             )
 
     symbols.sort(key=lambda item: (item.start_line, item.end_line, item.name))
-    return SourceAnalysis(language="python", imports=_dedupe(imports), symbols=symbols)
+    return SourceAnalysis(language="python", imports=_dedupe(imports), symbols=symbols, parser_backend="python-ast")
 
 
 def _analyze_javascript(language: str, text: str) -> SourceAnalysis:
@@ -214,7 +226,7 @@ def _analyze_javascript(language: str, text: str) -> SourceAnalysis:
         if key not in seen:
             seen.add(key)
             deduped_symbols.append(symbol)
-    return SourceAnalysis(language=language, imports=_dedupe(imports), symbols=deduped_symbols)
+    return SourceAnalysis(language=language, imports=_dedupe(imports), symbols=deduped_symbols, parser_backend="regex-fallback")
 
 
 def _analyze_html(text: str) -> SourceAnalysis:
@@ -223,7 +235,7 @@ def _analyze_html(text: str) -> SourceAnalysis:
         for match in HTML_IMPORT_RE.findall(text)
         if _normalize_static_import(match)
     ]
-    return SourceAnalysis(language="html", imports=_dedupe(imports), symbols=[])
+    return SourceAnalysis(language="html", imports=_dedupe(imports), symbols=[], parser_backend="html-links")
 
 
 def _analyze_css(text: str) -> SourceAnalysis:
@@ -232,7 +244,7 @@ def _analyze_css(text: str) -> SourceAnalysis:
         for match in CSS_IMPORT_RE.findall(text)
         if _normalize_static_import(match)
     ]
-    return SourceAnalysis(language="css", imports=_dedupe(imports), symbols=[])
+    return SourceAnalysis(language="css", imports=_dedupe(imports), symbols=[], parser_backend="css-imports")
 
 
 def _extract_python_calls(node: ast.AST) -> list[str]:
@@ -242,6 +254,15 @@ def _extract_python_calls(node: ast.AST) -> list[str]:
             name = _python_call_name(child.func)
             if name:
                 names.append(name)
+    return _dedupe(names)
+
+
+def _extract_python_references(node: ast.AST, *, excluded: set[str]) -> list[str]:
+    names = [
+        child.id
+        for child in ast.walk(node)
+        if isinstance(child, ast.Name) and isinstance(child.ctx, ast.Load) and child.id not in excluded
+    ]
     return _dedupe(names)
 
 
@@ -292,7 +313,7 @@ def _expand_python_route_methods(method: str, decorator: ast.Call) -> list[str]:
 
 
 def _literal_string_list(node: ast.AST) -> list[str]:
-    if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
+    if isinstance(node, ast.List | ast.Tuple | ast.Set):
         return [
             item.value
             for item in node.elts

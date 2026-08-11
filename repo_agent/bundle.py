@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -10,7 +10,7 @@ from .models import AgentResult, GraphEdge, RetrievalHit
 if TYPE_CHECKING:
     from .indexer import RepositoryIndex
 
-BUNDLE_SCHEMA_VERSION = "1.0"
+BUNDLE_SCHEMA_VERSION = "1.1"
 BUNDLE_TARGETS = {"generic", "codex", "aider", "openhands"}
 BUNDLE_FORMATS = {"markdown", "json"}
 
@@ -28,7 +28,7 @@ def build_evidence_bundle(
     return {
         "schema_version": BUNDLE_SCHEMA_VERSION,
         "target": target_name,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "repository": {
             "root": str(repo_index.repo_root),
             "stats": repo_index.stats(),
@@ -39,6 +39,8 @@ def build_evidence_bundle(
         "answer": result.answer,
         "repo_brief": result.repo_brief,
         "diagnostics": _diagnostics_payload(result.diagnostics),
+        "graph_search": result.graph_search,
+        "proof": result.proof,
         "handoff_prompt": _handoff_prompt(target_name),
         "evidence": [_hit_payload(hit, rank, max_snippet_lines=max_snippet_lines) for rank, hit in enumerate(hits, 1)],
         "graph_edges": [_edge_payload(edge, repo_index) for edge in edges],
@@ -62,6 +64,8 @@ def render_markdown_bundle(bundle: dict[str, Any]) -> str:
     stats = repo.get("stats", {})
     evidence = list(bundle.get("evidence", []))
     graph_edges = list(bundle.get("graph_edges", []))
+    graph_search = dict(bundle.get("graph_search") or {})
+    proof = dict(bundle.get("proof") or {})
     trace = list(bundle.get("trace", []))
     next_steps = list(bundle.get("recommended_next_steps", []))
     diagnostics = dict(bundle.get("diagnostics") or {})
@@ -112,6 +116,78 @@ def render_markdown_bundle(bundle: dict[str, Any]) -> str:
             lines.append(f"- Strengths: {'; '.join(str(item) for item in diagnostics.get('strengths', []))}")
         if diagnostics.get("warnings"):
             lines.append(f"- Warnings: {'; '.join(str(item) for item in diagnostics.get('warnings', []))}")
+
+    top_visited = list(graph_search.get("top_visited") or [])
+    if top_visited:
+        lines.extend(
+            [
+                "",
+                "## Graph Search Audit",
+                "",
+                "- Strategy: `graph_mcts`",
+                f"- Iterations: `{graph_search.get('iterations', 0)}`",
+                f"- Max depth: `{graph_search.get('max_depth', 0)}`",
+                f"- Visited chunks: `{graph_search.get('visited_count', 0)}`",
+            ]
+        )
+        for item in top_visited[:6]:
+            path = " -> ".join(f"`{label}`" for label in item.get("path", [])) or "`none`"
+            lines.append(
+                f"- `{item.get('chunk', '')}` visits `{item.get('visits', 0)}` "
+                f"reward `{float(item.get('average_reward', 0.0)):.3f}` "
+                f"boost `+{float(item.get('boost', 0.0)):.2f}` path {path}"
+            )
+
+    if proof:
+        lines.extend(
+            [
+                "",
+                "## Proof-Carrying Retrieval",
+                "",
+                f"- Status: `{proof.get('status', 'unknown')}`",
+                f"- Strategy: `{proof.get('strategy', '')}`",
+                f"- Claim: {proof.get('claim', '')}",
+                f"- Top hit: `{proof.get('top_hit', '')}`",
+                f"- Route literals: {_inline_code_list(proof.get('route_literals', []))}",
+            ]
+        )
+        for check in proof.get("checks", [])[:6]:
+            state = "PASS" if check.get("passed") else "FAIL"
+            lines.append(f"- {check.get('name')}: `{state}` - {check.get('detail', '')}")
+        for item in proof.get("supporting_paths", [])[:4]:
+            path = " -> ".join(f"`{label}`" for label in item.get("path", [])) or "`none`"
+            lines.append(
+                f"- path `{item.get('route', '')}` depth `{item.get('depth', 0)}` "
+                f"boost `+{float(item.get('boost', 0.0)):.2f}`: {path}"
+            )
+        proof_graph = dict(proof.get("proof_graph") or {})
+        graph_nodes = list(proof_graph.get("nodes") or [])
+        graph_edges = list(proof_graph.get("edges") or [])
+        if graph_nodes or graph_edges:
+            lines.extend(["", "### Proof Graph", ""])
+            for node in graph_nodes[:10]:
+                roles = ", ".join(str(role) for role in node.get("roles", [])) or "node"
+                score = f" score `{float(node.get('score')):.2f}`" if node.get("score") is not None else ""
+                lines.append(f"- node `{node.get('id', '')}` roles `{roles}`{score}")
+            for edge in graph_edges[:10]:
+                route = f" route `{edge.get('route')}`" if edge.get("route") else ""
+                weight = f" weight `{float(edge.get('weight')):.2f}`" if edge.get("weight") is not None else ""
+                lines.append(
+                    f"- edge `{edge.get('source', '')}` -> `{edge.get('target', '')}` "
+                    f"via `{edge.get('label', '')}`{route}{weight}"
+                )
+        decoy_audit = list(proof.get("decoy_audit") or [])
+        if decoy_audit:
+            lines.extend(["", "### Contrastive Decoy Audit", ""])
+            for item in decoy_audit[:8]:
+                roles = _inline_code_list(item.get("conflicting_roles", [])) or "`none`"
+                routes = _inline_code_list(item.get("requested_routes", [])) or "`none`"
+                lines.append(
+                    f"- `{item.get('candidate', '')}` rejected `{bool(item.get('rejected'))}`; "
+                    f"score gap `{float(item.get('score_gap', 0.0)):.2f}`; "
+                    f"route anchored `{bool(item.get('route_anchored'))}`; "
+                    f"roles {roles}; requested {routes}; reason: {item.get('reason', '')}"
+                )
 
     repo_brief = str(bundle.get("repo_brief", "")).strip()
     if repo_brief:

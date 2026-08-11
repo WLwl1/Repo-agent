@@ -4,7 +4,7 @@ import json
 from typing import Any
 
 from .llm import LLMClient, message_text
-from .models import AgentResult, EvidenceDiagnostics, InvestigationBundle
+from .models import AgentResult, EvidenceDiagnostics, InvestigationBundle, RetrievalHit
 from .security import is_safe_verification_command
 from .tools import RepoTools
 
@@ -18,10 +18,16 @@ class RepoAgent:
         tools = RepoTools(self.repo_index)
         repo_brief = tools.repo_brief()
         bundle = self._investigate(query, tools, top_k=top_k)
+        rerank_trace: list[dict] = []
+        if use_model and self.llm_client and self.llm_client.available:
+            bundle, rerank_trace = self._rerank_with_model(query, bundle, top_k=top_k)
+        bundle.final_hits = bundle.final_hits[:top_k]
         diagnostics = build_evidence_diagnostics(bundle)
+        proof = build_evidence_proof(query, bundle)
+        bundle.proof = proof
 
         baseline_answer = self._compose_answer(query, bundle)
-        trace = list(bundle.trace)
+        trace = list(bundle.trace) + rerank_trace
         answer = baseline_answer
         model_name = ""
 
@@ -50,15 +56,125 @@ class RepoAgent:
             model_name=model_name,
             repo_brief=repo_brief,
             diagnostics=diagnostics,
+            graph_search=bundle.graph_search,
+            proof=proof,
         )
+
+    def _rerank_with_model(
+        self,
+        query: str,
+        bundle: InvestigationBundle,
+        *,
+        top_k: int,
+    ) -> tuple[InvestigationBundle, list[dict]]:
+        """Use a model as a cross-encoder over retrieved evidence only.
+
+        The model can reorder existing candidates and explain relevance, but
+        cannot introduce a path or symbol that was not retrieved. This keeps
+        the neural layer powerful without allowing unsupported code claims.
+        """
+        if not self.llm_client or not bundle.final_hits:
+            return bundle, []
+        candidates = bundle.final_hits[: max(24, top_k * 4)]
+        evidence = "\n\n".join(
+            f"CANDIDATE {index}\n"
+            f"source={hit.chunk.source_label}\n"
+            f"lines={hit.chunk.start_line}-{hit.chunk.end_line}\n"
+            f"kind={hit.chunk.symbol_kind}\n"
+            f"code:\n{_trim_text(hit.chunk.text, 28)}"
+            for index, hit in enumerate(candidates)
+        )
+        response = self.llm_client.chat(
+            [
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a code retrieval cross-encoder. Rank only the supplied candidates for the user's "
+                        "question. Do not invent or rename files, symbols, or lines. Return JSON only: "
+                        "{\"ranking\":[{\"index\":0,\"relevance\":0.0,\"reason\":\"...\"}]}"
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": f"Question:\n{query}\n\nCandidates:\n{evidence}",
+                },
+            ],
+            temperature=0.0,
+        )
+        if response is None:
+            return bundle, [{"step": len(bundle.trace) + 1, "type": "model_rerank_unavailable", "content": "no response"}]
+        raw = message_text(response.message).strip()
+        cleaned = raw
+        if cleaned.startswith("```"):
+            cleaned = cleaned.split("\n", 1)[1] if "\n" in cleaned else cleaned
+            cleaned = cleaned.rsplit("```", 1)[0].strip()
+        payload = _json_object(cleaned)
+        ranking = payload.get("ranking")
+        if not isinstance(ranking, list):
+            return bundle, [{"step": len(bundle.trace) + 1, "type": "model_rerank_invalid", "content": raw[:1000]}]
+
+        by_index = {index: hit for index, hit in enumerate(candidates)}
+        scored: list[tuple[float, int, RetrievalHit, str]] = []
+        for position, item in enumerate(ranking):
+            if not isinstance(item, dict):
+                continue
+            try:
+                raw_index = item.get("index")
+                if raw_index is None:
+                    continue
+                index = int(raw_index)
+                relevance = max(0.0, min(1.0, float(item.get("relevance", 0.0))))
+            except (TypeError, ValueError):
+                continue
+            hit = by_index.get(index)
+            if hit is None:
+                continue
+            reason = str(item.get("reason", "model relevance"))[:240]
+            scored.append((relevance, -position, hit, reason))
+        if not scored:
+            return bundle, [{"step": len(bundle.trace) + 1, "type": "model_rerank_empty", "content": raw[:1000]}]
+
+        ranked_ids = {id(item[2]) for item in scored}
+        scored.sort(key=lambda item: (item[0], item[1]), reverse=True)
+        reordered: list[RetrievalHit] = []
+        for relevance, _position, hit, reason in scored:
+            reordered.append(
+                RetrievalHit(
+                    chunk=hit.chunk,
+                    score=hit.score + relevance * 5.0,
+                    matched_terms=hit.matched_terms,
+                    reasons=hit.reasons + [f"model relevance={relevance:.2f}: {reason}"],
+                )
+            )
+        reordered.extend(hit for hit in candidates if id(hit) not in ranked_ids)
+        bundle.final_hits = reordered
+        bundle.graph_edges = self.repo_index.relevant_edges(bundle.final_hits[:top_k])
+        return bundle, [
+            {
+                "step": len(bundle.trace) + 1,
+                "type": "model_rerank",
+                "content": f"reranked {len(scored)} retrieved candidates with {self.llm_client.model}",
+            }
+        ]
 
     def _investigate(self, query: str, tools: RepoTools, *, top_k: int) -> InvestigationBundle:
         repo_brief = tools.repo_brief()
         plan = tools.plan(query)
-        semantic_scores = tools.semantic_scores(query)
-        file_hits = tools.scout_files(plan, limit=max(6, top_k + 2))
+        query_vector: list[float] | None = None
+        if self.llm_client and self.llm_client.available and self.repo_index.embedding_index:
+            vectors = self.llm_client.embed([query])
+            query_vector = vectors[0] if vectors else None
+        semantic_scores = tools.semantic_scores(query, query_vector=query_vector)
+        file_hits = tools.scout_files(plan, limit=max(32, top_k * 8))
         seed_hits, file_boosts = tools.read_candidates(query, plan, file_hits, semantic_scores, top_k=top_k)
-        relation_boosts, hop_trace = tools.follow_neighbors(seed_hits[: max(2, min(4, top_k))], plan)
+        relation_boosts, graph_search = tools.mcts_graph_boosts(
+            query,
+            plan,
+            seed_hits[: max(8, min(16, top_k * 2))],
+            semantic_scores,
+            iterations=72,
+            max_depth=max(2, plan.hop_budget + 1),
+        )
         final_hits = tools.rerank(
             query,
             plan,
@@ -66,7 +182,7 @@ class RepoAgent:
             file_boosts,
             relation_boosts,
             semantic_scores,
-            top_k=top_k,
+            top_k=max(24, top_k * 4),
         )
 
         trace = [
@@ -107,8 +223,10 @@ class RepoAgent:
             },
             {
                 "step": 5,
-                "type": "graph_hop",
-                "content": "\n".join(hop_trace[:10]) or "no graph hops taken",
+                # Historical trace type kept for evidence-bundle compatibility;
+                # graph_search.strategy identifies the active PPR backend.
+                "type": "graph_mcts",
+                "content": "\n".join(graph_search.get("trace", [])[:10]) or "no graph search taken",
             },
             {
                 "step": 6,
@@ -121,14 +239,17 @@ class RepoAgent:
             },
         ]
 
-        return InvestigationBundle(
+        bundle = InvestigationBundle(
             mode=plan.mode,
             focus_terms=plan.focus_terms,
             seed_hits=seed_hits[:5],
             final_hits=final_hits,
             graph_edges=tools.relevant_edges(final_hits),
             trace=trace,
+            graph_search=graph_search,
         )
+        bundle.proof = build_evidence_proof(query, bundle)
+        return bundle
 
     def _run_llm_agent(
         self,
@@ -149,7 +270,10 @@ class RepoAgent:
                 "role": "system",
                 "content": (
                     "You are Repo Agent, an autonomous repository investigation agent. "
-                    "You can inspect the repository by calling tools. Use the tools when more evidence is needed. "
+                    "Treat ranked retrieval as candidate generation, never as proof. "
+                    "Start with exact text or symbol search when the question contains a name, route, or concept; "
+                    "then read the relevant files and follow callers/callees before answering. "
+                    "Use the tools when more evidence is needed. "
                     "Never claim that a command ran unless you called a command tool and observed the result. "
                     "Use only observed facts and supplied retrieval evidence. "
                     "Answer in the same language as the user."
@@ -163,7 +287,9 @@ class RepoAgent:
                     f"Repository brief:\n{tools.repo_brief()}\n\n"
                     f"Seed retrieval evidence:\n{self._format_hits(bundle.final_hits[:top_k]) or 'none'}\n\n"
                     f"Baseline deterministic answer:\n{baseline_answer}\n\n"
-                    "Investigate with tools if needed, then provide a concise final answer with file/line references."
+                    "Do not accept the baseline ranking without checking it. Investigate with search_symbols, "
+                    "search_text, read_file, and find_symbol_relations as needed, then provide a concise final "
+                    "answer with file/line references and say when evidence is insufficient."
                 ),
             },
         ]
@@ -242,6 +368,23 @@ class RepoAgent:
                 relpaths = _string_list(args.get("relpaths")) or None
                 limit = _int(args.get("limit"), default=12, minimum=1, maximum=60)
                 return {"terms": terms, "matches": tools.search_text(terms, relpaths=relpaths, limit=limit)}
+
+            if name == "search_symbols":
+                terms = _string_list(args.get("terms"))
+                limit = _int(args.get("limit"), default=30, minimum=1, maximum=80)
+                return {"terms": terms, "symbols": tools.search_symbols(terms, limit=limit)}
+
+            if name == "find_symbol_relations":
+                symbol = str(args.get("symbol", "") or "").strip()
+                direction = str(args.get("direction", "both") or "both").strip().lower()
+                if direction not in {"both", "callers", "callees"}:
+                    direction = "both"
+                limit = _int(args.get("limit"), default=30, minimum=1, maximum=80)
+                return {
+                    "symbol": symbol,
+                    "direction": direction,
+                    "relations": tools.find_symbol_relations(symbol, direction=direction, limit=limit),
+                }
 
             if name == "read_file":
                 relpath = str(args.get("path", "")).strip()
@@ -338,6 +481,14 @@ class RepoAgent:
                     f"- `{self._source_label(edge.source)}` -> `{self._source_label(edge.target)}` "
                     f"via `{edge.label}`，权重 `{edge.weight:.1f}`。"
                 )
+        if bundle.graph_search.get("top_visited"):
+            lines.extend(["", "## 图搜索审计"])
+            for item in bundle.graph_search["top_visited"][:3]:
+                lines.append(
+                    f"- `{item.get('chunk', '')}` visits `{item.get('visits', 0)}`；"
+                    f"reward `{float(item.get('average_reward', 0.0)):.3f}`；"
+                    f"boost `+{float(item.get('boost', 0.0)):.2f}`。"
+                )
         lines.extend(["", "## 关键片段", "```", _trim_text(top.chunk.text, 22), "```"])
         return "\n".join(lines)
 
@@ -362,6 +513,21 @@ class RepoAgent:
                     f"- `{self._source_label(edge.source)}` -> `{self._source_label(edge.target)}` "
                     f"via `{edge.label}` with weight `{edge.weight:.1f}`."
                 )
+        if bundle.graph_search.get("top_visited"):
+            lines.extend(["", "## Graph Search Audit"])
+            for item in bundle.graph_search["top_visited"][:3]:
+                lines.append(
+                    f"- `{item.get('chunk', '')}` visits `{item.get('visits', 0)}`; "
+                    f"reward `{float(item.get('average_reward', 0.0)):.3f}`; "
+                    f"boost `+{float(item.get('boost', 0.0)):.2f}`."
+                )
+        if bundle.proof:
+            lines.extend(["", "## Proof-Carrying Retrieval"])
+            lines.append(f"- status: `{bundle.proof.get('status', 'unknown')}`")
+            lines.append(f"- claim: {bundle.proof.get('claim', '')}")
+            for check in bundle.proof.get("checks", [])[:3]:
+                state = "pass" if check.get("passed") else "fail"
+                lines.append(f"- {check.get('name')}: `{state}` ({check.get('detail', '')})")
         lines.extend(["", "## Key Snippet", "```", _trim_text(top.chunk.text, 22), "```"])
         return "\n".join(lines)
 
@@ -449,6 +615,39 @@ class RepoAgent:
                             "limit": {"type": "integer", "minimum": 1, "maximum": 60},
                         },
                         "required": ["terms"],
+                        "additionalProperties": False,
+                    },
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "search_symbols",
+                    "description": "Search parsed functions, classes, routes, and references by symbol name.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "terms": {"type": "array", "items": {"type": "string"}},
+                            "limit": {"type": "integer", "minimum": 1, "maximum": 80},
+                        },
+                        "required": ["terms"],
+                        "additionalProperties": False,
+                    },
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "find_symbol_relations",
+                    "description": "Find parsed callers, callees, imports, and route relations for an exact symbol.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "symbol": {"type": "string"},
+                            "direction": {"type": "string", "enum": ["both", "callers", "callees"]},
+                            "limit": {"type": "integer", "minimum": 1, "maximum": 80},
+                        },
+                        "required": ["symbol"],
                         "additionalProperties": False,
                     },
                 },
@@ -632,3 +831,285 @@ def build_evidence_diagnostics(bundle: InvestigationBundle) -> EvidenceDiagnosti
         strengths=strengths[:6],
         warnings=warnings[:6],
     )
+
+
+def build_evidence_proof(query: str, bundle: InvestigationBundle) -> dict[str, Any]:
+    hits = bundle.final_hits
+    graph_search = bundle.graph_search or {}
+    route_anchors = list(graph_search.get("route_anchors") or [])
+    top_hit = hits[0] if hits else None
+    top_label = top_hit.chunk.source_label if top_hit else ""
+    route_literals = list(dict.fromkeys(str(item.get("route", "")) for item in route_anchors if item.get("route")))
+    supporting_paths = [
+        item
+        for item in route_anchors
+        if top_label and (item.get("chunk") == top_label or top_label in item.get("path", []))
+    ]
+    if not supporting_paths and route_anchors:
+        supporting_paths = route_anchors[:3]
+
+    has_route_anchor = bool(route_anchors)
+    top_on_route_path = bool(top_label and any(item.get("chunk") == top_label for item in route_anchors))
+    top_in_route_trace = bool(top_label and any(top_label in item.get("path", []) for item in route_anchors))
+    graph_search_ran = int(graph_search.get("iterations", 0) or 0) > 0
+    status = "proved" if has_route_anchor and (top_on_route_path or top_in_route_trace) else "partial" if graph_search_ran else "unanchored"
+    if not has_route_anchor:
+        status = "unanchored"
+
+    checks = [
+        {
+            "name": "graph_search_ran",
+            "passed": graph_search_ran,
+            "detail": f"iterations={int(graph_search.get('iterations', 0) or 0)}",
+        },
+        {
+            "name": "route_anchor_present",
+            "passed": has_route_anchor,
+            "detail": ", ".join(route_literals) or "no exact route literal was anchored",
+        },
+        {
+            "name": "top_hit_on_route_path",
+            "passed": top_on_route_path or top_in_route_trace,
+            "detail": top_label or "no top hit",
+        },
+    ]
+    warnings = []
+    if not has_route_anchor and "/" in query:
+        warnings.append("query contains a path-like token, but no route anchor matched the repository graph")
+    if has_route_anchor and not (top_on_route_path or top_in_route_trace):
+        warnings.append("top hit is not on the route-anchored execution path")
+
+    supporting_path_payload = [
+        {
+            "route": item.get("route", ""),
+            "chunk": item.get("chunk", ""),
+            "depth": item.get("depth", 0),
+            "boost": item.get("boost", 0.0),
+            "path": item.get("path", []),
+        }
+        for item in supporting_paths[:6]
+    ]
+    audit_hits = _dedupe_retrieval_hits([*hits, *bundle.seed_hits])
+    proof_graph = _build_proof_graph(
+        top_label=top_label,
+        hits=audit_hits,
+        route_literals=route_literals,
+        route_anchors=route_anchors,
+        supporting_paths=supporting_path_payload,
+        graph_search=graph_search,
+    )
+    decoy_audit = _build_decoy_audit(
+        top_hit=top_hit,
+        hits=audit_hits,
+        route_anchors=route_anchors,
+        route_literals=route_literals,
+    )
+
+    return {
+        "schema_version": "1.0",
+        "strategy": "proof_carrying_retrieval",
+        "status": status,
+        "claim": f"{top_label} is the best-supported answer" if top_label else "no supported answer",
+        "top_hit": top_label,
+        "route_literals": route_literals,
+        "checks": checks,
+        "supporting_paths": supporting_path_payload,
+        "proof_graph": proof_graph,
+        "decoy_audit": decoy_audit,
+        "warnings": warnings,
+    }
+
+
+def _build_decoy_audit(
+    *,
+    top_hit: RetrievalHit | None,
+    hits: list[RetrievalHit],
+    route_anchors: list[dict[str, Any]],
+    route_literals: list[str],
+) -> list[dict[str, Any]]:
+    if not top_hit:
+        return []
+    top_label = top_hit.chunk.source_label
+    anchored_labels = {
+        str(item.get("chunk", ""))
+        for item in route_anchors
+        if item.get("chunk")
+    }
+    anchored_path_labels = {
+        str(label)
+        for item in route_anchors
+        for label in item.get("path", [])
+    }
+    audits: list[dict[str, Any]] = []
+    for hit in hits[1:10]:
+        label = hit.chunk.source_label
+        if not _looks_like_decoy(label, top_label):
+            continue
+        route_anchored = label in anchored_labels or label in anchored_path_labels
+        conflicting_roles = _decoy_roles(label)
+        reason = "candidate resembles the top answer lexically but is not on the requested route-anchored path"
+        if route_anchored:
+            reason = "candidate is route-reachable, but the top answer has stronger writer/path evidence"
+        if conflicting_roles:
+            reason = (
+                f"candidate belongs to {', '.join(conflicting_roles)} surface; "
+                "it conflicts with the requested route family"
+            )
+        audits.append(
+            {
+                "candidate": label,
+                "score": round(hit.score, 2),
+                "top_hit": top_label,
+                "top_score": round(top_hit.score, 2),
+                "score_gap": round(top_hit.score - hit.score, 2),
+                "route_anchored": route_anchored,
+                "requested_routes": route_literals,
+                "conflicting_roles": conflicting_roles,
+                "rejected": not route_anchored or bool(conflicting_roles),
+                "reason": reason,
+            }
+        )
+    return audits
+
+
+def _dedupe_retrieval_hits(hits: list[RetrievalHit]) -> list[RetrievalHit]:
+    deduped: dict[str, RetrievalHit] = {}
+    for hit in hits:
+        label = hit.chunk.source_label
+        existing = deduped.get(label)
+        if existing is None or hit.score > existing.score:
+            deduped[label] = hit
+    return sorted(deduped.values(), key=lambda item: item.score, reverse=True)
+
+
+def _decoy_roles(label: str) -> list[str]:
+    lowered = label.lower()
+    roles = []
+    markers = {
+        "admin": "admin",
+        "legacy": "legacy",
+        "fake": "fake/mock",
+        "mock": "fake/mock",
+        "note": "documentation/notes",
+        "doc": "documentation/notes",
+    }
+    for marker, role in markers.items():
+        if marker in lowered and role not in roles:
+            roles.append(role)
+    return roles
+
+
+def _build_proof_graph(
+    *,
+    top_label: str,
+    hits: list[RetrievalHit],
+    route_literals: list[str],
+    route_anchors: list[dict[str, Any]],
+    supporting_paths: list[dict[str, Any]],
+    graph_search: dict[str, Any],
+) -> dict[str, Any]:
+    nodes: dict[str, dict[str, Any]] = {}
+    edges: dict[tuple[str, str, str], dict[str, Any]] = {}
+
+    def add_node(node_id: str, role: str, *, label: str = "", score: float | None = None) -> None:
+        if not node_id:
+            return
+        node = nodes.setdefault(
+            node_id,
+            {
+                "id": node_id,
+                "label": label or node_id,
+                "roles": [],
+            },
+        )
+        if role and role not in node["roles"]:
+            node["roles"].append(role)
+        if score is not None:
+            node["score"] = round(score, 2)
+
+    def add_edge(source: str, target: str, label: str, *, route: str = "", weight: float = 0.0) -> None:
+        if not source or not target or source == target:
+            return
+        key = (source, target, label)
+        item = edges.setdefault(
+            key,
+            {
+                "source": source,
+                "target": target,
+                "label": label,
+            },
+        )
+        if route:
+            item["route"] = route
+        if weight:
+            item["weight"] = round(float(weight), 2)
+
+    for route in route_literals:
+        add_node(route, "route_anchor", label=route)
+
+    if top_label:
+        add_node(top_label, "top_hit")
+
+    supporting_node_ids = {
+        str(label)
+        for item in supporting_paths
+        for label in item.get("path", [])
+    }
+    supporting_node_ids.update(str(item.get("chunk", "")) for item in supporting_paths)
+
+    for hit in hits[:8]:
+        label = hit.chunk.source_label
+        role = "supporting" if label in supporting_node_ids else "candidate"
+        if label == top_label:
+            role = "top_hit"
+        elif _looks_like_decoy(label, top_label):
+            role = "decoy"
+        add_node(label, role, score=hit.score)
+
+    for item in supporting_paths:
+        route = str(item.get("route", ""))
+        path = [str(label) for label in item.get("path", []) if label]
+        if route and path:
+            add_edge(route, path[0], "anchors", route=route, weight=float(item.get("boost", 0.0) or 0.0))
+        for label in path:
+            add_node(label, "supporting")
+        for source, target in zip(path, path[1:], strict=False):
+            add_edge(source, target, "route_path", route=route, weight=float(item.get("boost", 0.0) or 0.0))
+
+    for item in route_anchors[:8]:
+        route = str(item.get("route", ""))
+        path = [str(label) for label in item.get("path", []) if label]
+        if route:
+            add_node(route, "route_anchor", label=route)
+        for label in path:
+            add_node(label, "route_reachable")
+        if route and path:
+            add_edge(route, path[0], "anchors", route=route, weight=float(item.get("boost", 0.0) or 0.0))
+        for source, target in zip(path, path[1:], strict=False):
+            add_edge(source, target, "route_path", route=route, weight=float(item.get("boost", 0.0) or 0.0))
+
+    for item in list(graph_search.get("top_visited") or [])[:5]:
+        chunk = str(item.get("chunk", ""))
+        if not chunk:
+            continue
+        add_node(chunk, "mcts_visited")
+        if top_label and chunk != top_label:
+            add_edge(top_label, chunk, "ranked_against", weight=float(item.get("boost", 0.0) or 0.0))
+
+    return {
+        "schema_version": "1.0",
+        "nodes": sorted(nodes.values(), key=lambda item: (0 if "route_anchor" in item["roles"] else 1, item["id"])),
+        "edges": list(edges.values()),
+    }
+
+
+def _looks_like_decoy(label: str, top_label: str) -> bool:
+    if not label or not top_label:
+        return False
+    lowered = label.lower()
+    top_lowered = top_label.lower()
+    if label == top_label:
+        return False
+    if "chat" not in lowered or "chat" not in top_lowered:
+        return False
+    return any(marker in lowered for marker in ("admin", "legacy", "fake", "mock", "note", "doc"))

@@ -11,6 +11,9 @@ class Symbol:
     start_line: int
     end_line: int
     calls: list[str] = field(default_factory=list)
+    references: list[str] = field(default_factory=list)
+    inherits: list[str] = field(default_factory=list)
+    qualified_name: str = ""
     route_path: str = ""
     handler_names: list[str] = field(default_factory=list)
 
@@ -20,6 +23,7 @@ class SourceAnalysis:
     language: str
     imports: list[str]
     symbols: list[Symbol]
+    parser_backend: str = "fallback"
 
 
 @dataclass(slots=True)
@@ -36,6 +40,10 @@ class CodeChunk:
     metadata_tokens: list[str] = field(default_factory=list)
     imports: list[str] = field(default_factory=list)
     calls: list[str] = field(default_factory=list)
+    references: list[str] = field(default_factory=list)
+    inherits: list[str] = field(default_factory=list)
+    qualified_name: str = ""
+    parser_backend: str = "fallback"
     route_path: str = ""
     handler_names: list[str] = field(default_factory=list)
 
@@ -99,6 +107,8 @@ class InvestigationBundle:
     final_hits: list[RetrievalHit]
     graph_edges: list[GraphEdge]
     trace: list[dict]
+    graph_search: dict = field(default_factory=dict)
+    proof: dict = field(default_factory=dict)
 
 
 @dataclass(slots=True)
@@ -111,7 +121,9 @@ class AgentResult:
     report_path: str = ""
     model_name: str = ""
     repo_brief: str = ""
-    diagnostics: "EvidenceDiagnostics | None" = None
+    diagnostics: EvidenceDiagnostics | None = None
+    graph_search: dict = field(default_factory=dict)
+    proof: dict = field(default_factory=dict)
 
 
 @dataclass(slots=True)

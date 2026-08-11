@@ -1,0 +1,123 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F6F8FB" stroke="#F6F8FB" stroke-width="0"/>
+<rect x="36" y="36" width="1848" height="1008" rx="30" fill="#FFFFFF" stroke="#D8E0EA" stroke-width="2"/>
+<text x="70" y="122" fill="#17202B" font-size="46" font-weight="800" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Repo Agent 架构图</text>
+<text x="70" y="158" fill="#5D6B7A" font-size="20" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Evidence-first repository investigation before code edits: build local evidence, trace decisions, then hand off safely.</text>
+<rect x="1360" y="72" width="350" height="78" rx="14" fill="#F7FAFC" stroke="#D8E0EA" stroke-width="1"/>
+<line x1="1384" y1="98" x2="1432" y2="98" stroke="#276EF1" stroke-width="4" stroke-linecap="round"/><path d="M1450 98L1430 88L1430 108Z" fill="#276EF1"/>
+<text x="1470" y="103" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">deterministic path</text>
+<line x1="1384" y1="126" x2="1432" y2="126" stroke="#6F52C7" stroke-width="4" stroke-linecap="round" stroke-dasharray="12 10"/><path d="M1450 126L1430 116L1430 136Z" fill="#6F52C7"/>
+<text x="1470" y="131" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">optional model / engineering</text>
+<rect x="70" y="190" width="300" height="420" rx="22" fill="#EEF5FF" stroke="#CBD5E1" stroke-width="2"/>
+<rect x="70" y="190" width="300" height="12" rx="6" fill="#276EF1" stroke="#276EF1" stroke-width="0"/>
+<circle cx="116" cy="248" r="24" fill="#276EF1"/>
+<text x="104" y="254" fill="#FFFFFF" font-size="15" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">01</text>
+<text x="154" y="248" fill="#17202B" font-size="24" font-weight="800" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Inputs</text>
+<text x="154" y="278" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">CLI / Web Studio / API</text>
+<rect x="94" y="308" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="112" y="340" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Repository path</text>
+<text x="112" y="366" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">allowed roots + safe path checks</text>
+<rect x="94" y="402" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="112" y="434" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Question or task</text>
+<text x="112" y="460" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">ask, report, map, engineer</text>
+<rect x="94" y="496" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="112" y="528" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Optional model config</text>
+<text x="112" y="554" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">OpenAI-compatible endpoint</text>
+<rect x="405" y="190" width="300" height="420" rx="22" fill="#ECF8F6" stroke="#CBD5E1" stroke-width="2"/>
+<rect x="405" y="190" width="300" height="12" rx="6" fill="#16837A" stroke="#16837A" stroke-width="0"/>
+<circle cx="451" cy="248" r="24" fill="#16837A"/>
+<text x="439" y="254" fill="#FFFFFF" font-size="15" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">02</text>
+<text x="489" y="248" fill="#17202B" font-size="24" font-weight="800" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Runtime</text>
+<text x="489" y="278" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">RepoAgentRuntime</text>
+<rect x="429" y="308" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="447" y="340" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Request validation</text>
+<text x="447" y="366" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">limits, top-k, execution mode</text>
+<rect x="429" y="402" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="447" y="434" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Index lifecycle</text>
+<text x="447" y="460" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">load cache or rebuild safely</text>
+<rect x="429" y="496" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="447" y="528" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Dispatcher</text>
+<text x="447" y="554" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">ask/report/tools/engineer</text>
+<rect x="740" y="190" width="300" height="420" rx="22" fill="#FFF4EC" stroke="#CBD5E1" stroke-width="2"/>
+<rect x="740" y="190" width="300" height="12" rx="6" fill="#D36B2C" stroke="#D36B2C" stroke-width="0"/>
+<circle cx="786" cy="248" r="24" fill="#D36B2C"/>
+<text x="774" y="254" fill="#FFFFFF" font-size="15" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">03</text>
+<text x="824" y="248" fill="#17202B" font-size="24" font-weight="800" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Index &amp; Graph</text>
+<text x="824" y="278" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">parsers.py + indexer.py</text>
+<rect x="764" y="308" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="782" y="340" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Static parsing</text>
+<text x="782" y="366" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">symbols, routes, imports, calls</text>
+<rect x="764" y="402" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="782" y="434" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">RepositoryIndex</text>
+<text x="782" y="460" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">chunks, FileFact, GraphEdge</text>
+<rect x="764" y="496" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="782" y="528" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Repo memory</text>
+<text x="782" y="554" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">role hints + project brief</text>
+<rect x="1075" y="190" width="300" height="420" rx="22" fill="#F5F1FF" stroke="#CBD5E1" stroke-width="2"/>
+<rect x="1075" y="190" width="300" height="12" rx="6" fill="#6F52C7" stroke="#6F52C7" stroke-width="0"/>
+<circle cx="1121" cy="248" r="24" fill="#6F52C7"/>
+<text x="1109" y="254" fill="#FFFFFF" font-size="15" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">04</text>
+<text x="1159" y="248" fill="#17202B" font-size="24" font-weight="800" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Investigation</text>
+<text x="1159" y="278" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">agent.py + tools.py</text>
+<rect x="1099" y="308" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="1117" y="340" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Evidence retrieval</text>
+<text x="1117" y="366" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">lexical + semantic + graph hops</text>
+<rect x="1099" y="402" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="1117" y="434" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Workspace tools</text>
+<text x="1117" y="460" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">list, search, read, verify</text>
+<rect x="1099" y="496" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="1117" y="528" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Trace &amp; diagnostics</text>
+<text x="1117" y="554" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">confidence, coverage, warnings</text>
+<rect x="1410" y="190" width="300" height="420" rx="22" fill="#EEF9F0" stroke="#CBD5E1" stroke-width="2"/>
+<rect x="1410" y="190" width="300" height="12" rx="6" fill="#3D8B55" stroke="#3D8B55" stroke-width="0"/>
+<circle cx="1456" cy="248" r="24" fill="#3D8B55"/>
+<text x="1444" y="254" fill="#FFFFFF" font-size="15" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">05</text>
+<text x="1494" y="248" fill="#17202B" font-size="24" font-weight="800" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Outputs</text>
+<text x="1494" y="278" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">report.py + bundle.py</text>
+<rect x="1434" y="308" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="1452" y="340" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Grounded answer</text>
+<text x="1452" y="366" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">ranked evidence + line references</text>
+<rect x="1434" y="402" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="1452" y="434" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">HTML report</text>
+<text x="1452" y="460" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">reviewable investigation artifact</text>
+<rect x="1434" y="496" width="252" height="78" rx="14" fill="#FFFFFF" stroke="#D6DEE8" stroke-width="1"/>
+<text x="1452" y="528" fill="#17202B" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Evidence bundle</text>
+<text x="1452" y="554" fill="#5D6B7A" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">handoff to Codex/Aider/OpenHands</text>
+<line x1="378" y1="400" x2="379" y2="400" stroke="#A9B5C2" stroke-width="4" stroke-linecap="round"/><path d="M397 400L377 390L377 410Z" fill="#A9B5C2"/>
+<line x1="713" y1="400" x2="714" y2="400" stroke="#A9B5C2" stroke-width="4" stroke-linecap="round"/><path d="M732 400L712 390L712 410Z" fill="#A9B5C2"/>
+<line x1="1048" y1="400" x2="1049" y2="400" stroke="#A9B5C2" stroke-width="4" stroke-linecap="round"/><path d="M1067 400L1047 390L1047 410Z" fill="#A9B5C2"/>
+<line x1="1383" y1="400" x2="1384" y2="400" stroke="#A9B5C2" stroke-width="4" stroke-linecap="round"/><path d="M1402 400L1382 390L1382 410Z" fill="#A9B5C2"/>
+<line x1="1225" y1="625" x2="1392" y2="625" stroke="#6F52C7" stroke-width="4" stroke-linecap="round" stroke-dasharray="12 10"/><path d="M1410 625L1390 615L1390 635Z" fill="#6F52C7"/>
+<text x="1240" y="650" fill="#6F52C7" font-size="14" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">optional model-assisted refinement</text>
+<rect x="70" y="680" width="550" height="195" rx="20" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+<rect x="94" y="712" width="8" height="122" rx="0" fill="#276EF1" stroke="#276EF1" stroke-width="0"/>
+<text x="122" y="740" fill="#17202B" font-size="24" font-weight="800" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Persistent State</text>
+<circle cx="129" cy="763" r="5" fill="#276EF1"/>
+<text x="150" y="768" fill="#5D6B7A" font-size="17" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">.cache/&lt;repo-signature&gt;.json</text>
+<circle cx="129" cy="797" r="5" fill="#276EF1"/>
+<text x="150" y="802" fill="#5D6B7A" font-size="17" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">runs/&lt;run_id&gt;/run.json</text>
+<circle cx="129" cy="831" r="5" fill="#276EF1"/>
+<text x="150" y="836" fill="#5D6B7A" font-size="17" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">reports/*.html</text>
+<rect x="685" y="680" width="550" height="195" rx="20" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+<rect x="709" y="712" width="8" height="122" rx="0" fill="#D36B2C" stroke="#D36B2C" stroke-width="0"/>
+<text x="737" y="740" fill="#17202B" font-size="24" font-weight="800" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Safety Boundary</text>
+<circle cx="744" cy="763" r="5" fill="#D36B2C"/>
+<text x="765" y="768" fill="#5D6B7A" font-size="17" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">path traversal protection</text>
+<circle cx="744" cy="797" r="5" fill="#D36B2C"/>
+<text x="765" y="802" fill="#5D6B7A" font-size="17" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">ignored generated dirs</text>
+<circle cx="744" cy="831" r="5" fill="#D36B2C"/>
+<text x="765" y="836" fill="#5D6B7A" font-size="17" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">allow-listed verification commands</text>
+<rect x="1300" y="680" width="550" height="195" rx="20" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+<rect x="1324" y="712" width="8" height="122" rx="0" fill="#6F52C7" stroke="#6F52C7" stroke-width="0"/>
+<text x="1352" y="740" fill="#17202B" font-size="24" font-weight="800" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Optional Extensions</text>
+<circle cx="1359" cy="763" r="5" fill="#6F52C7"/>
+<text x="1380" y="768" fill="#5D6B7A" font-size="17" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">model tool-calling loop</text>
+<circle cx="1359" cy="797" r="5" fill="#6F52C7"/>
+<text x="1380" y="802" fill="#5D6B7A" font-size="17" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">workspace sandbox engineering</text>
+<circle cx="1359" cy="831" r="5" fill="#6F52C7"/>
+<text x="1380" y="836" fill="#5D6B7A" font-size="17" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">apply reviewed run back to source</text>
+<line x1="70" y1="915" x2="1710" y2="915" stroke="#D3DBE5" stroke-width="2"/>
+<rect x="70" y="945" width="1640" height="61" rx="18" fill="#17202B" stroke="#17202B" stroke-width="0"/>
+<text x="105" y="983" fill="#FFFFFF" font-size="18" font-weight="700" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">Local-first + Evidence-first</text>
+<text x="360" y="983" fill="#C9D4E0" font-size="17" font-weight="400" font-family="Segoe UI, Microsoft YaHei, Arial, sans-serif">deterministic retrieval works without an API key; model loops and engineering edits are optional, constrained, and traceable.</text>
+</svg>
